@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmHackerrank", "AlgorithmHackerrank\AlgorithmHackerrank.csproj", "{200ECA30-DBFB-47F3-AD6F-97A5F818A167}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmHackerrank.Tests", "AlgorithmHackerrank.Tests\AlgorithmHackerrank.Tests.csproj", "{0F4BACC0-375D-40C7-8555-3A39032121BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{200ECA30-DBFB-47F3-AD6F-97A5F818A167}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{200ECA30-DBFB-47F3-AD6F-97A5F818A167}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{200ECA30-DBFB-47F3-AD6F-97A5F818A167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4BACC0-375D-40C7-8555-3A39032121BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4BACC0-375D-40C7-8555-3A39032121BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4BACC0-375D-40C7-8555-3A39032121BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4BACC0-375D-40C7-8555-3A39032121BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
