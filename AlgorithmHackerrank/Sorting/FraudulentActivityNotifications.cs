@@ -12,11 +12,11 @@ namespace AlgorithmHackerrank.Sorting
         public int ActivityNotifications(int[] expenditure, int d)
         {
             var notif = 0;
-            var bucketsDict = expenditure
+            var buckets = expenditure
                 .Take(d)
-                .GroupBy(k => k)
-                .ToDictionary(k => k.Key, v => v.Count());
-            var buckets = new SortedDictionary<int,int>(bucketsDict);
+                .OrderBy(x => x)
+                .ToList();
+
             for (int i = d; i < expenditure.Length; i++)
             {
                 var median = FindMedian(buckets, d);
@@ -25,46 +25,39 @@ namespace AlgorithmHackerrank.Sorting
                 {
                     notif++;
                 }
+                
+                buckets.RemoveAt(0);
 
                 var itemToAdd = expenditure[i];
-                var itemToRemove = expenditure[i - d];
 
-                UpdateBuckets(itemToAdd, itemToRemove, buckets);
+                UpdateBuckets(itemToAdd, buckets);
 
             }
 
             return notif;
         }
 
-        private static void UpdateBuckets(int itemToAdd, int itemToRemove, SortedDictionary<int, int> buckets)
+        private static void UpdateBuckets(int itemToAdd, List<int> buckets)
         {
-            if (buckets[itemToRemove] == 1)
+            var position = buckets.Select((v, i) => new { v, i }).FirstOrDefault(x => x.v > itemToAdd);
+            if (position == null)
             {
-                buckets.Remove(itemToRemove);
+                //add at the end
+                buckets.Add(itemToAdd);
             }
             else
             {
-                buckets[itemToRemove]--;
-            }
-
-            if (buckets.ContainsKey(itemToAdd))
-            {
-                buckets[itemToAdd]++;
-            }
-            else
-            {
-                buckets.Add(itemToAdd, 1);
+                buckets.Insert(position.i, itemToAdd);
             }
         }
 
 
 
 
-        public static double FindMedian(SortedDictionary<int, int> buckets, int inputCount)
+        public static double FindMedian(List<int> bucketsList, int inputCount)
         {
             var ifOdd = inputCount % 2 != 0;
 
-            var bucketsList = buckets.Select(x => Enumerable.Range(1, x.Value).Select(y => x.Key)).SelectMany(x => x).ToList();
             var result = 0.0; 
             if (ifOdd)
             {

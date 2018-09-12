@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace AlgorithmHackerrank
 {
+    /// <summary>
+    /// 
+    /// Not solved, left as is, could not find the link in HackerRank!!!
+    /// </summary>
     public static class ExtraLongFactorials
     {
         public static List<int> Run(int n)

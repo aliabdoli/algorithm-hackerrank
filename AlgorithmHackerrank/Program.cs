@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace AlgorithmHackerrank
 {
+    /// <summary>
+    /// 
+    /// some hackerrank stuff here
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
