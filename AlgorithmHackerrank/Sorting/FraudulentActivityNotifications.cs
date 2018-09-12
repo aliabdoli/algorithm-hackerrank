@@ -25,30 +25,33 @@ namespace AlgorithmHackerrank.Sorting
                 {
                     notif++;
                 }
-                
-                buckets.RemoveAt(0);
+
 
                 var itemToAdd = expenditure[i];
+                var itemToRemove = expenditure[i - d];
 
-                UpdateBuckets(itemToAdd, buckets);
+                UpdateBuckets(itemToAdd, itemToRemove, buckets);
 
             }
 
             return notif;
         }
 
-        private static void UpdateBuckets(int itemToAdd, List<int> buckets)
+        private static void UpdateBuckets(int itemToAdd, int itemToRemove, List<int> buckets)
         {
-            var position = buckets.Select((v, i) => new { v, i }).FirstOrDefault(x => x.v > itemToAdd);
-            if (position == null)
+            //todo: buckets.removeAt() does not use binary search and slows down!!!!!!
+            //todo: So, if buckets.remove(item) will time out!!! and it is not because of copy inside remove but for findIndex(item)
+            var rIndex = buckets.BinarySearch(itemToRemove);
+            buckets.RemoveAt(rIndex);
+
+            //todo: never do linear search, binary search
+            var index = buckets.BinarySearch(itemToAdd);
+            if (index < 0)
             {
-                //add at the end
-                buckets.Add(itemToAdd);
+                index = ~index;
             }
-            else
-            {
-                buckets.Insert(position.i, itemToAdd);
-            }
+            buckets.Insert(index, itemToAdd);
+
         }
 
 

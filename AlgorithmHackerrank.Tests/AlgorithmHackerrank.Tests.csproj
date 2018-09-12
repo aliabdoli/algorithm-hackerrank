@@ -84,6 +84,12 @@
     <Content Include="BiggerIsGreaterTestCase1Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sorting\FraudulentActivityNotificationsTestCase5Expected.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sorting\FraudulentActivityNotificationsTestCase4Expected.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sorting\FraudulentActivityNotificationsTestCase3Expected.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

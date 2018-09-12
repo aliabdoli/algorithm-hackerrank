@@ -14,15 +14,13 @@ namespace AlgorithmHackerrank.Tests.Sorting
     public class FraudulentActivityNotificationsTests
     {
         [Test]
-//        [TestCase(@"9 5
-//2 3 4 2 3 6 8 4 5", 2)]
-//        [TestCase(@"5 4
-//1 2 3 4 4", 0)]
-//        [TestCase(@"5 3
-//10 20 30 40 50", 1)]
-
+        [TestCase(@"9 5
+2 3 4 2 3 6 8 4 5", 2)]
+        [TestCase(@"5 4
+1 2 3 4 4", 0)]
         [TestCase(@"5 3
-50 40 30 20 10", 1)]
+10 20 30 40 50", 1)]
+
         public void WhenThen(string input, int expected)
         {
             var algorithm = new FraudulentActivityNotifications();
@@ -43,10 +41,10 @@ namespace AlgorithmHackerrank.Tests.Sorting
 
         [Test]
         [TestCase(new[] { 1, 2, 3 }, 2)]
-        [TestCase(new[] { 3, 2, 1 }, 2)]
-        [TestCase(new[] { 4, 3, 2, 1 }, 2.5)]
-        [TestCase(new[] { 1, 2, 3, 4, 5, 6 }, 3.5)]
-        [TestCase(new[] { 4, 3, 2, 6, 8 }, 4)]
+        //[TestCase(new[] { 3, 2, 1 }, 2)]
+        //[TestCase(new[] { 4, 3, 2, 1 }, 2.5)]
+        //[TestCase(new[] { 1, 2, 3, 4, 5, 6 }, 3.5)]
+        //[TestCase(new[] { 4, 3, 2, 6, 8 }, 4)]
         //[TestCase(new[] { 1, 1, 2, 6, 6, 9 }, 4)]
         //[TestCase(new[] { 2, 10, 21, 23, 23, 38, 38 }, 23)]
         //[TestCase(new[] { 2, 10, 21, 23, 23, 38, 38, 1027892 }, 23)]
@@ -59,8 +57,10 @@ namespace AlgorithmHackerrank.Tests.Sorting
         }
 
         [Test]
-        [TestCase("FraudulentActivityNotificationsTestCase1Expected.txt", 633)]
+        //[TestCase("FraudulentActivityNotificationsTestCase1Expected.txt", 633)]
         //[TestCase("FraudulentActivityNotificationsTestCase3Expected.txt", 1026)]
+        //[TestCase("FraudulentActivityNotificationsTestCase4Expected.txt", 492)]
+        [TestCase("FraudulentActivityNotificationsTestCase5Expected.txt", 926)]
         public void WhenThenFromFile(string fileName, int expected)
         {
             var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\Sorting\"+ fileName;
