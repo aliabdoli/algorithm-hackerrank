@@ -49,12 +49,14 @@
     <Compile Include="BiggerIsGreaterTests.cs" />
     <Compile Include="ClimbingTheLeaderboardTests.cs" />
     <Compile Include="CompareTheTripletsTests.cs" />
+    <Compile Include="DynamicProgramming\SherlockAndCostTests.cs" />
     <Compile Include="EncryptionTests.cs" />
     <Compile Include="ExtraLongFactorialsTests.cs" />
     <Compile Include="NonDivisibleSubsetTests.cs" />
     <Compile Include="OrganizingContainersOfBallsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueenAttack2Tests.cs" />
+    <Compile Include="Searching\MinumumLossTests.cs" />
     <Compile Include="Sorting\FraudulentActivityNotificationsTests.cs" />
     <Compile Include="TheGridSearchTests.cs" />
     <Compile Include="TheTimeInTheWordsTests.cs" />
@@ -97,6 +99,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
