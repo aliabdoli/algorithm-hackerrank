@@ -49,6 +49,7 @@
     <Compile Include="BiggerIsGreaterTests.cs" />
     <Compile Include="ClimbingTheLeaderboardTests.cs" />
     <Compile Include="CompareTheTripletsTests.cs" />
+    <Compile Include="ConstructiveAlgorithm\NewYearChaosTests.cs" />
     <Compile Include="DynamicProgramming\SherlockAndCostTests.cs" />
     <Compile Include="EncryptionTests.cs" />
     <Compile Include="ExtraLongFactorialsTests.cs" />

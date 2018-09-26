@@ -48,6 +48,7 @@
     <Compile Include="BiggerIsGreater.cs" />
     <Compile Include="ClimbingTheLeaderboard.cs" />
     <Compile Include="CompareTheTriplets.cs" />
+    <Compile Include="ConstructiveAlgorithm\NewYearChaos.cs" />
     <Compile Include="DynamicProgramming\SherlockAndCost.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="ExtraLongFactorials.cs" />
