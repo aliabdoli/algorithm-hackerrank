@@ -14,10 +14,12 @@ namespace AlgorithmHackerrank.Tests.DynamicProgramming
     public class SubstringDiffTests
     {
         [Test]
-        //        [TestCase(@"1
-        //2 tabriz torino")]
         [TestCase(@"1
-0 abacba abcaba")]
+2 tabriz torino")]
+//        [TestCase(@"1
+//3 helloworld yellomarin")]
+        //        [TestCase(@"1
+        //0 abacba abcaba")]
         //        [TestCase(@"1
         //0 abc cab")]
         public void MainFlow(string inputString)
