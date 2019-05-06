@@ -63,6 +63,7 @@
     <Compile Include="OrganizingContainersOfBallsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueenAttack2Tests.cs" />
+    <Compile Include="Recursion\KFactorizationTests.cs" />
     <Compile Include="Recursion\SimplifiedChessEngineTests.cs" />
     <Compile Include="Rokt\Question1Tests.cs" />
     <Compile Include="Rokt\Question2Test.cs" />
