@@ -59,6 +59,7 @@
     <Compile Include="DynamicProgramming\TheMaximumSubarrayTests.cs" />
     <Compile Include="EncryptionTests.cs" />
     <Compile Include="ExtraLongFactorialsTests.cs" />
+    <Compile Include="Greedy\GreedyFloristTests.cs" />
     <Compile Include="NonDivisibleSubsetTests.cs" />
     <Compile Include="OrganizingContainersOfBallsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
