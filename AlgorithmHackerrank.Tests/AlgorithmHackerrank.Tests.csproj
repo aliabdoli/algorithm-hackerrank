@@ -81,6 +81,8 @@
     <Compile Include="Sorting\CountLuckTests.cs" />
     <Compile Include="Sorting\FraudulentActivityNotificationsTests.cs" />
     <Compile Include="Sorting\TheFullCountingSortTests.cs" />
+    <Compile Include="Strings\BearAndSteadyGeneTests.cs" />
+    <Compile Include="Strings\SherlockAndAnagramsTests.cs" />
     <Compile Include="TheGridSearchTests.cs" />
     <Compile Include="TheTimeInTheWordsTests.cs" />
   </ItemGroup>
