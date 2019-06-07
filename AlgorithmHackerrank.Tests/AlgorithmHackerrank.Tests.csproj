@@ -77,6 +77,7 @@
     <Compile Include="Searching\MinumumLossTests.cs" />
     <Compile Include="Searching\MissingNumbersTests.cs" />
     <Compile Include="Searching\PairsAlgorithmTests.cs" />
+    <Compile Include="Searching\RedKnightsShortestPathTests.cs" />
     <Compile Include="Searching\ShortPalindromeTests.cs" />
     <Compile Include="Sorting\CountLuckTests.cs" />
     <Compile Include="Sorting\FraudulentActivityNotificationsTests.cs" />
