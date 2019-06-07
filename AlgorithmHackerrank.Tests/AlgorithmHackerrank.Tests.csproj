@@ -71,6 +71,7 @@
     <Compile Include="Rokt\Question3Test.cs" />
     <Compile Include="Rokt\Question4Test.cs" />
     <Compile Include="Searching\ConnectedCellsInAGridTests.cs" />
+    <Compile Include="Searching\CutTheTreeTests.cs" />
     <Compile Include="Searching\IceCreamParlorAlgorTests.cs" />
     <Compile Include="Searching\MaximizingMissionPointsTests.cs" />
     <Compile Include="Searching\MaximumSubarraySumTests.cs" />
