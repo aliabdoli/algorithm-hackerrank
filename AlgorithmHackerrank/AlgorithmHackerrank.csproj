@@ -59,6 +59,7 @@
     <Compile Include="DynamicProgramming\TheMaximumSubarray.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="ExtraLongFactorials.cs" />
+    <Compile Include="GraphTheory\BreadthFirstSearchShortestReach.cs" />
     <Compile Include="Greedy\GreedyFlorist.cs" />
     <Compile Include="NonDivisibleSubset.cs" />
     <Compile Include="OrganizingContainersOfBalls.cs" />
