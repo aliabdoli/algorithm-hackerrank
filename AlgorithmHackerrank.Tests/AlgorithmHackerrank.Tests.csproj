@@ -60,6 +60,7 @@
     <Compile Include="EncryptionTests.cs" />
     <Compile Include="ExtraLongFactorialsTests.cs" />
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReachTests.cs" />
+    <Compile Include="GraphTheory\CrabGraphsTests.cs" />
     <Compile Include="Greedy\GreedyFloristTests.cs" />
     <Compile Include="NonDivisibleSubsetTests.cs" />
     <Compile Include="OrganizingContainersOfBallsTests.cs" />
