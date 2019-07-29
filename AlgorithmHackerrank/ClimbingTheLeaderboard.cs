@@ -10,7 +10,7 @@ namespace AlgorithmHackerrank
     {
 
         //o(nlogn)
-        public int[] FindTheRank(int[] scores, int[] alice)
+        public int[] FindTheRank11(int[] scores, int[] alice)
         {
             var scoresUniq = scores.Distinct().OrderBy(x => x).ToList();
             var aliceScores = alice.ToList();
@@ -57,5 +57,41 @@ namespace AlgorithmHackerrank
 
             return results.ToArray();
         }
+
+
+
+        public int[] FindTheRank(int[] scores, int[] alice)
+        {
+            var scoresList = scores.OrderBy(x => x).ToList();
+
+            var rankings = new List<int>();
+            foreach (var aliceScore in alice)
+            {
+                var score = scoresList.BinarySearch(aliceScore);
+                if (score > 0)
+                {
+                    rankings.Add(score);
+                }
+                else
+                {
+                    var closestScore = ~score;
+                    if (closestScore == scoresList.Count)
+                    {
+                        rankings.Add(score);
+                    }
+                    else
+                    {
+                        rankings.Add(score);
+                    }
+                }
+
+            }
+
+            var scoresCount = scoresList.Count;
+
+            var result = rankings.Select(x => scoresCount - x + 1).ToArray();
+            return result;
+        }
+
     }
 }
