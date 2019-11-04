@@ -62,6 +62,7 @@
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReachTests.cs" />
     <Compile Include="GraphTheory\CrabGraphsTests.cs" />
     <Compile Include="Greedy\GreedyFloristTests.cs" />
+    <Compile Include="Implementation\LarrysArrayTests.cs" />
     <Compile Include="NonDivisibleSubsetTests.cs" />
     <Compile Include="OrganizingContainersOfBallsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Rokt\Question4Test.cs" />
     <Compile Include="Searching\ConnectedCellsInAGridTests.cs" />
     <Compile Include="Searching\CutTheTreeTests.cs" />
+    <Compile Include="Searching\GenaPlayingHanoiTests.cs" />
     <Compile Include="Searching\IceCreamParlorAlgorTests.cs" />
     <Compile Include="Searching\MaximizingMissionPointsTests.cs" />
     <Compile Include="Searching\MaximumSubarraySumTests.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Strings\BearAndSteadyGeneTests.cs" />
     <Compile Include="Strings\CommonChildTests.cs" />
     <Compile Include="Strings\SherlockAndAnagramsTests.cs" />
+    <Compile Include="Strings\SherlockAndTheValidStringTests.cs" />
     <Compile Include="TheGridSearchTests.cs" />
     <Compile Include="TheTimeInTheWordsTests.cs" />
   </ItemGroup>

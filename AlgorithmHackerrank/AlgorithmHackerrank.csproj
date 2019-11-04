@@ -62,6 +62,7 @@
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReach.cs" />
     <Compile Include="GraphTheory\CrabGraphs.cs" />
     <Compile Include="Greedy\GreedyFlorist.cs" />
+    <Compile Include="Implementation\LarrysArrayAlgorithm.cs" />
     <Compile Include="NonDivisibleSubset.cs" />
     <Compile Include="OrganizingContainersOfBalls.cs" />
     <Compile Include="Program.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Rokt\Question4.cs" />
     <Compile Include="Searching\ConnectedCellsInAGrid.cs" />
     <Compile Include="Searching\CutTheTree.cs" />
+    <Compile Include="Searching\GenaPlayingHanoi.cs" />
     <Compile Include="Searching\IceCreamParlorAlgor.cs" />
     <Compile Include="Searching\MaximizingMissionPoints.cs" />
     <Compile Include="Searching\MaximumSubarraySum.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Strings\BearAndSteadyGene.cs" />
     <Compile Include="Strings\CommonChild.cs" />
     <Compile Include="Strings\SherlockAndAnagrams.cs" />
+    <Compile Include="Strings\SherlockAndTheValidString.cs" />
     <Compile Include="TheGridSearch.cs" />
     <Compile Include="TheTimeInTheWords.cs" />
   </ItemGroup>
