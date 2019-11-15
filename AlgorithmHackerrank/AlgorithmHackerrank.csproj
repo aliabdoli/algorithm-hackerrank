@@ -62,6 +62,7 @@
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReach.cs" />
     <Compile Include="GraphTheory\CrabGraphs.cs" />
     <Compile Include="Greedy\GreedyFlorist.cs" />
+    <Compile Include="Implementation\AbsolutePermutation.cs" />
     <Compile Include="Implementation\LarrysArrayAlgorithm.cs" />
     <Compile Include="NonDivisibleSubset.cs" />
     <Compile Include="OrganizingContainersOfBalls.cs" />
