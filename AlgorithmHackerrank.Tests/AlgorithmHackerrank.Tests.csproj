@@ -61,6 +61,7 @@
     <Compile Include="ExtraLongFactorialsTests.cs" />
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReachTests.cs" />
     <Compile Include="GraphTheory\CrabGraphsTests.cs" />
+    <Compile Include="GraphTheory\JourneyToTheMoonTests.cs" />
     <Compile Include="GraphTheory\RoadsAndLibrariesTests.cs" />
     <Compile Include="Greedy\GreedyFloristTests.cs" />
     <Compile Include="Implementation\AbsolutePermutationTests.cs" />

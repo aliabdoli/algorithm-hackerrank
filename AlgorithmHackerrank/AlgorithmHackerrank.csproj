@@ -61,6 +61,7 @@
     <Compile Include="ExtraLongFactorials.cs" />
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReach.cs" />
     <Compile Include="GraphTheory\CrabGraphs.cs" />
+    <Compile Include="GraphTheory\JourneyToTheMoon.cs" />
     <Compile Include="GraphTheory\RoadsAndLibraries.cs" />
     <Compile Include="Greedy\GreedyFlorist.cs" />
     <Compile Include="Implementation\AbsolutePermutation.cs" />
