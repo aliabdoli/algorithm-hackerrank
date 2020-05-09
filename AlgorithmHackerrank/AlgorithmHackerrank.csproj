@@ -90,6 +90,7 @@
     <Compile Include="Searching\ShortPalindrome.cs" />
     <Compile Include="Sorting\CountLuck.cs" />
     <Compile Include="Sorting\FraudulentActivityNotifications.cs" />
+    <Compile Include="Sorting\LilysHomework.cs" />
     <Compile Include="Sorting\TheFullCountingSort.cs" />
     <Compile Include="Strings\BearAndSteadyGene.cs" />
     <Compile Include="Strings\CommonChild.cs" />
