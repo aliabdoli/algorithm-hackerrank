@@ -42,7 +42,7 @@ namespace AlgorithmHackerrank.Tests.Sorting
             var algo = new LilysHomework();
 
             //act
-            var result = algo.CreateValueIndexHash(input);
+            var result = algo.CreateValueIndexHash(input.ToList());
 
             //assert
             result.Should().BeEquivalentTo(new Dictionary<long, int>()

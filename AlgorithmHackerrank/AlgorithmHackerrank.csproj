@@ -60,6 +60,7 @@
     <Compile Include="Encryption.cs" />
     <Compile Include="ExtraLongFactorials.cs" />
     <Compile Include="GraphTheory\BreadthFirstSearchShortestReach.cs" />
+    <Compile Include="GraphTheory\Clique.cs" />
     <Compile Include="GraphTheory\CrabGraphs.cs" />
     <Compile Include="GraphTheory\JourneyToTheMoon.cs" />
     <Compile Include="GraphTheory\RoadsAndLibraries.cs" />
