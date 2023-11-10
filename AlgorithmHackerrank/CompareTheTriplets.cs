@@ -11,38 +11,65 @@ namespace AlgorithmHackerrank
     /// </summary>
     public class CompareTheTriplets
     {
-        public static void Run()
+
+        class PointSummary
         {
-            
+            public int FirstCompetitorScore { get; set; } = 0;
+            public int SecondCompetitorScore { get; set; } = 0;
         }
 
-        public int[] Solve(int[] a, int[] b)
+        
+        public List<int> Solve(List<int> a, List<int> b)
         {
-            var ifValid = Validate(a, b);
-            if (!ifValid)
-                throw new ArgumentException("not valid");
+            Validate(a, b);
 
-            var len = a.Length;
-            var result = new int[2];
-            for (int i = 0; i < len; i++)
+            var pointSummary = new PointSummary();
+
+            var firstPoints = a;
+            var secondPoints = b;
+            var matchCount = a.Count;
+
+            for (int i = 0; i < matchCount; i++)
             {
-                if (a[i] > b[i])
+                if (firstPoints[i] > secondPoints[i])
                 {
-                    result[0]++;
+                    pointSummary.FirstCompetitorScore += 1;
                 }
-                else if (a[i] < b[i])
-
+                else if (firstPoints[i] < secondPoints[i])
                 {
-                    result[1]++;
+                    pointSummary.SecondCompetitorScore += 1;
                 }
             }
 
+            var result = MapToResult(pointSummary);
             return result;
         }
 
-        private bool Validate(int[] ints, int[] ints1)
+        private static List<int> MapToResult(PointSummary pointSummary)
         {
-            return true;
+            var result = new List<int>()
+            {
+                pointSummary.FirstCompetitorScore, pointSummary.SecondCompetitorScore
+            };
+            return result;
+        }
+
+        private static void Validate(List<int> a, List<int> b)
+        {
+            if (a.Count != b.Count)
+            {
+                throw new ArgumentException("length must be the same");
+            }
+
+            if (a.Any(x => x > 100 | x < 1))
+            {
+                throw new ArgumentException("A inputs must be betweeen 1 and 100");
+            }
+
+            if (b.Any(x => x > 100 | x < 1))
+            {
+                throw new ArgumentException("B inputs must be betweeen 1 and 100");
+            }
         }
     }
 }

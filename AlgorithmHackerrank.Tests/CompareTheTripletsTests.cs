@@ -11,14 +11,20 @@ namespace AlgorithmHackerrank.Tests
     public class CompareTheTripletsTests
     {
         [Test]
-        public void WhenEveryThingIsValid_ThenReturnWrite()
+        public void WhenSimpleInput_ThenReturnScores()
         {
-           var algorithm = new CompareTheTriplets();
-            var input1 = new [] {5, 6, 7};
-            var input2 = new [] {3, 6, 10};
-            var result = algorithm.Solve(input1, input2);
-           Assert.AreEqual(result[0], result[1]);
-            Assert.AreEqual(result[0], 1);
+            //arrange
+            var algo = new CompareTheTriplets();
+            var aScores = new List<int>() { 1, 2, 3 };
+            var bScores = new List<int>() { 1, 2, 3 };
+
+            var expected = new List<int>() { 1, 1 };
+
+            //act
+            var pointSummary =  algo.Solve(aScores, bScores);
+            
+            //assert
+            Assert.AreEqual(expected, pointSummary);
         }
     }
 }
