@@ -22,9 +22,9 @@ namespace AlgorithmHackerrank.Tests
 
             //act
             var pointSummary =  algo.Solve(aScores, bScores);
-            
+
             //assert
-            Assert.AreEqual(expected, pointSummary);
+            Assert.That(pointSummary, Is.EqualTo(expected));
         }
     }
 }
