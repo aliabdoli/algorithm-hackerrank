@@ -5,6 +5,7 @@
 
 
 # Comeback
-here is the list of resolved algos
-* Nov: 
+Here is the list of algo, I redo, i.e. again solve them
+* 2023-2024
 	* CompareTheTriplets [Easy]
+	* IceCreamParlorAlgorithm [Easy]
