@@ -82,7 +82,7 @@
     <Compile Include="Searching\ConnectedCellsInAGrid.cs" />
     <Compile Include="Searching\CutTheTree.cs" />
     <Compile Include="Searching\GenaPlayingHanoi.cs" />
-    <Compile Include="Searching\IceCreamParlorAlgor.cs" />
+    <Compile Include="Searching\IceCreamParlorAlgorithm.cs" />
     <Compile Include="Searching\MaximizingMissionPoints.cs" />
     <Compile Include="Searching\MaximumSubarraySum.cs" />
     <Compile Include="Searching\MinimumLoss.cs" />
