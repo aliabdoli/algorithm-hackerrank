@@ -17,11 +17,11 @@ namespace AlgorithmHackerrank.Tests.Searching
         [TestCase(@"10
 203 204 205 206 207 208 203 204 205 206
 13
-203 204 204 205 206 207 205 208 203 206 205 206 204")]
-        public void MainFlow(string inputString)
+203 204 204 205 206 207 205 208 203 206 205 206 204", "204 205 206")]
+        public void MainFlow(string inputString, string expected)
         {
             var inputStream = new StringReader(inputString);
-            var algor = new MissingNumbers();
+            var algor = new FindMissingNumbersAlgorithm();
 
             int n = Convert.ToInt32(inputStream.ReadLine());
 
@@ -31,7 +31,10 @@ namespace AlgorithmHackerrank.Tests.Searching
 
             int[] brr = Array.ConvertAll(inputStream.ReadLine().Split(' '), brrTemp => Convert.ToInt32(brrTemp))
                 ;
-            int[] result = algor.missingNumbers(arr, brr);
+            List<int> result = algor.FindMissingElements(arr.ToList(), brr.ToList());
+
+            
+            Assert.That(result, Is.EqualTo(Array.ConvertAll(expected.Split(' '), int.Parse)));
 
             //textWriter.WriteLine(string.Join(" ", result));
         }

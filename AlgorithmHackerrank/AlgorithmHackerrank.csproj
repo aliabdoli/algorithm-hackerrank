@@ -86,7 +86,7 @@
     <Compile Include="Searching\MaximizingMissionPoints.cs" />
     <Compile Include="Searching\MaximumSubarraySum.cs" />
     <Compile Include="Searching\MinimumLoss.cs" />
-    <Compile Include="Searching\MissingNumbers.cs" />
+    <Compile Include="Searching\FindMissingNumbersAlgorithm.cs" />
     <Compile Include="Searching\PairsAlgorithm.cs" />
     <Compile Include="Searching\RedKnightsShortestPath.cs" />
     <Compile Include="Searching\ShortPalindrome.cs" />

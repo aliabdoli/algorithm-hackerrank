@@ -9,3 +9,4 @@ Here is the list of algo, I redo, i.e. again solve them
 * 2023-2024
 	* CompareTheTriplets [Easy]
 	* IceCreamParlorAlgorithm [Easy]
+	* FindMissingNumbersAlgorithm [Easy]
