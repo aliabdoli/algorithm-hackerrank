@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,89 +9,96 @@ namespace AlgorithmHackerrank.Strings
 {
     public class BearAndSteadyGene
     {
-        public int steadyGene(string gene)
+        public int FindSmallestSubsequenceToReplace(string geneSequence)
         {
+
+            //find frequency
+            var geneSequenceLength = geneSequence.Length;
+
+            var genesFrequencies = ConvertToGeneFrequency(geneSequence);
+
+            //find the extra appearance
+            var excessiveGeneFrequencies = genesFrequencies.OrderByDescending(x => x.Frequency).
+                Where(x => x.Frequency> 0);
             
-            var input = gene.ToCharArray();
-            var lenForEach = input.Length / 4;
-            var frequencies = input.GroupBy(x => x).ToDictionary(x => x.Key, y => lenForEach - y.Count());
-            var allowed = new List<char>()
+             
+            // find sequence that has all extra appearances
+            var excessiveGeneFreqTotal = excessiveGeneFrequencies.Select(x => x.Frequency).Sum();
+            var excessiveGenesFrequenciesDic = excessiveGeneFrequencies.ToDictionary(x => x.Gene, y => y.Frequency);
+
+            //var leftInd = 0;
+            var rightInd = excessiveGeneFreqTotal;
+
+            var slidingWindow = new GeneSlidingWindow(geneSequence, rightInd);
+            
+
+            var shortestSubgeneLen = int.MaxValue;
+
+            while (slidingWindow.CanMove())
             {
-                'A','C','T', 'G'
-            };
+                
+                // check if equal
+                var isSubset = slidingWindow.CheckIfSubset(excessiveGenesFrequenciesDic);
 
-            foreach (var item in allowed)
-            {
-                if (!frequencies.ContainsKey(item))
+                if (isSubset)
                 {
-                    frequencies.Add(item, lenForEach);
-                }    
-            }
-
-            var left = 0;
-            var right = -1;
-       
-            var mores = frequencies.Where(x => x.Value < 0).ToDictionary(x => x.Key, y => y.Value);
-
-            while (right < input.Length - 1 && mores.Any(x => x.Value < 0))
-            {
-                right++;
-
-                if (mores.ContainsKey(input[right]))
-                {
-                    mores[input[right]]++;
-                }
-            }
-
-            var bestRight = right;
-            var bestLeft = left;
-
-            while (right < input.Length - 1)
-            {
-                right++;
-                if (!mores.ContainsKey(input[right]))
-                {
-                    continue;
-                }
-
-                mores[input[right]]++;
-
-                while (true)
-                {
-                    if(mores.ContainsKey(input[left]))
+                    while (isSubset)
                     {
-                        mores[input[left]]--;
-                        var valid = mores.All(x => x.Value >= 0);
-                        if (valid)
-                        {
-                            left++;
-                        }
-                        else
-                        {
-                            mores[input[left]]++;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        left++;
-                    }
-                }
+                        var newShortestSubgeneLen = slidingWindow.RightInd - slidingWindow.LeftInd + 1;
+                        shortestSubgeneLen = newShortestSubgeneLen < shortestSubgeneLen ? newShortestSubgeneLen : shortestSubgeneLen;
 
-                var isAnswer = mores.All(x => x.Value >= 0);
-                if (isAnswer && bestRight - bestLeft > right - left)
+
+                        slidingWindow.MoveLeftBoundary();
+                        
+
+                        isSubset = slidingWindow.CheckIfSubset(excessiveGenesFrequenciesDic);
+                    }
+                    
+                    slidingWindow.MoveRightBoundary();
+                  
+                }
+                else
                 {
-                    bestLeft = left;
-                    bestRight = right;
+                    
+                    if (!excessiveGenesFrequenciesDic.TryGetValue(geneSequence[slidingWindow.LeftInd], out int _))
+                    {
+                       slidingWindow.MoveLeftBoundary();
+                    }
+                    
+                    slidingWindow.MoveRightBoundary();
                 }
             }
-            
-            var result = bestRight - bestLeft +1;
-            
 
+
+                
+
+            var result = shortestSubgeneLen == int.MaxValue ? 0 : shortestSubgeneLen;
             return result;
-           
         }
+
+        private static IEnumerable<GeneFrequency> ConvertToGeneFrequency(string geneSequence)
+        {
+            var geneSequenceLength = geneSequence.Length;
+            var genesFrequencies = geneSequence.ToCharArray().ToList().GroupBy(x => x, y => y, (keys, nums) =>
+                new GeneFrequency()
+                {
+                    Gene = nums.FirstOrDefault(),
+                    Frequency = nums.Count() - (geneSequenceLength / 4)
+                });
+            return genesFrequencies;
+        }
+
+        
+
+        public class GeneFrequency
+        {
+            public Char Gene { get; set; }
+            public int Frequency { get; set; } = 0;
+        }
+
+
+       
+        
     }
 }
 

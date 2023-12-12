@@ -7,6 +7,8 @@
 # Comeback
 Here is the list of algo, I redo, i.e. again solve them
 * 2023-2024
-	* CompareTheTriplets [Easy]
-	* IceCreamParlorAlgorithm [Easy]
-	* FindMissingNumbersAlgorithm [Easy]
+	* Week 1
+		* CompareTheTriplets [Easy]
+		* IceCreamParlorAlgorithm [Easy]
+		* FindMissingNumbersAlgorithm [Easy]
+		* BearAndSteadyGene [Medium]

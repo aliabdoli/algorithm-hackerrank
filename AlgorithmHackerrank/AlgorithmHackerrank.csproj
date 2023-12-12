@@ -96,6 +96,7 @@
     <Compile Include="Sorting\TheFullCountingSort.cs" />
     <Compile Include="Strings\BearAndSteadyGene.cs" />
     <Compile Include="Strings\CommonChild.cs" />
+    <Compile Include="Strings\BearAndSteadyGeneCont.cs" />
     <Compile Include="Strings\SherlockAndAnagrams.cs" />
     <Compile Include="Strings\SherlockAndTheValidString.cs" />
     <Compile Include="TheGridSearch.cs" />
