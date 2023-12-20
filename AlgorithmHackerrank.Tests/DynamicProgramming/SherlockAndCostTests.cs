@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class SherlockAndCostTests
     {
-        [Test]
-        [TestCase(@"1
+        [Theory]
+        [InlineData(@"1
 5
 100 2 100 2 100", 396)]
         public void SherlockAndCostWhenThen(string input, int expected)
@@ -31,7 +30,7 @@ namespace AlgorithmHackerrank.Tests.DynamicProgramming
                 var algor = new SherlockAndCost();
                 int result = algor.cost(B);
 
-                Assert.AreEqual(expected, result);
+                expected.Should().Be(result);
 
             }
         }

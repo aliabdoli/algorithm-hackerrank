@@ -5,24 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Implementation;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Implementation
 {
-    [TestFixture]
     public class LarrysArrayTests
     {
-//        [TestCase(@"3
-//3
-//3 1 2
-//4
-//1 3 4 2
-//5
-//1 2 3 5 4", @"YES
-//YES
-//NO")]
-
-    [TestCase(@"5
+        //        [InlineData(@"3
+        //3
+        //3 1 2
+        //4
+        //1 3 4 2
+        //5
+        //1 2 3 5 4", @"YES
+        //YES
+        //NO")]
+        [Theory]
+        [InlineData(@"5
 12
 9 6 8 12 3 7 1 11 10 2 5 4
 21
@@ -37,7 +37,7 @@ YES
 NO
 YES
 NO")]
-    public void Do(string input, string expected)
+        public void Do(string input, string expected)
         {
             var expectedReader = new StringReader(expected);
             var inputReader = new StringReader(input);
@@ -51,7 +51,7 @@ NO")]
 
                 string result = LarrysArrayAlgorithm.larrysArray(A.Select(x => x).ToArray());
 
-                Assert.AreEqual(exp,result);
+                exp.Should().Be(result);
             }
         }
     }

@@ -4,15 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
+    
     public class TheGridSearchTests
     {
-        [Test]
+        [Fact]
         public void WhenThen()
         {
             var input = "";
@@ -54,7 +55,7 @@ namespace AlgorithmHackerrank.Tests
 
                 string result = algorithm.Do(G, P);
 
-                Assert.AreEqual("", result);
+                "".Should().Be(result);
             }
 
         }

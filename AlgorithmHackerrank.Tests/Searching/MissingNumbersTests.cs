@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
-    [TestFixture]
+    
     public class MissingNumbersTests
     {
-        [Test]
-        [TestCase(@"10
+        [Theory]
+        [InlineData(@"10
 203 204 205 206 207 208 203 204 205 206
 13
 203 204 204 205 206 207 205 208 203 206 205 206 204", "204 205 206")]
@@ -33,9 +34,8 @@ namespace AlgorithmHackerrank.Tests.Searching
                 ;
             List<int> result = algor.FindMissingElements(arr.ToList(), brr.ToList());
 
-            
-            Assert.That(result, Is.EqualTo(Array.ConvertAll(expected.Split(' '), int.Parse)));
 
+            result.Should().BeEquivalentTo(Array.ConvertAll(expected.Split(' '), int.Parse));
             //textWriter.WriteLine(string.Join(" ", result));
         }
     }

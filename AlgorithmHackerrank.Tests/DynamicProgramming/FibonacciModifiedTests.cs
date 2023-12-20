@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class FibonacciModifiedTests
     {
-        [Test]
-        [TestCase(@"0 1 5")]
-        //[TestCase(@"1 1 20")]
+        [Theory]
+        [InlineData(@"0 1 5")]
+        //[InlineData(@"1 1 20")]
         public void MainFlow(string inputString)
         {
             var input = new StringReader(inputString);

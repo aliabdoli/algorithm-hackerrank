@@ -5,17 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
    public class GenaPlayingHanoiTests
     {
-//        [TestCase(@"3
-//1 4 1", @"3")]
-//        [TestCase(@"4
-//2 1 3 2", @"7")]
-        [TestCase(@"10
+        //        [InlineData(@"3
+        //1 4 1", @"3")]
+        //        [InlineData(@"4
+        //2 1 3 2", @"7")]
+        [Theory]
+        [InlineData(@"10
 4 1 2 1 4 3 3 4 3 4", "40")]
         public void MainFlow(string inputString, string expectedString)
         {
@@ -27,23 +29,23 @@ namespace AlgorithmHackerrank.Tests.Searching
 
             var result = GenaPlayingHanoi.Do(a);
             Console.WriteLine(result);
-            Assert.AreEqual(int.Parse(expectedString), result);
+            int.Parse(expectedString).Should().Be(result);
         }
+        [Theory]
+        [InlineData("1", 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000)]
+        [InlineData("1,2", 0b_1000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000)]
+        [InlineData("1,4,1", 0b_1010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000)]
 
-        [TestCase("1", 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000)]
-        [TestCase("1,2", 0b_1000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000)]
-        [TestCase("1,4,1", 0b_1010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000)]
-
-        public void CreateBarsTest(string inputString, ulong expected)
+        public void CreateBarsTest1(string inputString, ulong expected)
         {
             var input = inputString.Split(',').Select(x => int.Parse(x)).ToArray();
             var result = GenaPlayingHanoi.CreateBars(input);
             var ss = Convert.ToString((long)result, 2);
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
 
-
-        [TestCase(1, 
+        [Theory]
+        [InlineData(1, 
             5,
             2, 
             0b_1000_0100_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000,
@@ -53,34 +55,35 @@ namespace AlgorithmHackerrank.Tests.Searching
         {
             var result = GenaPlayingHanoi.MoveDisk(srcBar, disk, destBar, input);
             var ss = Convert.ToString((long)result, 2);
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
-
-        [TestCase(3, 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, false)]
-        [TestCase(1, 0b_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000ul, false)]
+        [Theory]
+        [InlineData(3, 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, false)]
+        [InlineData(1, 0b_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000ul, false)]
         public void ShouldMove_NoDisks_Tests(int srcBar, ulong input, bool expected)
         {
             var result = GenaPlayingHanoi.ShouldMove(srcBar,-1, input);
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
 
-        [TestCase(1, 0b_1000_0000_0000_0000_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, true)]
-        [TestCase(1, 0b_0000_0000_0001_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, false)]
-        [TestCase(1, 0b_0000_0000_0001_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, false)]
+        [Theory]
+        [InlineData(1, 0b_1000_0000_0000_0000_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, true)]
+        [InlineData(1, 0b_0000_0000_0001_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, false)]
+        [InlineData(1, 0b_0000_0000_0001_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 2, false)]
         public void ShouldMove_Tests(int srcBar, ulong input, int destBar, bool expected)
         {
             var result = GenaPlayingHanoi.ShouldMove(srcBar,destBar , input);
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
 
-        [TestCase(0b_1110_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 3, true)]
-        [TestCase(0b_0000_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 3, false)]
-        [TestCase(0b_1111_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 4, true)]
+        [InlineData(0b_1110_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 3, true)]
+        [InlineData(0b_0000_0000_0010_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 3, false)]
+        [InlineData(0b_1111_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000ul, 4, true)]
         public void IfAnswer_Test(ulong input, int diskNumber, bool expected)
         {
             GenaPlayingHanoi._diskNumber = diskNumber;
             var result = GenaPlayingHanoi.IfAnswer(input);
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
     }
 }

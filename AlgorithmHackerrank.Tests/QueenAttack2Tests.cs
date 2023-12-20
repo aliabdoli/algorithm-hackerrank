@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
     public class QueenAttack2Tests
     {
 
-        [Test]
+        [Fact]
         public void WhenThen1()
         {
             var algorithm = new QueenAttack2();
@@ -27,12 +26,12 @@ namespace AlgorithmHackerrank.Tests
             var obstacles = CreateObstacles(input, k);
 
             var result = algorithm.QueensAttack(n, k, r_q, c_q, obstacles);
-            Assert.AreEqual(10, result);
+            10.Should().Be(result);
 
         }
 
 
-        [Test]
+        [Fact]
         public void WhenNoObstaclesThen()
         {
             var algorithm = new QueenAttack2();
@@ -47,10 +46,10 @@ namespace AlgorithmHackerrank.Tests
             //obstacles[4] = new int[0];
 
             var result = algorithm.QueensAttack(n, k, r_q, c_q, null);
-            Assert.AreEqual(9, result);
+            9.Should().Be(result);
 
         }
-        [Test]
+        [Fact]
         public void WhenThen3()
         {
             var algorithm = new QueenAttack2();
@@ -65,11 +64,11 @@ namespace AlgorithmHackerrank.Tests
             //obstacles[4] = new int[0];
 
             var result = algorithm.QueensAttack(n, k, r_q, c_q, null);
-            Assert.AreEqual(308369, result);
+            308369.Should().Be(result);
 
         }
 
-        [Test]
+        [Fact]
         public void WhenThen6()
         {
             var algorithm = new QueenAttack2();
@@ -181,7 +180,7 @@ namespace AlgorithmHackerrank.Tests
             var obstacles = CreateObstacles(inputString, k);
 
             var result = algorithm.QueensAttack(n, k, r_q, c_q, obstacles);
-            Assert.AreEqual(40, result);
+            40.Should().Be(result);
 
         }
 

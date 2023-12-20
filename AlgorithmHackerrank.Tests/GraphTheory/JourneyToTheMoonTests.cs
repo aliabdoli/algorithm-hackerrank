@@ -5,20 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.GraphTheory;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.GraphTheory
 {
     public class JourneyToTheMoonTests
     {
-//        [TestCase(@"5 3
-//0 1
-//2 3
-//0 4", "6")]
-//        [TestCase(@"4 1
-//0 2", "5")]
-
-        [TestCase(@"100000 2
+        //        [InlineData(@"5 3
+        //0 1
+        //2 3
+        //0 4", "6")]
+        //        [InlineData(@"4 1
+        //0 2", "5")]
+        [Theory]
+        [InlineData(@"100000 2
 1 2
 3 4", "4999949998")]
         public void MainFlow(string inputString, string expectedString)
@@ -43,7 +44,7 @@ namespace AlgorithmHackerrank.Tests.GraphTheory
 
             var expected = expectedReader.ReadLine();
 
-            Assert.AreEqual(expected, result.ToString());
+            expected.Should().Be(result.ToString());
         }
     }
 }

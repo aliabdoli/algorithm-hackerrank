@@ -6,17 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
 using AlgorithmHackerrank.Strings;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Strings
 {
     public class SherlockAndAnagramsTests
     {
-        [Test]
-        [TestCase(@"2
+        [Theory]
+        [InlineData(@"2
 abba
 abcd", @"4,0")]
-        [TestCase(@"2
+        [InlineData(@"2
 kkkk
 ifailuhkqq", @"10,3")]
         public void MainFlow(string inputString, string expectedString)
@@ -31,7 +32,7 @@ ifailuhkqq", @"10,3")]
                 string s = input.ReadLine();
 
                 int result = algor.sherlockAndAnagrams(s);
-                Assert.AreEqual(expected[qItr], result.ToString());
+                expected[qItr].Should().Be(result.ToString());
             }
 
         }

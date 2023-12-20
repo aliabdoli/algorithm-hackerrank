@@ -5,16 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
-    [TestFixture]
     public class ConnectedCellsInAGridTests
     {
-        [Test]
-        [TestCase(@"4
+        [Theory]
+        [InlineData(@"4
 4
 1 1 0 0
 0 1 1 0

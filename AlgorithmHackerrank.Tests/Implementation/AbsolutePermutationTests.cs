@@ -5,19 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Implementation;
-using NUnit.Framework;
+using FluentAssertions;
+//using Xunit;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Implementation
 {
     public class AbsolutePermutationTests
     {
-        //        [TestCase(@"3
-        //2 1
-        //3 0
-        //3 2", @"2 1
-        //1 2 3
-        //-1")]
-        [TestCase(@"10
+        [Fact]
+        [Trait("Hello","Hello")]
+        public void Hello()
+        {
+
+        }
+
+
+        [Theory]
+        [InlineData(@"10
 10 0
 10 1
 7 0
@@ -53,13 +58,29 @@ namespace AlgorithmHackerrank.Tests.Implementation
 
                 int k = Convert.ToInt32(nk[1]);
 
-                int[] result = AbsolutePermutation.absolutePermutation(n, k);
+                List<int> result = AbsolutePermutation.FindAbsolutePermutation(n, k);
 
                 var finalResult = string.Join(" ", result);
                 var fExpected = expected.ReadLine(); 
-                Assert.AreEqual(fExpected, finalResult);
+                fExpected.Should().Be(finalResult);
             }
 
+        }
+        [Theory]
+        [InlineData(2, 1, "2 1")]
+        [InlineData(3, 0, "1 2 3")]
+        [InlineData(3, 2, "-1")]
+        [InlineData(10, 1, "2 1 4 3 6 5 8 7 10 9")]
+        public void WhenSimpleScanrio_ThenShouldWork(int len, int dist, string expectedString)
+        {
+            //arrange 
+            var expected = Array.ConvertAll(expectedString.Split(' '), int.Parse).ToList();
+
+            //act
+            var result = AbsolutePermutation.FindAbsolutePermutation(len, dist);
+
+            //assert
+            result.Should().BeEquivalentTo(expected);
         }
     }
 }

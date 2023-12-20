@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
     public class NonDivisibleSubsetTests
     {
-        [Test]
+        [Fact]
         public void WhenThen()
         {
             var algorithm = new NonDivisibleSubset();
@@ -19,7 +18,7 @@ namespace AlgorithmHackerrank.Tests
             var s = new[] {1, 7, 2, 4};
             var result = algorithm.Run(k, s);
 
-            Assert.AreEqual(3, result);
+            3.Should().Be(result);
         }
     }
 }

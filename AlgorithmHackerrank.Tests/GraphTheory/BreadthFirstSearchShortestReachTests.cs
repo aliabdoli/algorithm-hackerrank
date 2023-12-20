@@ -6,24 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.GraphTheory;
-using NUnit.Framework;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.GraphTheory
 {
 
     public class BreadthFirstSearchShortestReachTests
     {
-        [Test]
-        //        [TestCase(@"2
-        //4 2
-        //1 2
-        //1 3
-        //1
-        //3 1
-        //2 3
-        //2", @"6 6 -1
-        //-1 6")]
-        //        [TestCase(@"1
+        [Theory]
+        [InlineData(@"2
+        4 2
+        1 2
+        1 3
+        1
+        3 1
+        2 3
+        2", @"6 6 -1
+        -1 6")]
+        //        [InlineData(@"1
         //5 3
         //1 2
         //1 3

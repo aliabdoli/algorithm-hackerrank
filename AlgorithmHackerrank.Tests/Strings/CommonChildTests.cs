@@ -5,22 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Strings;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Strings
 {
     public class CommonChildTests
     {
-        [Test]
-        [TestCase(@"WEWOUCUIDGCGTRMEZEPXZFEJWISRSBBSYXAYDFEJJDLEBVHHKS
+        [Theory]
+        [InlineData(@"WEWOUCUIDGCGTRMEZEPXZFEJWISRSBBSYXAYDFEJJDLEBVHHKS
 FDAGCXGKCTKWNECHMRXZWMLRYUCOCZHJRRJBOAJOQJZZVUYXIC", 15)]
-        [TestCase(@"ABCDEF
+        [InlineData(@"ABCDEF
 FBDAMN", 2)]
-        [TestCase(@"SHINCHAN
+        [InlineData(@"SHINCHAN
 NOHARAAA", 3)]
-        [TestCase(@"AA
+        [InlineData(@"AA
 BB", 0)]
-        [TestCase(@"HARRY
+        [InlineData(@"HARRY
 SALLY", 2)]
         public void MainFlow(string inputString, int expected)
         {
@@ -33,8 +34,7 @@ SALLY", 2)]
 
             int result = algor.commonChild(s1, s2);
 
-            Assert.AreEqual(expected, result);
-
+            expected.Should().Be(result);
         }
     }
 }

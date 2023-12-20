@@ -5,20 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Sorting;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests.Sorting
 {
-    [TestFixture]
+    
     public class FraudulentActivityNotificationsTests
     {
-        [Test]
-        [TestCase(@"9 5
+        [Theory]
+        [InlineData(@"9 5
 2 3 4 2 3 6 8 4 5", 2)]
-        [TestCase(@"5 4
+        [InlineData(@"5 4
 1 2 3 4 4", 0)]
-        [TestCase(@"5 3
+        [InlineData(@"5 3
 10 20 30 40 50", 1)]
 
         public void WhenThen(string input, int expected)
@@ -36,31 +37,31 @@ namespace AlgorithmHackerrank.Tests.Sorting
                 expenditureTemp => Convert.ToInt32(expenditureTemp));
             int result = algorithm.ActivityNotifications(expenditure, d);
 
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
 
-        [Test]
-        [TestCase(new[] { 1, 2, 3 }, 2)]
-        //[TestCase(new[] { 3, 2, 1 }, 2)]
-        //[TestCase(new[] { 4, 3, 2, 1 }, 2.5)]
-        //[TestCase(new[] { 1, 2, 3, 4, 5, 6 }, 3.5)]
-        //[TestCase(new[] { 4, 3, 2, 6, 8 }, 4)]
-        //[TestCase(new[] { 1, 1, 2, 6, 6, 9 }, 4)]
-        //[TestCase(new[] { 2, 10, 21, 23, 23, 38, 38 }, 23)]
-        //[TestCase(new[] { 2, 10, 21, 23, 23, 38, 38, 1027892 }, 23)]
+        [Theory]
+        [InlineData(new[] { 1, 2, 3 }, 2)]
+        //[InlineData(new[] { 3, 2, 1 }, 2)]
+        //[InlineData(new[] { 4, 3, 2, 1 }, 2.5)]
+        //[InlineData(new[] { 1, 2, 3, 4, 5, 6 }, 3.5)]
+        //[InlineData(new[] { 4, 3, 2, 6, 8 }, 4)]
+        //[InlineData(new[] { 1, 1, 2, 6, 6, 9 }, 4)]
+        //[InlineData(new[] { 2, 10, 21, 23, 23, 38, 38 }, 23)]
+        //[InlineData(new[] { 2, 10, 21, 23, 23, 38, 38, 1027892 }, 23)]
         public void FindMedianTest(int[] input, double expected)
         {
             var algorithm = new FraudulentActivityNotifications();
             var buckets = input.OrderBy(x => x).ToList();
             var result = FraudulentActivityNotifications.FindMedian(buckets, input.Count());
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
 
-        [Test]
-        //[TestCase("FraudulentActivityNotificationsTestCase1Expected.txt", 633)]
-        //[TestCase("FraudulentActivityNotificationsTestCase3Expected.txt", 1026)]
-        //[TestCase("FraudulentActivityNotificationsTestCase4Expected.txt", 492)]
-        [TestCase("FraudulentActivityNotificationsTestCase5Expected.txt", 926)]
+        [Theory]
+        //[InlineData("FraudulentActivityNotificationsInlineData1Expected.txt", 633)]
+        //[InlineData("FraudulentActivityNotificationsInlineData3Expected.txt", 1026)]
+        //[InlineData("FraudulentActivityNotificationsInlineData4Expected.txt", 492)]
+        [InlineData("FraudulentActivityNotificationsInlineData5Expected.txt", 926)]
         public void WhenThenFromFile(string fileName, int expected)
         {
             var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\Sorting\"+ fileName;
@@ -84,7 +85,7 @@ namespace AlgorithmHackerrank.Tests.Sorting
 
             int result = algorithm.ActivityNotifications(expenditure, d);
 
-            Assert.AreEqual(expected, result);
+            expected.Should().Be(result);
         }
     }
 }

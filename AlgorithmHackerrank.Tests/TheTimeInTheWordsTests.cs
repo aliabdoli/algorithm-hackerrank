@@ -5,15 +5,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using FluentAssertions;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
+    
     public class TheTimeInTheWordsTests
     {
-        [Test]
+        [Fact]
         public void WhenThen()
         {
             var algorithm = new TheTimeInTheWords();
@@ -26,10 +27,10 @@ namespace AlgorithmHackerrank.Tests
             int m = Convert.ToInt32(textWriter.ReadLine());
 
             string result = algorithm.timeInWords(h, m);
-            Assert.AreEqual("thirteen minutes to six", result);
+            "thirteen minutes to six".Should().Be(result);
         }
 
-        [Test]
+        [Fact]
         public void WhenThen1()
         {
             var algorithm = new TheTimeInTheWords();
@@ -42,7 +43,7 @@ namespace AlgorithmHackerrank.Tests
             int m = Convert.ToInt32(textWriter.ReadLine());
 
             string result = algorithm.timeInWords(h, m);
-            Assert.AreEqual("three o' clock", result);
+            "three o' clock".Should().Be(result);
         }
     }
 }

@@ -5,22 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class SubstringDiffTests
     {
-        [Test]
-        [TestCase(@"1
+        [Theory]
+        [InlineData(@"1
 2 tabriz torino")]
-//        [TestCase(@"1
+//        [InlineData(@"1
 //3 helloworld yellomarin")]
-        //        [TestCase(@"1
+        //        [InlineData(@"1
         //0 abacba abcaba")]
-        //        [TestCase(@"1
+        //        [InlineData(@"1
         //0 abc cab")]
         public void MainFlow(string inputString)
         {

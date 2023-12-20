@@ -5,24 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class TheMaximumSubarrayTests
     {
-        [Test]
-        //        [TestCase(@"1
+        [Theory]
+        //        [InlineData(@"1
         //6
         //-1 2 3 -4 5 10")]
-        [TestCase(@"2
+        [InlineData(@"2
 4
 1 2 3 4
 6
 2 -1 2 3 4 -5")]
-        //        [TestCase(@"1
+        //        [InlineData(@"1
         //5
         //-2 -3 -1 -4 -6")]
         public void MainFlow(string inputString)

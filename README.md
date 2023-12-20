@@ -12,3 +12,5 @@ Here is the list of algo, I redo, i.e. again solve them
 		* IceCreamParlorAlgorithm [Easy]
 		* FindMissingNumbersAlgorithm [Easy]
 		* BearAndSteadyGene [Medium]
+	* Week 2
+		* 	

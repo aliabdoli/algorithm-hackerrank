@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Recursion;
-using NUnit.Framework;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Recursion
 {
-    [TestFixture]
     public class SimplifiedChessEngineTests
     {
-        [Test]
-        [TestCase(@"1
+        [Theory]
+        [InlineData(@"1
 2 1 1
 N B 2
 Q B 1

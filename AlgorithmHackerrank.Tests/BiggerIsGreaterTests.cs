@@ -4,14 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
+    
     public class BiggerIsGreaterTests
     {
-        [Test]
+        [Fact]
         public void WhenThen()
         {
             var s = @"5
@@ -40,15 +41,15 @@ hcdk";
 
             var actual = string.Join(Environment.NewLine, results);
 
-            Assert.AreEqual(expected, actual);
+            actual.Should().Be(expected);
         }
 
-        [Test]
+        [Fact]
         public void WhenThen1()
         {
             
-             var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterTestCase1Input.txt";
-            var expectedDir = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterTestCase1Expected.txt";
+             var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterInlineData1Input.txt";
+            var expectedDir = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterInlineData1Expected.txt";
 
             var inputReader = new StreamReader(s);
             var expectedReader = new StreamReader(expectedDir);
@@ -60,17 +61,17 @@ hcdk";
 
                 var result = algorithm.Do(w);
                 var expected = expectedReader.ReadLine();
-                Assert.AreEqual(expected, result);
+                result.Should().Be(expected);
             }
 
         }
 
-        [Test]
+        [Fact]
         public void WhenThen3()
         {
 
-            var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterTestCase3Input.txt";
-            var expectedDir = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterTestCase3Expected.txt";
+            var s = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterInlineData3Input.txt";
+            var expectedDir = @"C:\Users\ali.abdoli\source\repos\AlgorithmHackerrank\AlgorithmHackerrank.Tests\BiggerIsGreaterInlineData3Expected.txt";
 
             var inputReader = new StreamReader(s);
             var expectedReader = new StreamReader(expectedDir);
@@ -86,7 +87,7 @@ hcdk";
                 //{
                 //    var ss = "wrong";
                 //}
-                Assert.AreEqual(expected, result);
+                result.Should().Be(expected);
             }
 
         }

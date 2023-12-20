@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests
 {
-    [TestFixture]
     public class CompareTheTripletsTests
     {
-        [Test]
+        [Fact]
         public void WhenSimpleInput_ThenReturnScores()
         {
             //arrange
@@ -24,7 +24,7 @@ namespace AlgorithmHackerrank.Tests
             var pointSummary =  algo.Solve(aScores, bScores);
 
             //assert
-            Assert.That(pointSummary, Is.EqualTo(expected));
+            pointSummary.Should().BeEquivalentTo(expected);
         }
     }
 }

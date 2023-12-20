@@ -5,20 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
     public class RedKnightsShortestPathTests
     {
-        [Test]
-        //        [TestCase(@"7
+        [Theory]
+        //        [InlineData(@"7
         //0 3 4 3", "LR LL")]
-        //        [TestCase(@"7
+        //        [InlineData(@"7
         //6 6 0 1", "UL UL UL L")]
-        //        [TestCase(@"6
+        //        [InlineData(@"6
         //5 1 0 5", "Impossible")]
-        [TestCase(@"5
+        [InlineData(@"5
 4 1 0 3", "UR UR")]
 
         public void MainFlow(string inputString, string outputString)
@@ -42,11 +43,11 @@ namespace AlgorithmHackerrank.Tests.Searching
             var resultPath = string.Join(" ", path);
             if (result)
             {
-                Assert.AreEqual(outputString, resultPath);
+                outputString.Should().Be(resultPath);
             }
             else
             {
-                Assert.AreEqual("Impossible", outputString);
+                "Impossible".Should().Be(outputString);
             }
         }
     }

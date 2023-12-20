@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Sorting;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests.Sorting
 {
-    [TestFixture]
+    
     public class CountLuckTests
     {
-        [Test]
-//        [TestCase(@"3
+        [Theory]
+//        [InlineData(@"3
 //2 3
 //*.M
 //.X.
@@ -31,7 +31,7 @@ namespace AlgorithmHackerrank.Tests.Sorting
 //.XX.X.XM...
 //......XXXX.
 //4")]
-        [TestCase(@"3
+        [InlineData(@"3
 3 3
 *.X
 X.X

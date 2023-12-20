@@ -5,20 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class TheCoinChangeProblemTests
     {
-        [Test]
-        //        [TestCase(@"10 4
+        [Theory]
+        //        [InlineData(@"10 4
         //2 5 3 6")]
-        //        [TestCase(@"166 23
+        //        [InlineData(@"166 23
         //5 37 8 39 33 17 22 32 13 7 10 35 40 2 43 49 46 19 41 1 12 11 28")]
-        [TestCase(@"75 27
+        [InlineData(@"75 27
 25 10 11 29 49 31 33 39 12 36 40 22 21 16 37 8 18 4 27 17 26 32 6 38 2 30 34")]
         public void MainFlow(string inputString)
         {

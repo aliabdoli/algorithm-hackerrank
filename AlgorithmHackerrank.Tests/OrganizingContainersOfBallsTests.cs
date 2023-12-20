@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests
 {
     public class OrganizingContainersOfBallsTests
     {
-        [Test]
+        [Fact]
         public void WhenThen()
         {
             var results = new List<string>();
@@ -46,12 +47,12 @@ namespace AlgorithmHackerrank.Tests
             var expected = @"Possible
 Impossible";
             var resultString = string.Join(Environment.NewLine, results);
-            Assert.AreEqual(expected, resultString);
+            expected.Should().Be(resultString);
 
         }
 
 
-        [Test]
+        [Fact]
         public void WhenThen2()
         {
             var results = new List<string>();
@@ -138,6 +139,7 @@ Impossible";
                 results.Add(result);
 
             }
+
             var expected = @"Possible
 Possible
 Possible
@@ -149,8 +151,7 @@ Possible
 Possible
 Possible";
             var resultString = string.Join(Environment.NewLine, results);
-            Assert.AreEqual(expected, resultString);
-
+            expected.Should().Be(resultString);
         }
     }
 }

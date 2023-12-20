@@ -5,16 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.DynamicProgramming;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.DynamicProgramming
 {
-    [TestFixture]
     public class HackerRankCityTests
     {
-        [Test]
-        [TestCase(@"")]
+        [Theory]
+        [InlineData(@"")]
         public void MainFlow(string inputString)
         {
             var input = new StringReader(inputString);

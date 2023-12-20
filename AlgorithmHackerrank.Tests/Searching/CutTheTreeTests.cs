@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
     public class CutTheTreeTests
     {
-        [Test]
-        [TestCase(@"6
+        [Theory]
+        [InlineData(@"6
 100 200 100 500 100 600
 1 2
 2 3
@@ -36,7 +37,7 @@ namespace AlgorithmHackerrank.Tests.Searching
 
             int result = CutTheTree.cutTheTree(data, edges);
 
-            Assert.AreEqual(expectedString, result.ToString());
+            expectedString.Should().Be(result.ToString());
         }
     }
 }

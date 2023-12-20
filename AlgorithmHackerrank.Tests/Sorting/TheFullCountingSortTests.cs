@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Sorting;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Sorting
 {
-    [TestFixture]
+    
     public class TheFullCountingSortTests
     {
-        [Test]
+        [Fact]
         public void BasicShouldPass()
         {
             
@@ -50,7 +51,7 @@ namespace AlgorithmHackerrank.Tests.Sorting
 
             var algor = new TheFullCountingSort();
             var result = algor.countSort(arr);
-            Assert.AreEqual("- - - - - to be or not to be - that is the question - - - -", result);
+            "- - - - - to be or not to be - that is the question - - - -".Should().Be(result);
         }
     }
 }

@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.GraphTheory;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.GraphTheory
 {
     public class CrabGraphsTests
     {
-        [Test]
-        [TestCase(@"2
+        [Theory]
+        [InlineData(@"2
 8 2 7
 1 4
 2 4
@@ -58,7 +59,7 @@ namespace AlgorithmHackerrank.Tests.GraphTheory
                 int result = CrabGraphs.crabGraphs(n, t, graph);
                 var expectedResult = expected.ReadLine();
 
-                Assert.AreEqual(expectedResult, result.ToString());
+                expectedResult.Should().Be(result.ToString());
             }
         }
     }

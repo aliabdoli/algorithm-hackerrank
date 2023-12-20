@@ -5,15 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Rokt;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
 
 namespace AlgorithmHackerrank.Tests.Rokt
 {
-    [TestFixture]
     public class Question1Tests
     {
-        [Test]
+        [Fact]
         public void MainTest()
         {
             var inputString = @"6

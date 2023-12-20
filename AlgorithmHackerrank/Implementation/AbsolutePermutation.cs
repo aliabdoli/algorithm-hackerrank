@@ -3,62 +3,138 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using AlgorithmHackerrank.Utilities;
+
 
 namespace AlgorithmHackerrank.Implementation
 {
     public static class AbsolutePermutation
     {
-        private static int _dist;
-        private static int _len;
-        private static HashSet<int> _noResult = new HashSet<int>(new []{-1});
-        public static int[] absolutePermutation(int len, int dist)
+        public static List<int> FindAbsolutePermutation(int len, int dist)
         {
-            var donotExist = new[] { -1 };
-            var result = new int[len];
+            var root = new TreeNode(len, dist+1, dist, 1);
+            //path.Add(root);
+            var rootWithMemory = new TreeNodeWithPathMemory(root);
 
-            _len = len;
-            _dist = dist;
-            bool ifAnswer = false;
-            var res = FindDfs(1, 1 + dist, new HashSet<int>(), ref ifAnswer);
+            var traverser = new TreeTraverser();
 
-            return res.ToArray();
+            var exist = traverser.NLR(rootWithMemory);
+
+            if (traverser.Answer != null)
+            {
+                return traverser.Path.OrderBy(x => x.Depth).Select(x => x.Data).ToList();
+            }
+            else
+            {
+                return new List<int>() { -1 };
+            }
+        }
+    }
+
+    public class TreeNode : IComparable<TreeNode>, IEquatable<TreeNode>
+    {
+        public readonly int Len;
+        public readonly int Dist;
+
+        public TreeNode(int len, int data, int dist, int depth)
+        {
+            Len = len;
+            Dist = dist;
+            Data = data;
+            Depth = depth;
         }
 
-        private static HashSet<int> FindDfs(int position, int value, HashSet<int> path, ref bool ifAnswer)
+        public int Depth { get; set; }
+        public int Data { get; }
+        public TreeNode LeftChild => Depth + 1 - Dist > 0 ? new TreeNode(len:Len, Depth + 1 - Dist , Dist, Depth+1) : null;
+        public TreeNode RightChild => Depth + 1 +  Dist <= Len ? new TreeNode(Len, Depth + 1 + Dist, Dist, Depth + 1) : null;
+
+        public int CompareTo(TreeNode other)
         {
-            if (value < 1 || value > _len)
-            {
-                ifAnswer = false;
-                return _noResult;
-            }
+            return this.Data.CompareTo(other.Data);
+        }
 
-            if (!path.Add(value))
-            {
-                ifAnswer = false;
-                return _noResult;
-            }
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TreeNode);
+        }
 
-            if (position == _len)
-            {
-                ifAnswer = true;
-                return path;
-            }
+        public bool Equals(TreeNode other)
+        {
+            return other != null && Data == other.Data;
+        }
 
-            var newPosition = position + 1;
+        public override int GetHashCode()
+        {
+            return Data;
+        }
+    }
+
+    public class TreeNodeWithPathMemory
+    {
+        public TreeNodeWithPathMemory(TreeNode node)
+        {
+            TreeNode = node;
+        }
+
+        public TreeNode TreeNode { get; }
+        
+    }
+
+    public class TreeTraverser
+    {
+        public UniqueStack<TreeNode> Path { get; } = new UniqueStack<TreeNode>();
+
+        //public string PathData => String.Join("-", Path.OrderBy(x => x.Depth).Select(x => x.Data.ToString()));
+
+        public TreeNodeWithPathMemory Answer { get; set; } 
+
+        public bool IsLeaf(TreeNodeWithPathMemory node)
+        {
+            return node.TreeNode.Depth == node.TreeNode.Len;
+        }
+        public bool NLR(TreeNodeWithPathMemory node)
+        {
+            if (node.TreeNode == null) return false;
+
+            if (!Path.Push(node.TreeNode))
+            {
+                return false;
+            }
             
-            var child1 = newPosition - _dist;
-            var child2 = _dist + newPosition;
-            var result = FindDfs(newPosition, child1, path, ref ifAnswer);
-            
-            if (ifAnswer)
+
+            if (IsLeaf(node))
             {
-                return result;
+                //o(1)
+                if (Path.Count == node.TreeNode.Len)
+                    Answer = node;
+                return true;
+            }
+            
+            var isAnswer = NLR(new TreeNodeWithPathMemory(node.TreeNode.LeftChild));
+            
+            if (isAnswer)
+            {
+                return true;
             }
 
-            result = FindDfs(newPosition, child2, path, ref ifAnswer);
+            //todo: disgraceful
+            if (!Path.Peek().Equals(node.TreeNode))
+            {
+                var _ = Path.Pop();
+            }
+            isAnswer = NLR(new TreeNodeWithPathMemory(node.TreeNode.RightChild));
+            if (isAnswer)
+            {
+                return true;
+            }
 
-            return result;
-
+            if (!Path.Peek().Equals(node.TreeNode))
+            {
+                var _ = Path.Pop();
+            }
+            return false;
         }
         
     }

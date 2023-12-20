@@ -5,31 +5,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.GraphTheory;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests.GraphTheory
 {
     public class RoadsAndLibrariesTests
     {
-//        [TestCase(@"2
-//3 3 2 1
-//1 2
-//3 1
-//2 3
-//6 6 2 5
-//1 3
-//3 4
-//2 4
-//1 2
-//2 3
-//5 6", @"4
-//12")]
-//        [TestCase(@"1
-//5 3 6 1
-//1 2
-//1 3
-//1 4", @"15")]
-        [TestCase(@"10
+        //        [InlineData(@"2
+        //3 3 2 1
+        //1 2
+        //3 1
+        //2 3
+        //6 6 2 5
+        //1 3
+        //3 4
+        //2 4
+        //1 2
+        //2 3
+        //5 6", @"4
+        //12")]
+        //        [InlineData(@"1
+        //5 3 6 1
+        //1 2
+        //1 3
+        //1 4", @"15")]
+        [Theory]
+        [InlineData(@"10
 78148 11354 90581 83503
 63670 10588
 65255 9924
@@ -147286,7 +147289,7 @@ namespace AlgorithmHackerrank.Tests.GraphTheory
 
                 long result = RoadsAndLibraries.roadsAndLibraries(n, c_lib, c_road, cities);
                 var exp = expeted.ReadLine();
-                Assert.AreEqual(exp, result.ToString());
+                exp.Should().Be(result.ToString());
 
             }
         }

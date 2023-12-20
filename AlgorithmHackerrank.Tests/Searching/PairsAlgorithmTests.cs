@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmHackerrank.Searching;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+using Xunit;
+
 
 namespace AlgorithmHackerrank.Tests.Searching
 {
-    [TestFixture]
+    
     public class PairsAlgorithmTests
     {
-        [Test]
-        [TestCase(@"5 2  
+        [Theory]
+        [InlineData(@"5 2  
 1 5 3 4 2")]
         public void MainFlow(string inputString)
         {

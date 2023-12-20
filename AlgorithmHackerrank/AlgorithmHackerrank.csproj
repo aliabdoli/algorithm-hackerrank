@@ -101,6 +101,7 @@
     <Compile Include="Strings\SherlockAndTheValidString.cs" />
     <Compile Include="TheGridSearch.cs" />
     <Compile Include="TheTimeInTheWords.cs" />
+    <Compile Include="Utilities\UniqueStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
