@@ -2,15 +2,15 @@
 {
     public class NonDivisibleSubset
     {
-        public int Run(int k, int[] S)
+        public int Run(int k, List<int> s)
         {
-            var set = S.ToList();
+            var sset = s;
             var factor = k;
             var result = 0;
 
             var factorArray = Enumerable.Range(0, factor).ToDictionary(key => key, val => 0);
 
-            foreach (var item in set)
+            foreach (var item in sset)
             {
                 var remain = item % factor;
                 factorArray[remain]++;

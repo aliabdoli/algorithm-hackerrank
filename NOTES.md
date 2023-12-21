@@ -21,6 +21,10 @@
     - [.net datastructure complexity](http://c-sharp-snippets.blogspot.com/2010/03/runtime-complexity-of-net-generic.html)   
     - see Add beyond capacity and it changes the complexity (e.x. Stack!!!)
         - it can make algo times out!!!
+- `DONT convert all problems to graph`
+    - e.x. NonDivisibleSubset, sounds like maximal clique but it s actually way easier!!!
+    - graphs normally times out cos they dont have that much assumptions about nodes/edges
+    - also, finding neighers, intersect, uninun, ... is time consuming
     
     
 
