@@ -9,26 +9,22 @@ using HackerRankAlgorithm.Utilities;
 
 namespace HackerRankAlgorithm.Implementation
 {
+    /// <summary>
+    ///  <see cref="NoneManagedStackTreeTraverser"/> 
+    ///  <see cref="ManagedStackTreeTraverser"/> see summary in <see cref="UniqueStack"/> how it can if not implemented correctly, time out
+    /// </summary>
     public static class AbsolutePermutation
     {
         public static List<int> FindAbsolutePermutation(int len, int dist)
         {
-            var root = new TreeNode(len, dist+1, dist, 1);
-            //path.Add(root);
+            var root = new TreeNode(len, dist + 1, dist, 1);
             var rootWithMemory = new TreeNodeWithPathMemory(root);
 
-            var traverser = new TreeTraverser();
-
-            var exist = traverser.NLR(rootWithMemory);
-
-            if (traverser.Answer != null)
-            {
-                return traverser.Path.OrderBy(x => x.Depth).Select(x => x.Data).ToList();
-            }
-            else
-            {
-                return new List<int>() { -1 };
-            }
+            ///none managed stack
+            var traverser = new NoneManagedStackTreeTraverser();
+            //var traverser = new ManagedStackTreeTraverser();
+            var result = traverser.NLRTraverse(rootWithMemory);
+            return result;
         }
     }
 
@@ -47,8 +43,12 @@ namespace HackerRankAlgorithm.Implementation
 
         public int Depth { get; set; }
         public int Data { get; }
-        public TreeNode LeftChild => Depth + 1 - Dist > 0 ? new TreeNode(len:Len, Depth + 1 - Dist , Dist, Depth+1) : null;
-        public TreeNode RightChild => Depth + 1 +  Dist <= Len ? new TreeNode(Len, Depth + 1 + Dist, Dist, Depth + 1) : null;
+
+        public TreeNode LeftChild =>
+            Depth + 1 - Dist > 0 ? new TreeNode(len: Len, Depth + 1 - Dist, Dist, Depth + 1) : null;
+
+        public TreeNode RightChild =>
+            Depth + 1 + Dist <= Len ? new TreeNode(Len, Depth + 1 + Dist, Dist, Depth + 1) : null;
 
         public int CompareTo(TreeNode other)
         {
@@ -79,22 +79,41 @@ namespace HackerRankAlgorithm.Implementation
         }
 
         public TreeNode TreeNode { get; }
-        
+
     }
 
-    public class TreeTraverser
+    /// <summary>
+    /// using Stack <see cref="UniqueStack{T}"/>instead of recursive stack,
+    /// It times out!!!!
+    /// </summary>
+    public class NoneManagedStackTreeTraverser
     {
         public UniqueStack<TreeNode> Path { get; } = new UniqueStack<TreeNode>();
 
         //public string PathData => String.Join("-", Path.OrderBy(x => x.Depth).Select(x => x.Data.ToString()));
 
-        public TreeNodeWithPathMemory Answer { get; set; } 
+        public TreeNodeWithPathMemory Answer { get; set; }
 
         public bool IsLeaf(TreeNodeWithPathMemory node)
         {
             return node.TreeNode.Depth == node.TreeNode.Len;
         }
-        public bool NLR(TreeNodeWithPathMemory node)
+
+
+        public List<int> NLRTraverse(TreeNodeWithPathMemory node)
+        {
+            var exist = NLR(node);
+
+            if (Answer != null)
+            {
+                return Path.OrderBy(x => x.Depth).Select(x => x.Data).ToList();
+            }
+            else
+            {
+                return new List<int>() { -1 };
+            }
+        }
+        private bool NLR(TreeNodeWithPathMemory node)
         {
             if (node.TreeNode == null) return false;
 
@@ -102,7 +121,7 @@ namespace HackerRankAlgorithm.Implementation
             {
                 return false;
             }
-            
+
 
             if (IsLeaf(node))
             {
@@ -111,9 +130,9 @@ namespace HackerRankAlgorithm.Implementation
                     Answer = node;
                 return true;
             }
-            
+
             var isAnswer = NLR(new TreeNodeWithPathMemory(node.TreeNode.LeftChild));
-            
+
             if (isAnswer)
             {
                 return true;
@@ -124,6 +143,7 @@ namespace HackerRankAlgorithm.Implementation
             {
                 var _ = Path.Pop();
             }
+
             isAnswer = NLR(new TreeNodeWithPathMemory(node.TreeNode.RightChild));
             if (isAnswer)
             {
@@ -134,8 +154,73 @@ namespace HackerRankAlgorithm.Implementation
             {
                 var _ = Path.Pop();
             }
+
             return false;
         }
-        
     }
+
+    public class ManagedStackTreeTraverser
+    {
+        private static HashSet<TreeNode> _noResult = new HashSet<TreeNode>();
+        public bool IsLeaf(TreeNodeWithPathMemory node)
+        {
+            return node.TreeNode.Depth == node.TreeNode.Len;
+        }
+
+        public List<int> NLRTraverse(TreeNodeWithPathMemory node)
+        {
+            var path = new HashSet<TreeNode>();
+            var isAnswer = false;
+            var result = NLR(node, path, ref isAnswer);
+
+            if (isAnswer && result.Any())
+            {
+                //return traverser.Path.OrderBy(x => x.Depth).Select(x => x.Data).ToList();
+                return result.Select(x => x.Data).ToList();
+            }
+            else
+            {
+                return new List<int>() { -1 };
+            }
+        }
+
+
+        private HashSet<TreeNode> NLR(TreeNodeWithPathMemory node, HashSet<TreeNode> path, ref bool isAnswer)
+        {
+            if (node.TreeNode == null)
+            {
+                return path;
+            } 
+
+            if (!path.Add(node.TreeNode))
+            {
+                isAnswer = false;
+                return _noResult;
+            }
+
+
+            if (IsLeaf(node))
+            {
+                //o(1)
+                if (path.Count == node.TreeNode.Len)
+                    isAnswer = true;
+                    return path;
+            }
+
+            var result = NLR(new TreeNodeWithPathMemory(node.TreeNode.LeftChild), path, ref isAnswer);
+
+            if (isAnswer)
+            {
+                return result;
+            }
+
+
+            result = NLR(new TreeNodeWithPathMemory(node.TreeNode.RightChild), path, ref isAnswer);
+
+            return result;
+        }
+    }
+    
 }
+
+

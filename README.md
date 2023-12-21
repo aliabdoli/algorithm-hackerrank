@@ -13,4 +13,4 @@ Here is the list of algo, I redo, i.e. again solve them
 		* FindMissingNumbersAlgorithm [Easy]
 		* BearAndSteadyGene [Medium]
 	* Week 2
-		* 	
+		* AbsolutePermutation [Medium]	

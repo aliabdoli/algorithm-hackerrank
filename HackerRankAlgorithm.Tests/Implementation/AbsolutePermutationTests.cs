@@ -1,16 +1,19 @@
 ﻿using HackerRankAlgorithm.Implementation;
 using FluentAssertions;
+using System.Collections.Generic;
 //using Xunit;
 
 namespace HackerRankAlgorithm.Tests.Implementation
 {
     public class AbsolutePermutationTests
     {
-        [Fact]
-        [Trait("Hello","Hello")]
-        public void Hello()
-        {
+        [Theory]
+        [InlineData(500, 3)]
 
+        public void StressTest_WithNoAssertion(int len, int dist)
+        {
+            //act
+            var result = AbsolutePermutation.FindAbsolutePermutation(len, dist);
         }
 
 
