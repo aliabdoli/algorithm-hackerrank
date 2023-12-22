@@ -14,5 +14,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* BearAndSteadyGene [Medium]
 	* Week 2
 		* AbsolutePermutation [Medium]
-		* NonDivisibleSubset [Medium] 
+		* NonDivisibleSubset [Medium] (cheating)
+		* MinimumLoss [Medium] (cheating)
 

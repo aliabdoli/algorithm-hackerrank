@@ -23,7 +23,7 @@ namespace HackerRankAlgorithm.Tests.Searching
             var reader = new StringReader(input);
             int n = Convert.ToInt32(reader.ReadLine());
 
-            long[] price = Array.ConvertAll(reader.ReadLine().Split(' '), priceTemp => Convert.ToInt64(priceTemp));
+            var price = Array.ConvertAll(reader.ReadLine().Split(' '), priceTemp => Convert.ToInt64(priceTemp)).ToList();
 
             var algorighm = new MinimumLoss();
             int result = algorighm.minimumLoss(price);

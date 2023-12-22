@@ -8,7 +8,7 @@ namespace HackerRankAlgorithm.Searching
 {
     public class MinimumLoss
     {
-        public int minimumLoss(long[] price)
+        public int minimumLoss(List<long> price)
         {
             var pricesList = price
                 .Select((val, ind) => new { val, ind })
