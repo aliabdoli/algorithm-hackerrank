@@ -32,12 +32,13 @@ namespace HackerRankAlgorithm.Tests
             {
                 int n = Convert.ToInt32(input.ReadLine());
 
-                int[][] container = new int[n][];
+                List<List<int>> container = new List<List<int>>();
 
                 for (int i = 0; i < n; i++)
                 {
-                    container[i] = Array.ConvertAll(input.ReadLine().Split(' '),
-                        containerTemp => Convert.ToInt32(containerTemp));
+                    var item = Array.ConvertAll(input.ReadLine().Split(' '),
+                        containerTemp => Convert.ToInt32(containerTemp)).ToList();
+                    container.Add(item);
                 }
 
                 string result = algorithm.OrganizingContainers(container);
@@ -128,12 +129,13 @@ Impossible";
             {
                 int n = Convert.ToInt32(input.ReadLine());
 
-                int[][] container = new int[n][];
+                List<List<int>> container = new List<List<int>>();
 
                 for (int i = 0; i < n; i++)
                 {
-                    container[i] = Array.ConvertAll(input.ReadLine().Split(' '),
-                        containerTemp => Convert.ToInt32(containerTemp));
+                    var item = Array.ConvertAll(input.ReadLine().Split(' '),
+                        containerTemp => Convert.ToInt32(containerTemp)).ToList();
+                    container.Add(item);
                 }
 
                 string result = algorithm.OrganizingContainers(container);

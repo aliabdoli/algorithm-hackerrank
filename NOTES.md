@@ -25,6 +25,11 @@
     - e.x. NonDivisibleSubset, sounds like maximal clique but it s actually way easier!!!
     - graphs normally times out cos they dont have that much assumptions about nodes/edges
     - also, finding neighers, intersect, uninun, ... is time consuming
+- how to avoid foreach and use linq
+    - use Enumerable.Range and select (even select inside select)
+    - e.x. 
+      - converting `List<List<int>>` to `List<List<Long>>`
+      - `OrganizingContainersOfBalls`
     
     
 
@@ -35,3 +40,5 @@
 - readonly field vs properties with get only?
 - how to deal with bloated constructor?
 - How to make a class thread safe (e.x. `GeneSlidingWindow`)
+- [] vs [,] in arrays (in terms of memory, ...)
+- how to transpose 2d array or list? `OrganizingContainersOfBalls`

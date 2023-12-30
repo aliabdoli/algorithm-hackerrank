@@ -6,20 +6,36 @@
     {
         public const string Impossible = "Impossible";
         public const string Possible = "Possible";
-        public string OrganizingContainers(int[][] container)
+        public string OrganizingContainers(List<List<int>> containerInput)
         {
-            var rowSum = container.Select(r => r.Sum(c => (long)c));
+            var containerCount = containerInput.Count;
+            
+            var longContainers = containerInput.Select(x => 
+                x.Select(y => (long)y).ToList()).
+                ToList();
 
-            var rowColumnIndex = container.Select((rval, rind) => 
-                new { rind, rval = rval
-                    .Select((cval, cind) => new { cind, cval }) });
-            var flattened = rowColumnIndex.SelectMany(x => x.rval.Select(y => new { x.rind, y.cind, y.cval }));
-            var colSum = flattened.GroupBy(x => x.cind).Select(y => y.Sum(z => (long) z.cval)).ToList();
 
-            var rowHash = new HashSet<long>(rowSum);
-            var colHash = new HashSet<long>(colSum);
+            var rowSums = longContainers.Select(x => x.Sum()).ToList();
 
-            return rowHash.SetEquals(colHash)? Possible : Impossible;
+            var columnSums = new List<long>();
+            for (int colInd = 0; colInd < containerCount; colInd++)
+            {
+                var columnSum = Enumerable.Range(0, containerCount).Select((x, ind) => longContainers[x][colInd]).Sum();
+                columnSums.Add(columnSum);
+            }
+        
+
+            rowSums.Sort();
+            columnSums.Sort();
+
+            for (int i = 0; i < containerCount; i++)
+            {
+                if (rowSums[i] != columnSums[i])
+                {
+                    return Impossible;
+                }
+            }
+            return Possible;
 
         }
     }
