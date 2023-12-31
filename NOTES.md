@@ -30,8 +30,21 @@
     - e.x. 
       - converting `List<List<int>>` to `List<List<Long>>`
       - `OrganizingContainersOfBalls`
+- How to represent a Tree
+    - two ways
+        - when you know all the edges at the time
+            - Dictionary<NodeIdentifier, TreeNode> as edges
+            - by any node and anytime, you can find connected nodes
+            - e.x. CutTheTree
+        - when you dont know the child at the time, and during the traverse, you need to calc
+            - a class called TreeNode with GetChilderen function
+            - YOU NEED TO KNOW THE PATH FROM THE ROOT NORMALLY
+    - any node can be tree in unidirect tree!!!
+        - so, when edges are given in 2d array or list of list, you need to put reverse too!!!
+            - i.e. 1 -> 2, then add 2 -> 1
+        - e.x. CutTheTreeAlgorithm
     
-    
+        
 
 ## Some questions
 

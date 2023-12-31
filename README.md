@@ -18,4 +18,5 @@ Here is the list of algo, I redo, i.e. again solve them
 		* MinimumLoss [Medium] (cheating)
 	* Week 3
 		* OrganizingContainersOfBalls [Medium]	
+		* CutTheTreeAlgorithm [Medium]
 

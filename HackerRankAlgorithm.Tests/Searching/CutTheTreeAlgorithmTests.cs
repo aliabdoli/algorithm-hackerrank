@@ -10,7 +10,7 @@ using Xunit;
 
 namespace HackerRankAlgorithm.Tests.Searching
 {
-    public class CutTheTreeTests
+    public class CutTheTreeAlgorithmTests
     {
         [Theory]
         [InlineData(@"6
@@ -35,7 +35,7 @@ namespace HackerRankAlgorithm.Tests.Searching
                 edges.Add(input.ReadLine().TrimEnd().Split(' ').ToList().Select(edgesTemp => Convert.ToInt32(edgesTemp)).ToList());
             }
 
-            int result = CutTheTree.cutTheTree(data, edges);
+            int result = CutTheTreeAlgorithm.CutTheTree(data, edges);
 
             expectedString.Should().Be(result.ToString());
         }
