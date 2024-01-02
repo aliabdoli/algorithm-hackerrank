@@ -19,4 +19,5 @@ Here is the list of algo, I redo, i.e. again solve them
 	* Week 3
 		* OrganizingContainersOfBalls [Medium]	
 		* CutTheTreeAlgorithm [Medium]
+		* SubstringDiff [Medium] (cheating)
 

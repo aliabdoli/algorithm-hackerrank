@@ -44,7 +44,9 @@
             - i.e. 1 -> 2, then add 2 -> 1
         - e.x. CutTheTreeAlgorithm
     
-        
+## Must know Algos
+- Longest common substring
+- Longest common sub SEQUENCE
 
 ## Some questions
 
