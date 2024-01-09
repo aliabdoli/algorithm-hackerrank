@@ -20,4 +20,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* OrganizingContainersOfBalls [Medium]	
 		* CutTheTreeAlgorithm [Medium]
 		* SubstringDiff [Medium] (cheating)
+	* Week 4
+		* TheMaximumSubarray [Medium]
 
