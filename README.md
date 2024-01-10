@@ -22,4 +22,5 @@ Here is the list of algo, I redo, i.e. again solve them
 		* SubstringDiff [Medium] (cheating)
 	* Week 4
 		* TheMaximumSubarray [Medium]
+		* NewYearChaos [Medium] (cheating)
 

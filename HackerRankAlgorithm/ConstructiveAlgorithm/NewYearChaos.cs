@@ -9,20 +9,26 @@ namespace HackerRankAlgorithm.ConstructiveAlgorithm
     public class NewYearChaos
     {
 
-        public string minimumBribes(int[] q)
+        //todo: solution does not make sense, cheating
+        public string minimumBribes(List<int> q)
         {
-            //int ans = 0;
-            //for (int i = q.size() - 1; i >= 0; i--)
+            //function minimumBribes(q)
             //{
-            //    if (q[i] - (i + 1) > 2)
+            //    let chaotic = q.some((p, ix) => p - (ix + 1) > 2);
+
+            //    if (chaotic)
             //    {
-            //        cout << "Too chaotic" << endl;
+            //        console.log("Too chaotic");
             //        return;
             //    }
-            //    for (int j = max(0, q[i] - 2); j < i; j++)
-            //        if (q[j] > q[i]) ans++;
+
+            //    let bribes = 0;
+            //    for (let i = 0; i < q.length; i++)
+            //    for (let j = q[i] - 2; j < i; j++)
+            //        if (q[j] > q[i]) bribes++;
+
+            //    console.log(bribes);
             //}
-            //cout << ans << endl;
 
             return null;
             //const string toochaotic = "Too chaotic";
