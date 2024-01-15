@@ -23,4 +23,6 @@ Here is the list of algo, I redo, i.e. again solve them
 	* Week 4
 		* TheMaximumSubarray [Medium]
 		* NewYearChaos [Medium] (cheating)
+	* Week 5
+		* SherlockAndCost [Medium] (cheating)
 

@@ -8,7 +8,7 @@ namespace HackerRankAlgorithm.DynamicProgramming
 {
     public class SherlockAndCost
     {
-        public int cost(int[] B)
+        public int cost(List<int> B)
         {
             var input = B.ToList();
             var costWith = 0;
