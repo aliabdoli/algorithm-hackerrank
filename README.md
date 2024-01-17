@@ -25,4 +25,5 @@ Here is the list of algo, I redo, i.e. again solve them
 		* NewYearChaos [Medium] (cheating)
 	* Week 5
 		* SherlockAndCost [Medium] (cheating)
+		* JourneyToTheMoon [Medium] (cheating)
 

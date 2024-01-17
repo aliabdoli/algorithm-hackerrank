@@ -8,7 +8,7 @@ namespace HackerRankAlgorithm.GraphTheory
 {
     public static class JourneyToTheMoon
     {
-        public static long journeyToMoon(int austroNum, int[][] stupidAustras)
+        public static long journeyToMoon(int austroNum, List<List<int>> stupidAustras)
         {
             var moreThanOnes = new List<int>();
             var ones = 0;

@@ -30,7 +30,7 @@
     - e.x. 
       - converting `List<List<int>>` to `List<List<Long>>`
       - `OrganizingContainersOfBalls`
-- How to represent a Tree
+- **How to represent a Tree**
     - two ways
         - when you know all the edges at the time
             - Dictionary<NodeIdentifier, TreeNode> as edges
@@ -43,10 +43,28 @@
         - so, when edges are given in 2d array or list of list, you need to put reverse too!!!
             - i.e. 1 -> 2, then add 2 -> 1
         - e.x. CutTheTreeAlgorithm
+- **how to represent Graph**
+    - `datastructure point of view`
+        - basically adjacent matrix (for dense) and adjancent list (for sparse)
+        - in questions, sometime it gives you list<list<int>> which is none of those
+        - you need to convert it to adj matrix/list (cutTheTree, JourneyToTheMoon, ...)
+        - for list, you can create a dictionary for each connection
+    - `object oriented point of view`
+        - Vertex, Graph
+            - Vertex is a generic with Id and data, or it can be with Id and pointer to actual data
+                - functions like "Get_neighbours", ...  
+            - Graph
+                - "keeps all vertexes" i.e. if given the key, it knows the vertex
+                - `it has function of Add_Edge and Add_Vertex` 
+       - hybrid
+        - can have only graph, graph has dictionary (adjacent list) of each node
+        - to know neighbours, just ask graph
+        - graph can be generic too
     
 ## Must know Algos
 - Longest common substring
 - Longest common sub SEQUENCE
+- combination and permutation formula
 
 ## Some questions
 - implement enumerator and enumerable (see TheMaximumSubarray (commented out))
