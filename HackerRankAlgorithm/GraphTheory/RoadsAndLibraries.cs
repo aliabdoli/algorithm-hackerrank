@@ -10,12 +10,9 @@ namespace HackerRankAlgorithm.GraphTheory
     public static class RoadsAndLibraries
     {
 
-        public static long roadsAndLibraries(int cityCount, int libCost, int roadCost, int[][] stupidCities)
+        public static long roadsAndLibraries(int cityCount, int libCost, int roadCost, List<List<int>> stupidCities)
         {
-            //try
-            //{
-            //    checked
-            //    {
+            
 
 
                     if (roadCost > libCost)

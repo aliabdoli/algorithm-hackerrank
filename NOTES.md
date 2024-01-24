@@ -48,7 +48,11 @@
         - basically adjacent matrix (for dense) and adjancent list (for sparse)
         - in questions, sometime it gives you list<list<int>> which is none of those
         - you need to convert it to adj matrix/list (cutTheTree, JourneyToTheMoon, ...)
-        - for list, you can create a dictionary for each connection
+        - **for list**, 
+          - you can create a dictionary for each connection
+          - O(n) if need to see if A is connect to B, cos dict[A] returns a list and you need to traverse the list
+            - it s unlike adjMatrix
+         -
     - `object oriented point of view`
         - Vertex, Graph
             - Vertex is a generic with Id and data, or it can be with Id and pointer to actual data
@@ -60,13 +64,22 @@
         - can have only graph, graph has dictionary (adjacent list) of each node
         - to know neighbours, just ask graph
         - graph can be generic too
-    
+
+## Terms 
+- clique in graph: 
+  - is a subset that every vertex is connected by an edge (basically complete subgraph)
+  - DONT MIX IT WITH "CONNECTED COMPONENT"
+- `connected component` of graph:
+  - subgraph that there is at least on path between each node   
 ## Must know Algos
 - Longest common substring
 - Longest common sub SEQUENCE
 - combination and permutation formula
+- Shortest paths (Dijkstra, Bellman-Ford, Floyd-Warshall)
+- Find Graph Components [RoadsAndLibraries]
 
 ## Some questions
+- how to make algo distributed, e.x. distributed shortest path ([link](https://stackoverflow.com/questions/2421605/finding-all-shortest-paths-from-every-pair-of-nodes-on-a-graph)
 - implement enumerator and enumerable (see TheMaximumSubarray (commented out))
 - how to make algos thread safe (multi threading)
 - What s the differnece between char[] and String?
