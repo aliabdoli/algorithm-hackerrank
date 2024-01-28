@@ -151,6 +151,8 @@ namespace HackerRankAlgorithm.GraphTheory
 
         private Dictionary<EdgeModel, int> CalculateShortestPath(int sourceNode, Graph graph)
         {
+            throw new NotImplementedException();
+
             var distanceNodeMatrix = new SortedDictionary<int, int>();
             foreach (var node in graph.Nodes)
             {
@@ -177,10 +179,10 @@ namespace HackerRankAlgorithm.GraphTheory
             while (seens.Count < graph.Nodes.Count)
             {
                 
-                while (node != null)
-                {
-                    
-                }
+                //while (node != null)
+                //{
+
+                //}
             }
 
 

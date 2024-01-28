@@ -64,6 +64,9 @@
         - can have only graph, graph has dictionary (adjacent list) of each node
         - to know neighbours, just ask graph
         - graph can be generic too
+- Dfs and its variations
+    - only visit nodes, do some action (RoadsAndLibraries1)
+    - visit nodes + keeping the paths (e.x. RedKnightsShortestPath)
 
 ## Terms 
 - clique in graph: 
@@ -89,3 +92,6 @@
 - How to make a class thread safe (e.x. `GeneSlidingWindow`)
 - [] vs [,] in arrays (in terms of memory, ...)
 - how to transpose 2d array or list? `OrganizingContainersOfBalls`
+- what s `IReadOnlyList` and difference if I make a property `readonly`
+- why implementing IEquatable, does not make "==" use override!! e.x. `RedKnightsShortestPath` on GraphNode
+    - had to use node.Equals(node) instead of node == nodeb   

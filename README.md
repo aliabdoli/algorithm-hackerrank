@@ -28,5 +28,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* JourneyToTheMoon [Medium] (cheating)
 	* Week 6
 		* RoadsAndLibraries [Medium] (cheating) (interesting, must solve again)	
-		* 
+	* Week 7
+		* RedKnightsShortestPath [Medium] (cheating)	
 
