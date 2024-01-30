@@ -67,6 +67,12 @@
 - Dfs and its variations
     - only visit nodes, do some action (RoadsAndLibraries1)
     - visit nodes + keeping the paths (e.x. RedKnightsShortestPath)
+- Some useful datastructure in .net
+    - `SortedSet`
+    - `ReadOnlyCollection`, `IReadOnlyDictionary`: to avoid outside classes updated a reference type
+        - [link](https://stackoverflow.com/questions/2158160/prevent-other-classes-from-altering-a-list-in-a-class) 
+        - todo: that does not work for dictionaries!!!!
+    - `Queue`
 
 ## Terms 
 - clique in graph: 

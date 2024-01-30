@@ -56,7 +56,7 @@ X.X
 
             for (int tItr = 0; tItr < t; tItr++)
             {
-                string[] nm = input.ReadLine().Split(' ');
+                string[] nm = input.ReadLine().Trim().Split(' ');
 
                 int n = Convert.ToInt32(nm[0]);
 
@@ -66,7 +66,7 @@ X.X
 
                 for (int i = 0; i < n; i++)
                 {
-                    string matrixItem = input.ReadLine();
+                    string matrixItem = input.ReadLine().Trim();
                     matrix[i] = matrixItem;
                 }
 
