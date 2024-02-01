@@ -81,11 +81,16 @@
 - `connected component` of graph:
   - subgraph that there is at least on path between each node   
 ## Must know Algos
-- Longest common substring
-- Longest common sub SEQUENCE
-- combination and permutation formula
-- Shortest paths (Dijkstra, Bellman-Ford, Floyd-Warshall)
-- Find Graph Components [RoadsAndLibraries]
+- Graphs/trees
+    - Shortest paths (Dijkstra, Bellman-Ford, Floyd-Warshall)
+    - Find Graph Components [RoadsAndLibraries]  
+- strings
+    - Longest common substring
+    - Longest common sub SEQUENCE
+    - pattern searching (KMP)
+- algebra/math
+    - combination and permutation formula
+
 
 ## Some questions
 - how to make algo distributed, e.x. distributed shortest path ([link](https://stackoverflow.com/questions/2421605/finding-all-shortest-paths-from-every-pair-of-nodes-on-a-graph)
