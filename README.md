@@ -34,5 +34,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* ShortPalindrome [Medium] (Cheating)
 	* Week 8
 		* ConnectedCellsInAGrid [Medium]	
+		* PairsAlgorithm [Medium]
 
 		 
