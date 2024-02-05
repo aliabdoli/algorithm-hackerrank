@@ -32,5 +32,7 @@ Here is the list of algo, I redo, i.e. again solve them
 		* RedKnightsShortestPath [Medium] (cheating)
 		* GenaPlayingHanoi [Medium] (cheating)
 		* ShortPalindrome [Medium] (Cheating)
+	* Week 8
+		* ConnectedCellsInAGrid [Medium]	
 
 		 

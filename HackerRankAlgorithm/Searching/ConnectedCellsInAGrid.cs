@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,49 +9,152 @@ namespace HackerRankAlgorithm.Searching
 {
     public class ConnectedCellsInAGrid
     {
-        // 5:26
-        public int connectedCell(int[][] matrix)
+        public int connectedCell(List<List<int>> matrix)
         {
-            var data = matrix.Select(x => x.Select(y => y).ToArray()).ToArray();
-          
-            var regions = new List<int>();
-            for (int i = 0; i < data.Length; i++)
+            var components = new List<List<Node>>();
+            var graph = new Graph(matrix);
+            var dfs = new DfsSearcher();
+
+            components = dfs.FindComponents(graph);
+
+            var maxComponentSize = components.Select(x => x.Count).Max();
+            return maxComponentSize;
+        }
+    }
+
+    public class DfsSearcher
+    {
+        public List<List<Node>> FindComponents(Graph graph)
+        {
+            var nodes = graph.GetAllNodes();
+            var seens = new List<Node>();
+            var toSee = new Stack<Node>();
+            var components = new List<List<Node>>();
+            foreach (var node in nodes)
             {
-                for (int j = 0; j < data[i].Length; j++)
+                if (seens.Contains(node))
                 {
-                    var region = DFS(data, i,j, 0);
-                    regions.Add(region);
+                    continue;
+                }
+
+                var component = new List<Node>();
+                toSee.Push(node);
+                while (toSee.Any())
+                {
+                    var currentNode = toSee.Pop();
+                    if (seens.Contains(currentNode))
+                    {
+                        continue;
+                    }
+
+                    var children = graph.GetChildren(currentNode);
+
+                    foreach (var child in children)
+                    {
+                        toSee.Push(child);
+                    }
+
+                    component.Add(currentNode);
+                    seens.Add(currentNode);
+                }
+
+                components.Add(component);
+            }
+
+            return components;
+        }
+    }
+
+    public class Node : IEquatable<Node>
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public bool Equals(Node? other)
+        {
+            if (other == null) return false;
+            return other.X == this.X && other.Y == this.Y;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            return this.Equals(obj as Node);
+        }
+
+        public override int GetHashCode()
+        {
+            return  HashCode.Combine(X.GetHashCode(),Y.GetHashCode());
+        }
+    }
+
+    public class Graph
+    {
+        private readonly List<List<int>> _boardMatrix;
+        private readonly int _nodeXCount;
+        private readonly List<Node> _nodes;
+        private readonly int _nodeYCount;
+
+        public Graph(List<List<int>> boardMatrix)
+        {
+            _boardMatrix = boardMatrix;
+            _nodeXCount = boardMatrix.Count;
+            _nodeYCount = boardMatrix.First().Count;
+            _nodes = CreateNodes();
+        }
+
+        public List<Node> GetAllNodes() => _nodes;
+        
+
+        private List<Node> CreateNodes()
+        {
+            var nodes = new List<Node>();
+            for (int i = 0; i < _nodeXCount; i++)
+            {
+                for (int j = 0; j < _nodeYCount; j++)
+                {
+                    nodes.Add(new Node()
+                    {
+                        X = i,
+                        Y = j
+                    });
                 }
             }
-
-            var result = regions.Max();
-
-            return result;
+            return nodes;
         }
 
-        public static int DFS(int[][] data, int rind, int cind, int regionLength)
+        public List<Node> GetChildren(Node currentNode)
         {
-            var rowLength = data.Length;
-            var colLength = data[0].Length;
-            if (rind < 0 || rind >= rowLength || cind < 0 || cind >= colLength || data[rind][cind] <= 0)
+
+            if (_boardMatrix[currentNode.X][currentNode.Y] == 0)
             {
-                return regionLength;
+                return new List<Node>();
             }
-            
-            data[rind][cind] = -1;
-            var x1 = DFS(data, rind - 1, cind -1, regionLength);
-            var x2 = DFS(data, rind - 1, cind, regionLength);
-            var x3 = DFS(data, rind - 1, cind +1, regionLength);
-            var x4 = DFS(data, rind, cind - 1, regionLength);
-            var x5 = DFS(data, rind, cind + 1, regionLength);
-            var x6 = DFS(data, rind + 1, cind -1, regionLength);
-            var x7 = DFS(data, rind + 1, cind, regionLength);
-            var x8 = DFS(data, rind + 1, cind +1, regionLength);
-            regionLength = x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + 1;
-            return regionLength;
 
+            var children = new List<Node>();
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (i == 0 & j == 0)
+                    {
+                        continue;
+                    }
+                    var newX = currentNode.X + i;
+                    var newY = currentNode.Y + j;
+                    if (newX >= 0 && newX < _nodeXCount && newY >= 0 && newY < _nodeYCount)
+                    {
+                        if (_boardMatrix[newX][newY] == 1)
+                        {
+                            var newNode = new Node() { X = newX, Y = newY };
+                            children.Add(newNode);
+                        }
+                    }
+                }
+            }
+            return children;
         }
-
-       
     }
+
+
 }
