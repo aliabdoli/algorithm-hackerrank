@@ -34,7 +34,7 @@ SALLY", 2)]
 
             int result = algor.commonChild(s1, s2);
 
-            expected.Should().Be(result);
+            result.Should().Be(expected);
         }
     }
 }

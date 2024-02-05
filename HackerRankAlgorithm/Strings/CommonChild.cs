@@ -10,30 +10,43 @@ namespace HackerRankAlgorithm.Strings
     {
         public int commonChild(string s1, string s2)
         {
-            var source = s1;
-            var dest = s2;
-            var commons = new int[source.Length + 1, source.Length + 1];
-            var adding = 0;
-            var prev = 0;
-            var val = 0;
-            for (int i = 1; i < commons.GetLength(0); i++)
+            /// it s just typical most common subsequence algo!!!!
+            var s1Chars = s1.ToCharArray().ToList();
+            var s2Chars = s2.ToCharArray().ToList();
+
+            var commonSubsequences = Enumerable.Range(0, s1Chars.Count + 1)
+                .Select(x => Enumerable.Range(0, s2Chars.Count + 1).Select(x => 0).ToList()).ToList();
+
+
+            for (int i = 0; i < s1Chars.Count; i++)
             {
-                for (int j = 1; j < commons.GetLength(1); j++)
+                for (int j = 0; j < s2Chars.Count; j++)
                 {
-                    if (source[i - 1] == dest[j - 1])
+                    var s1Char = s1Chars[i];
+                    var s2Char = s2Chars[j];
+
+                    var iCS = i + 1;
+                    var jCS = j + 1;
+
+                    var maxCommon = 0;
+                    if (s1Char != s2Char)
                     {
-                        commons[i, j] = 1 + commons[i - 1, j - 1];
+                        maxCommon = Math.Max(commonSubsequences[iCS][jCS-1], commonSubsequences[iCS-1][jCS]);
+                        
                     }
                     else
                     {
-                        commons[i, j] = Math.Max(commons[i - 1, j], commons[i, j - 1]);
+                        maxCommon = 1 + commonSubsequences[iCS - 1][jCS - 1];
+
                     }
+                    commonSubsequences[iCS][jCS] = maxCommon;
+                    
                 }
             }
 
-            var result =  commons[source.Length, dest.Length];
-            return result;
+            var largestCommonSubsequence = commonSubsequences[s1Chars.Count][s2Chars.Count];
+            return largestCommonSubsequence;
         }
-        
     }
 }
+
