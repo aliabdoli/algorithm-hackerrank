@@ -29,10 +29,10 @@ ifailuhkqq", @"10,3")]
 
             for (int qItr = 0; qItr < q; qItr++)
             {
-                string s = input.ReadLine();
+                string s = input.ReadLine().Trim();
 
                 int result = algor.sherlockAndAnagrams(s);
-                expected[qItr].Should().Be(result.ToString());
+                result.ToString().Should().Be(expected[qItr]);
             }
 
         }

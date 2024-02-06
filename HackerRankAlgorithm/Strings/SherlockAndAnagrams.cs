@@ -10,31 +10,79 @@ namespace HackerRankAlgorithm.Strings
     {
         public int sherlockAndAnagrams(string s)
         {
-            var input = s;
-            var count = 0;
-            for (int i = 1; i < input.Length; i++)
+            var substringFrequencies = new Dictionary<string, int>();
+            for (int i = 1; i < s.Length; i++)
             {
-                var dict = new Dictionary<string, int>();
+                var fixedLenSubstrings = FindSubstringWithLen(s, i);
 
-                for (int j = 0; j < input.Length - i +1; j++)
+                var sortedSubstrings = SortSubstrings(fixedLenSubstrings);
+                substringFrequencies = UpdateFrequencies(sortedSubstrings, substringFrequencies);
+            }
+
+            var twoPermutations = CalculateCombinationsForFrequencies(substringFrequencies);
+
+            return twoPermutations;
+        }
+
+        private static List<List<char>> SortSubstrings(List<string> fixedLenSubstrings)
+        {
+            var sortedSubstrings = new List<List<char>>();
+            foreach (var fixedLenSubstring in fixedLenSubstrings)
+            {
+                var sortedSubstring = SortStr(fixedLenSubstring.ToCharArray().ToList());
+                sortedSubstrings.Add(sortedSubstring);
+
+            }
+
+            return sortedSubstrings;
+        }
+
+        private static int CalculateCombinationsForFrequencies(Dictionary<string, int> substringFrequencies)
+        {
+            var combinations = 0;
+            foreach (var substringFrequency in substringFrequencies)
+            {
+                var freq = substringFrequency.Value;
+                var combination = freq * (freq - 1) / 2;
+                combinations += combination;
+            }
+            return combinations;
+        }
+
+        private static Dictionary<string, int> UpdateFrequencies(List<List<char>> substrings, 
+            Dictionary<string, int> substringFrequencies)
+        {
+            foreach (var substring in substrings)
+            {
+                var actualSubstring = new String(substring.ToArray());
+                if (substringFrequencies.TryGetValue(actualSubstring, out var substringFreq))
                 {
-                    var item = new string(input.Skip(j).Take(i).OrderBy(x => x).ToArray());
-
-
-                    var soFar = 0;
-                    if (dict.TryGetValue(item, out soFar))
-                    {
-                        dict[item] = dict[item] + 1;
-                        count += dict[item];
-                    }
-                    else
-                    {
-                        dict.Add(item, 0);
-                    }
+                    substringFrequencies[actualSubstring]++;
+                }
+                else
+                {
+                    substringFrequencies.Add(actualSubstring, 1);
                 }
             }
 
-            return count;
+            return substringFrequencies;
+        }
+
+        private static List<char> SortStr(List<char> str)
+        {
+            //todo: performance
+            return str.OrderBy(x => x).ToList();
+        }
+
+        private static List<string> FindSubstringWithLen(string str, int len)
+        {
+            var substrings = new List<string>();
+            for (int i = 0; i < str.Length-len+1; i++)
+            {
+                var substring = str.Substring(i, len);
+                substrings.Add(substring);
+            }
+            return substrings;
         }
     }
 }

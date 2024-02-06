@@ -36,5 +36,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* ConnectedCellsInAGrid [Medium]	
 		* PairsAlgorithm [Medium]
 		* CommonChild [Medium]
+		* SherlockAndAnagrams [Medium]
 
 		 
