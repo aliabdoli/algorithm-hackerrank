@@ -37,5 +37,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* PairsAlgorithm [Medium]
 		* CommonChild [Medium]
 		* SherlockAndAnagrams [Medium]
+		* SherlockAndTheValidString [Medium]
 
 		 

@@ -13,36 +13,39 @@ namespace HackerRankAlgorithm.Strings
 
         public static string IsValid(string input)
         {
-            var frequencyDic = new Dictionary<char, int>();
-            for (int i = 0; i < input.Length; i++)
+            var inputChars = input.ToCharArray().ToList();
+
+            var letterFrequencies = inputChars.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
+
+            var groupedFrequencies = letterFrequencies.Values.GroupBy(x => x).
+                ToDictionary(x => x.Key, y => y.Count());
+
+            if (groupedFrequencies.Count > 2)
+                return No;
+
+            if (groupedFrequencies.Count == 1)
+                return Yes;
+
+
+            var minGroupedFreq = groupedFrequencies.OrderBy(x => x.Key).FirstOrDefault();
+            var maxGroupedFreq = groupedFrequencies.OrderByDescending(x => x.Key).FirstOrDefault();
+
+            if (minGroupedFreq.Value == 1)
             {
-                if (frequencyDic.ContainsKey(input[i]))
+                if (minGroupedFreq.Key == 1)
                 {
-                    frequencyDic[input[i]]++;
-                }
-                else
-                {
-                    frequencyDic.Add(input[i],1);
+                    return Yes;
                 }
             }
 
-            var frequencies = frequencyDic.Values.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
-
-            if (frequencies.Count == 1)
-                return Yes;
-
-            if (frequencies.Count == 2)
+            if (maxGroupedFreq.Value == 1)
             {
-                var ordered = frequencies.OrderBy(x => x.Value).ToList();
-
-                if (ordered[0].Value == 1 && ordered[0].Key == 1)
-                    return Yes;
-
-                if (ordered[0].Value == 1 && Math.Abs(ordered[1].Key - ordered[0].Key) == 1)
+                if (maxGroupedFreq.Key - minGroupedFreq.Key == 1)
                     return Yes;
             }
 
             return No;
+
         }
     }
 }
