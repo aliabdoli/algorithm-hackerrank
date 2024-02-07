@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,63 +9,88 @@ namespace HackerRankAlgorithm.Sorting
 {
     public class LilysHomework
     {
-        public int FindMinSwap(long[] arr)
+        public int FindMinSwap(List<int> arr)
         {
-            var inputs = arr.ToList();
-            
-            var ascSwap = FindSwapsForAscending(inputs);
-            var descSwap = FindSwapForDescending(inputs);
+            // need to be sorted to be minimized diff
+            var ascSwapCount = FindSwaps(arr.Select(x => x).ToList(), true);
+            var descSwapCount = FindSwaps(arr.Select(x => x).ToList(), false);
 
-            var swap = Math.Min(ascSwap, descSwap);
-            return swap;
+
+            var minSwaps = new List<int>() {ascSwapCount, descSwapCount}.Min();
+            return minSwaps;
         }
 
-        private int FindSwapForDescending(List<long> inputs)
+        private static int FindSwaps(List<int> arr, bool ifAsc)
         {
-            var desc = inputs.OrderByDescending(x => x).ToList();
-            var indexes = CreateValueIndexHash(inputs);
-            var swap = CalculateSwap(desc, indexes, inputs.ToList());
-            return swap;
-        }
-
-        private int FindSwapsForAscending(List<long> inputs)
-        {
-            var asc = inputs.OrderBy(x => x).ToList();
-            var indexes = CreateValueIndexHash(inputs);
-            var swap = CalculateSwap(asc, indexes, inputs.ToList());
-            return swap;
-        }
-
-        private int CalculateSwap(List<long> sorts, Dictionary<long, int> inputMaps, List<long> inputs)
-        {
-            var swap = 0;
-            var i = 0;
-            while(i < inputs.Count)
+            var dualSortedList = new DualSortedList(arr, ifAsc);
+            var swapCount = 0;
+            for (int i = 0; i < dualSortedList.Count; i++)
             {
-                var input = inputs[i];
-                var sort = sorts[i];
-                if (input != sort)
+                
+                var isMispositioned = dualSortedList.IsMispositionedByIndex(i);
+                if (isMispositioned)
                 {
-                    swap++;
-
-                    inputs[inputMaps[sort]] = input;
-                    inputs[i] = sort;
-
-                    inputMaps[input] = inputMaps[sort];
-                    inputMaps[sort] = i;
+                    dualSortedList.MoveToCorrectPlace(i);
+                    swapCount++;
                 }
-
-                i++;
             }
-            return swap;
+
+            return swapCount;
+        }
+    }
+
+    public class DualSortedList : IEnumerable<int>
+    {
+        private readonly List<int> _arr;
+        private readonly Dictionary<int, int> _valueIndexesArr;
+        private readonly List<int> _sortedArr;
+
+
+        public DualSortedList(List<int> arr, bool ifAsc)
+        {
+            _arr = arr;
+            _sortedArr = ifAsc ? arr.OrderBy(x => x).ToList() : arr.OrderByDescending(x => x).ToList();
+            _valueIndexesArr = arr.Select((val, ind) => new { val = val, ind = ind }).ToDictionary(x => x.val, y => y.ind);
         }
 
-        public Dictionary<long, int> CreateValueIndexHash(List<long> inputs)
+
+        public int Count => _sortedArr.Count;
+
+  
+
+        public bool IsMispositionedByIndex(int index)
         {
-            var oldIndexes = inputs
-                .Select((val, ind) => new { val, ind })
-                .ToDictionary(x => x.val, y => y.ind);
-            return oldIndexes;
+            return _arr[index] != _sortedArr[index];
+        }
+
+        public void MoveToCorrectPlace(int index)
+        {
+            var valToBe = _sortedArr[index];
+            var valToBeIndex = _valueIndexesArr[valToBe];
+            SwapUpdateArrElement(index, valToBeIndex);
+        }
+
+        private void SwapUpdateArrElement(int indexA, int indexB)
+        {
+            //arr
+            var temp = _arr[indexA];
+            _arr[indexA] = _arr[indexB];
+            _arr[indexB] = temp;
+
+            //value index map
+            _valueIndexesArr[_arr[indexA]] = indexA;
+            _valueIndexesArr[_arr[indexB]] = indexB;
+
+        }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return _sortedArr.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

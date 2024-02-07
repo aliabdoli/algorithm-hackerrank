@@ -25,6 +25,7 @@
     - e.x. NonDivisibleSubset, sounds like maximal clique but it s actually way easier!!!
     - graphs normally times out cos they dont have that much assumptions about nodes/edges
     - also, finding neighers, intersect, uninun, ... is time consuming
+    - e.x. sorting, LilysHomework if try bfs, then complexity really high!! better to just sort
 - how to avoid foreach and use linq
     - use Enumerable.Range and select (even select inside select)
     - e.x. 
@@ -64,6 +65,10 @@
         - can have only graph, graph has dictionary (adjacent list) of each node
         - to know neighbours, just ask graph
         - graph can be generic too
+   - be careful with nodes when you need to copy
+     - e.x. node is array (hanoi) and to get to child, then you have to copy whole array (result in O(n) for every child)
+     - in these scenario better using encoding for the whole array (to be node)
+      
 - Dfs and its variations
     - only visit nodes, do some action (RoadsAndLibraries1)
     - visit nodes + keeping the paths (e.x. RedKnightsShortestPath)
@@ -73,6 +78,7 @@
         - [link](https://stackoverflow.com/questions/2158160/prevent-other-classes-from-altering-a-list-in-a-class) 
         - todo: that does not work for dictionaries!!!!
     - `Queue`
+    - `public T this[int index] get{} set {}` to have access to object like `X[i]`
 
 ## Terms 
 - clique in graph: 

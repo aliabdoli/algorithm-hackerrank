@@ -38,5 +38,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* CommonChild [Medium]
 		* SherlockAndAnagrams [Medium]
 		* SherlockAndTheValidString [Medium]
+		* LilysHomework [Medium]
 
 		 
