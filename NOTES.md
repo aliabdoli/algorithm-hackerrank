@@ -96,6 +96,8 @@
     - pattern searching (KMP)
 - algebra/math
     - combination and permutation formula
+- Sorting
+    - bubble sort       
 
 
 ## Some questions

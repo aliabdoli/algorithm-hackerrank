@@ -42,5 +42,7 @@ Here is the list of algo, I redo, i.e. again solve them
 	* Week 9
 		* FraudulentActivityNotification [Medium] (cheating)
 		* TheFullCountingSort [Medium]
+	* Week 10
+		* LarrysArrayAlgorithm [Medium] (cheating)
 
 			 
