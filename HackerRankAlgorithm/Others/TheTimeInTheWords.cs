@@ -6,235 +6,150 @@ namespace HackerRankAlgorithm.Others
     {
         public string timeInWords(int h, int m)
         {
-            var result = new Dictionary<TimePosition,string>();
+            //todo: validations
+            var mapper = new MapperManager(new NumberFormatter());
+            var hour = h;
+            var minute = m;
+            
 
-            var rules = new List<IRule>()
-            {
-                new MinuteConvert(result, m),
-                new MinutesPostfixRule(result,m),
-                new PastToRule(result, m),
-                new HourConvert(result, h, m),
-                new HourPostfixConvert(result, m),
-            };
+            var formattedDateTime = mapper.FormatDateTime(hour, minute);
+            return formattedDateTime;
+        }
 
-            foreach (var rule in rules)
+    }
+
+    public class NumberFormatter
+    {
+
+        private readonly Dictionary<int, string> OnesMappings = new Dictionary<int, string>()
+        {
+            { 0, string.Empty },
+            { 1, "one" },
+            { 2, "two" },
+            { 3, "three" },
+            { 4, "four" },
+            { 5, "five" },
+            { 6, "six" },
+            { 7, "seven" },
+            { 8, "eight" },
+            { 9, "nine" },
+            { 10, "ten" },
+
+        };
+
+        private readonly Dictionary<int, string> TeensMappings = new Dictionary<int, string>()
+        {
+            { 11, "eleven" },
+            { 12, "twelve" },
+            { 13, "thirteen" },
+            { 14, "fourteen" },
+            { 15, "quarter" },
+            { 16, "sixteen" },
+            { 17, "seventeen" },
+            { 18, "eighteen" },
+            { 19, "nineteen" },
+        };
+
+        private readonly Dictionary<int, string> TensMappings = new Dictionary<int, string>()
+        {
+            { 2, "twenty" },
+            { 3, "half" },
+            { 4, "forty" },
+            { 5, "fifty" },
+        };
+
+        public string FindWord(int number)
+        {
+            if (number <= 10)
             {
-                rule.Apply();
+                return OnesMappings[number];
+            }
+            if (number < 20)
+            {
+                return TeensMappings[number];
             }
 
-            return string.Join(" ", result.Select(x => x.Value).ToList());
-        }
-    }
-
-    public enum TimePosition {
-        Minutes,
-        MinutesPostfix,
-        ToPast,
-        Hour,
-        HourPostfix
-    }
-
-
-    public static class StringBuilderExtensions
-    {
-        private const string Formatter = " {0}";
-
-        public static void AppendSpaceFormat(this StringBuilder builder, string toAdd)
-        {
-            builder.AppendFormat(Formatter, toAdd);
-        }
-    }
-
-    public static class NumberConvertorHelper
-    {
-        public static Dictionary<int, string> SecondDigitToWords = new Dictionary<int, string>()
-        {
-            {0, ""},
-            {1, "one"},
-            {2, "two"},
-            {3, "three"},
-            {4, "four"},
-            {5, "five"},
-            {6, "six"},
-            {7, "seven"},
-            {8, "eight"},
-            {9, "nine"},
-        };
-
-        public static Dictionary<int, string> TenToTwentyDigitToWords = new Dictionary<int, string>()
-        {
-            {10, "ten"},
-            {11, "eleven"},
-            {12, "twelve"},
-            {13, "thirteen"},
-            {14, "fourteen"},
-            {16, "sixteen"},
-            {17, "seventeen"},
-            {18, "eighteen"},
-            {19, "nineteen"}
-        };
-
-        public static Dictionary<int, string> FirstDigitToWords = new Dictionary<int, string>()
-        {
-            {2, "twenty"}
-        };
-
-        public static string ConvertNumber(int input)
-        {
-            var str = "";
-            if (!SecondDigitToWords.TryGetValue(input, out str))
+            if (number < 60)
             {
-                if (!TenToTwentyDigitToWords.TryGetValue(input, out str))
+                if (number % 10 == 0)
                 {
-                    var greater = FirstDigitToWords[input / 10];
-                    var smaller = SecondDigitToWords[input % 10];
-                    str = greater + " " + smaller;
+                    return $"{TensMappings[number / 10]}";
                 }
+                return $"{TensMappings[number / 10]} {OnesMappings[number % 10]}";
             }
 
-            return str;
-        }
+            throw new ArgumentException("number is more than 60");
 
-    }
-    public interface IRule
-    {
-        void Apply();
-    }
-
-
-    public class MinutesPostfixRule : IRule
-    {
-        private const string Quarter = "quarter";
-        private const string Half = "half";
-
-
-        private Dictionary<TimePosition, string> _builder;
-        private int _minute;
-
-        public MinutesPostfixRule(Dictionary<TimePosition, string> builder, int minute)
-        {
-            _builder = builder;
-            _minute = minute;
-        }
-
-        public void Apply()
-        {
-            if (_minute == 0)
-                return;
-
-            if (_minute == 1)
-            {
-                _builder[TimePosition.MinutesPostfix] = "minute";
-            }
-
-            else if (_minute % 30 == 0)
-            {
-                _builder[TimePosition.MinutesPostfix] = Half;
-            }
-            else if (_minute % 15 == 0)
-            {
-                _builder[TimePosition.MinutesPostfix] = Quarter;
-            }
-            else
-            {
-                _builder[TimePosition.MinutesPostfix] = "minutes";
-            }
         }
     }
-    public class PastToRule : IRule
+
+    public class MapperManager
     {
-        private readonly Dictionary<TimePosition, string> _builder;
-        private readonly int _minute;
+        private readonly NumberFormatter _numberFormatter;
+
+        private const string OClock = "o' clock";
         private const string Past = "past";
         private const string To = "to";
+        private const string Minute = "minute";
+        private const string Minutes = "minutes";
 
-        public PastToRule(Dictionary<TimePosition, string> builder,  int minute)
+        public MapperManager(NumberFormatter numberFormatter)
         {
-            _builder = builder;
-            _minute = minute;
+            _numberFormatter = numberFormatter;
         }
-        public void Apply()
+
+        public string FormatDateTime(int hour, int minute)
         {
-            if (_minute > 0)
+            var result = "";
+            if (minute == 0)
             {
-                if (_minute > 30)
-                {
-                    _builder[TimePosition.ToPast] = To;
-                }
-                else
-                {
-                    _builder[TimePosition.ToPast] = Past;
-                }
-            }
-        }
-    }
-
-    public class MinuteConvert : IRule
-    {
-        private Dictionary<TimePosition, string> _builder;
-        private int _minute;
-
-        public MinuteConvert(Dictionary<TimePosition, string> builder, int minute)
-        {
-            _builder = builder;
-            _minute = minute;
-        }
-        public void Apply()
-        {
-            if (_minute % 15 != 0)
+                var hourWord = _numberFormatter.FindWord(hour);
+                result = $"{hourWord} {OClock}";
+            } 
+            else if (minute <= 30)
             {
-                var result = "";
-                if (_minute < 30)
-                {
-                    result = NumberConvertorHelper.ConvertNumber(_minute);
-                }
-                else
-                {
-                    result = NumberConvertorHelper.ConvertNumber(60 - _minute);
-                }
+                var hourWord = _numberFormatter.FindWord(hour);
+                var minuteWord = _numberFormatter.FindWord(minute);
 
-                _builder[TimePosition.Minutes] = result;
+                var pastToWord = Past; 
+
+                result = FormatMinutes(minute, minuteWord, pastToWord, hourWord);
             }
-        }
-    }
 
-    public class HourConvert : IRule
-    {
-        private Dictionary<TimePosition, string> _builder;
-        private int _minute;
-        private int _hour;
-
-        public HourConvert(Dictionary<TimePosition, string> builder, int hour, int minute)
-        {
-            _builder = builder;
-            _minute = minute;
-            _hour = hour;
-        }
-        public void Apply()
-        {
-            _builder[TimePosition.Hour] = _minute > 30
-                ? NumberConvertorHelper.ConvertNumber(_hour + 1)
-                : NumberConvertorHelper.ConvertNumber(_hour);
-        }
-    }
-
-    public class HourPostfixConvert : IRule
-    {
-        private Dictionary<TimePosition, string> _builder;
-        private int _minute;
-        private const string OClock = "o' clock";
-        public HourPostfixConvert(Dictionary<TimePosition, string> builder, int minute)
-        {
-            _builder = builder;
-            _minute = minute;
-        }
-
-        public void Apply()
-        {
-            if (_minute == 0)
+            else if (minute > 30)
             {
-                _builder[TimePosition.HourPostfix] = OClock;
+                hour++;
+                minute = 60 - minute;
+                var pastToWord = To;
+                var hourWord = _numberFormatter.FindWord(hour);
+                var minuteWord = _numberFormatter.FindWord(minute);
+                result = FormatMinutes(minute, minuteWord, pastToWord, hourWord);
+
             }
+            return result;
         }
+
+        private static string FormatMinutes(int minute, string minuteWord, string pastToWord, string hourWord)
+        {
+            string result;
+            if (minute == 1)
+            {
+                result = $"{minuteWord} {Minute} {pastToWord} {hourWord}";
+            }
+            else if (minute == 30 | minute == 15)
+            {
+                result = $"{minuteWord} {pastToWord} {hourWord}";
+            }
+
+            else
+            {
+                result = $"{minuteWord} {Minutes} {pastToWord} {hourWord}";
+            }
+
+            return result;
+        }
+
+        
     }
+
 }

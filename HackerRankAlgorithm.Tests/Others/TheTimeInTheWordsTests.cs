@@ -15,36 +15,24 @@ namespace HackerRankAlgorithm.Tests
     
     public class TheTimeInTheWordsTests
     {
-        [Fact]
-        public void WhenThen()
+        [Theory]
+        [InlineData("5 47", "thirteen minutes to six")]
+        [InlineData("3 00", "three o' clock")]
+        [InlineData("7 29", "twenty nine minutes past seven")]
+        [InlineData("5 30", "half past five")]
+        public void WhenThen(string input, string expected)
         {
             var algorithm = new TheTimeInTheWords();
-            var input = @"5
-47";
-            var textWriter = new StringReader(input);
 
-            int h = Convert.ToInt32(textWriter.ReadLine());
+            var timeArray = input.Split(' ').Select(x => int.Parse(x)).ToList();
 
-            int m = Convert.ToInt32(textWriter.ReadLine());
 
-            string result = algorithm.timeInWords(h, m);
-            "thirteen minutes to six".Should().Be(result);
-        }
+            int h = timeArray[0];
 
-        [Fact]
-        public void WhenThen1()
-        {
-            var algorithm = new TheTimeInTheWords();
-            var input = @"3
-00";
-            var textWriter = new StringReader(input);
-
-            int h = Convert.ToInt32(textWriter.ReadLine());
-
-            int m = Convert.ToInt32(textWriter.ReadLine());
+            int m = timeArray[1];
 
             string result = algorithm.timeInWords(h, m);
-            "three o' clock".Should().Be(result);
+            result.Should().Be(expected);
         }
     }
 }
