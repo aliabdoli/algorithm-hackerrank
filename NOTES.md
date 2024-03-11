@@ -97,10 +97,18 @@
 - algebra/math
     - combination and permutation formula
 - Sorting
-    - bubble sort       
+    - bubble sort  
+## Must know .net
+- adding item to a specific index and shift the rest 
+    - `mylist.Insert(ind, item)` or `mylist.InsertRange(ind,items)`
+    - time complexity O(n), it might double the size reserved for the list (volume)
+- BinarySearch for lists
+ - if does nt exist, closes largest, use `~` on return index
 
 
 ## Some questions
+- how to reverse a list? linq
+- Lexicographical order
 - how to make algo distributed, e.x. distributed shortest path ([link](https://stackoverflow.com/questions/2421605/finding-all-shortest-paths-from-every-pair-of-nodes-on-a-graph)
 - implement enumerator and enumerable (see TheMaximumSubarray (commented out))
 - how to make algos thread safe (multi threading)

@@ -1,55 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Xunit;
+﻿using FluentAssertions;
 
-namespace HackerRankAlgorithm.Tests
+namespace HackerRankAlgorithm.Tests.Others
 {
     
     public class BiggerIsGreaterTests
     {
-        [Fact]
-        public void WhenThen()
+        [Theory]
+        [InlineData("ab", "ba")]
+        [InlineData("bb", "no answer")]
+        [InlineData("hefg", "hegf")]
+        [InlineData("dhck", "dhkc")]
+        [InlineData("dkhc", "hcdk")]
+        [InlineData("fjzeye", "fjzyee")]
+        public void WhenThen(string input, string expected)
         {
-            var s = @"5
-ab
-bb
-hefg
-dhck
-dkhc";
-            var input = new StringReader(s);
+           
             var algorithm = new BiggerIsGreater();
-            int T = Convert.ToInt32(input.ReadLine());
-            var results = new List<string>();
-            for (int TItr = 0; TItr < T; TItr++)
-            {
-                string w = input.ReadLine();
-
-                var result = algorithm.Do(w);
-                results.Add(result);
-            }
-
-            var expected = @"ba
-no answer
-hegf
-dhkc
-hcdk";
-
-            var actual = string.Join(Environment.NewLine, results);
-
-            actual.Should().Be(expected);
+            var result = algorithm.Do(input);
+            result.Should().Be(expected);
         }
 
         [Fact]
         public void WhenThen1()
         {
             
-             var s = @"C:\Users\ali.abdoli\source\repos\HackerRankAlgorithm\HackerRankAlgorithm.Tests\BiggerIsGreaterInlineData1Input.txt";
-            var expectedDir = @"C:\Users\ali.abdoli\source\repos\HackerRankAlgorithm\HackerRankAlgorithm.Tests\BiggerIsGreaterInlineData1Expected.txt";
+             var s = @"C:\work\chapter\algorithm-hackerrank\HackerRankAlgorithm.Tests\Others\BiggerIsGreaterTestCase1Input.txt";
+            var expectedDir = @"C:\work\chapter\algorithm-hackerrank\HackerRankAlgorithm.Tests\Others\BiggerIsGreaterTestCase1Expected.txt";
 
             var inputReader = new StreamReader(s);
             var expectedReader = new StreamReader(expectedDir);
@@ -70,8 +46,8 @@ hcdk";
         public void WhenThen3()
         {
 
-            var s = @"C:\Users\ali.abdoli\source\repos\HackerRankAlgorithm\HackerRankAlgorithm.Tests\BiggerIsGreaterInlineData3Input.txt";
-            var expectedDir = @"C:\Users\ali.abdoli\source\repos\HackerRankAlgorithm\HackerRankAlgorithm.Tests\BiggerIsGreaterInlineData3Expected.txt";
+            var s = @"C:\work\chapter\algorithm-hackerrank\HackerRankAlgorithm.Tests\Others\BiggerIsGreaterTestCase3Input.txt";
+            var expectedDir = @"C:\work\chapter\algorithm-hackerrank\HackerRankAlgorithm.Tests\Others\BiggerIsGreaterTestCase3Expected.txt";
 
             var inputReader = new StreamReader(s);
             var expectedReader = new StreamReader(expectedDir);

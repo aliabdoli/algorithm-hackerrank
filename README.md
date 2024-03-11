@@ -45,5 +45,6 @@ Here is the list of algo, I redo, i.e. again solve them
 	* Week 10
 		* LarrysArrayAlgorithm [Medium] (cheating)
 		* TheTimeInTheWords [Medium]
-
+	* week 11
+		* BiggerIsGreater [Medium]	
 			 
