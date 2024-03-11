@@ -11,13 +11,15 @@ namespace HackerRankAlgorithm.Tests
 {
     public class EncryptionTests
     {
-        [Fact]
-        public void WhenThen()
+        [Theory]
+        [InlineData("if man was meant to stay on the ground god would have given us roots", "imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn sseoau")]
+        [InlineData("chillout", "clu hlt io")]
+        [InlineData("roqfqeylxuyxjfyqterizzkhgvngapvudnztsxeprfp", "rlyzatp oxqkps quthvx fyegue qxrvdp ejinnr yfzgzf")]
+        public void WhenThen(string input, string expected)
         {
-            var input = "if man was meant to stay on the ground god would have given us roots";
             var algorithm = new Encryption();
             var result = algorithm.DoEncryption(input);
-            "imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn sseoau".Should().Be(result);
+            result.Should().Be(expected);
             
         }
     }
