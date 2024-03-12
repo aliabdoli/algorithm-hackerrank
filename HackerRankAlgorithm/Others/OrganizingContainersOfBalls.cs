@@ -8,35 +8,52 @@
         public const string Possible = "Possible";
         public string OrganizingContainers(List<List<int>> containerInput)
         {
-            var containerCount = containerInput.Count;
-            
-            var longContainers = containerInput.Select(x => 
-                x.Select(y => (long)y).ToList()).
-                ToList();
-
-
-            var rowSums = longContainers.Select(x => x.Sum()).ToList();
-
-            var columnSums = new List<long>();
-            for (int colInd = 0; colInd < containerCount; colInd++)
-            {
-                var columnSum = Enumerable.Range(0, containerCount).Select((x, ind) => longContainers[x][colInd]).Sum();
-                columnSums.Add(columnSum);
-            }
-        
+            var containerInputLongs = ConvertToLong(containerInput);
+            var rowSums = CalculateRowSums(containerInputLongs);
+            var colSums = CalculateColSums(containerInputLongs);
 
             rowSums.Sort();
-            columnSums.Sort();
+            colSums.Sort();
 
-            for (int i = 0; i < containerCount; i++)
+            for (int i = 0; i < rowSums.Count; i++)
             {
-                if (rowSums[i] != columnSums[i])
+                if (rowSums[i] != colSums[i])
                 {
                     return Impossible;
                 }
             }
+
             return Possible;
 
+        }
+
+        private static List<List<long>> ConvertToLong(List<List<int>> containerInput1)
+        {
+            return containerInput1.Select(r => r.Select(c => (long)c).ToList()).ToList();
+        }
+
+        private static List<long> CalculateColSums(List<List<long>> matrix)
+        {
+            var transposedMatrix = new List<List<long>>();
+            var colCount = matrix[0].Count;
+            
+            transposedMatrix = matrix.Select(x => Enumerable.Range(0, colCount).Select(y => (long)-1).ToList()).ToList();
+            
+            for (int row = 0; row < matrix.Count; row++)
+            {
+                for (int col = 0; col < colCount; col++)
+                {
+                    transposedMatrix[col][row] = matrix[row][col];
+                }
+            }
+
+            var rowSums = CalculateRowSums(transposedMatrix);
+            return rowSums;
+        }
+
+        private static List<long> CalculateRowSums(List<List<long>> matrix)
+        {
+            return matrix.Select(x => (long) x.Sum()).ToList();
         }
     }
 }

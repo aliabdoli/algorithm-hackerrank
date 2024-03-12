@@ -48,4 +48,5 @@ Here is the list of algo, I redo, i.e. again solve them
 	* week 11
 		* BiggerIsGreater [Medium]
 		* Encryption [Medium]
+		* OrganizingContainersOfBalls [Medium]
 			 

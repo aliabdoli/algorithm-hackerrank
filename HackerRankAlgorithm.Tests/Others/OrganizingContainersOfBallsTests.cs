@@ -18,25 +18,25 @@ namespace HackerRankAlgorithm.Tests
             var results = new List<string>();
             var algorithm = new OrganizingContainersOfBalls();
             var inputString = @"2
-2
-1 1
-1 1
-2
-0 2
-1 1";
+                                2
+                                1 1
+                                1 1
+                                2
+                                0 2
+                                1 1";
 
             var input = new StringReader(inputString);
-            int q = Convert.ToInt32(input.ReadLine());
+            int q = Convert.ToInt32(input.ReadLine().Trim());
 
             for (int qItr = 0; qItr < q; qItr++)
             {
-                int n = Convert.ToInt32(input.ReadLine());
+                int n = Convert.ToInt32(input.ReadLine().Trim());
 
                 List<List<int>> container = new List<List<int>>();
 
                 for (int i = 0; i < n; i++)
                 {
-                    var item = Array.ConvertAll(input.ReadLine().Split(' '),
+                    var item = Array.ConvertAll(input.ReadLine().Trim().Split(' '),
                         containerTemp => Convert.ToInt32(containerTemp)).ToList();
                     container.Add(item);
                 }
@@ -123,17 +123,17 @@ Impossible";
 998302692 946393168 999044508 892881333 942969283";
 
             var input = new StringReader(inputString);
-            int q = Convert.ToInt32(input.ReadLine());
+            int q = Convert.ToInt32(input.ReadLine().Trim());
 
             for (int qItr = 0; qItr < q; qItr++)
             {
-                int n = Convert.ToInt32(input.ReadLine());
+                int n = Convert.ToInt32(input.ReadLine().Trim());
 
                 List<List<int>> container = new List<List<int>>();
 
                 for (int i = 0; i < n; i++)
                 {
-                    var item = Array.ConvertAll(input.ReadLine().Split(' '),
+                    var item = Array.ConvertAll(input.ReadLine().Trim().Split(' '),
                         containerTemp => Convert.ToInt32(containerTemp)).ToList();
                     container.Add(item);
                 }
