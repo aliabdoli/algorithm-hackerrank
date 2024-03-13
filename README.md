@@ -49,4 +49,5 @@ Here is the list of algo, I redo, i.e. again solve them
 		* BiggerIsGreater [Medium]
 		* Encryption [Medium]
 		* OrganizingContainersOfBalls [Medium]
+		* QueenAttack2 [Medium] (cheating)
 			 
