@@ -4,37 +4,48 @@
     {
         public int Run(int k, List<int> s)
         {
-            var sset = s;
-            var factor = k;
-            var result = 0;
+            var divisor = k;
+            var mods = s.Select(x => x % divisor).ToList();
+            mods.Sort();
+            var modCounts = mods.GroupBy(x => x).ToDictionary(x => x.Key, y => y.Count());
 
-            var factorArray = Enumerable.Range(0, factor).ToDictionary(key => key, val => 0);
-
-            foreach (var item in sset)
+            var maxSubsetCount = 0;
+            if (modCounts.ContainsKey(0))
             {
-                var remain = item % factor;
-                factorArray[remain]++;
+                maxSubsetCount++;
             }
 
-            var halfCounter = Math.Ceiling((decimal) (factor / 2.0));
-            for (int i = 1; i < halfCounter; i++)
+            var midInd = (divisor - 1) / 2;
+            for (int i = 1; i <= midInd ; i++)
             {
-                if (factorArray[i] > factorArray[factor - i])
-                    result += factorArray[i];
-                else
-                    result += factorArray[factor - i];
+
+                var hasLeft = modCounts.TryGetValue(i, out var leftCount);
+                var hasRight = modCounts.TryGetValue(divisor - i, out var rightCount);
+
+                if (hasLeft & hasRight)
+                {
+                    maxSubsetCount += Math.Max(leftCount, rightCount);
+                }
+                else if (hasLeft)
+                {
+                    maxSubsetCount += leftCount;
+                } else if (hasRight)
+                {
+                    maxSubsetCount += rightCount;
+                }
             }
 
-            if (factorArray[0] > 0)
-                result++;
-
-            if (factor % 2 == 0 && factorArray[factor / 2] > 0)
+            //handle middle for odds divisors
+            if (divisor % 2 == 0)
             {
-                result += 1;
+                if (modCounts.ContainsKey(midInd))
+                {
+                    maxSubsetCount++;
+                }
             }
 
-            return result;
+            return maxSubsetCount;
+
         }
-
     }
 }
