@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using HackerRankAlgorithm.Others;
-using Xunit;
 
-namespace HackerRankAlgorithm.Tests
+namespace HackerRankAlgorithm.Tests.Others
 {
     public class ClimbingTheLeaderboardTests
     {
         [Fact]
+        public void WhenThenSimple()
+        {
+            var algorithm = new ClimbingTheLeaderboard();
+            var scores = new List<int>() { 100, 90, 90, 80};
+            var alice = new List<int>() { 70, 80, 105 };
+
+            var result = algorithm.FindTheRank(scores, alice);
+            result[0].Should().Be(4);
+            result[1].Should().Be(3);
+            result[2].Should().Be(1);
+            
+        }
+
+        [Fact]
         public void WhenThen()
         {
             var algorithm = new ClimbingTheLeaderboard();
-            var scores = new [] {100, 100, 50, 40, 40, 20, 10};
-            var alice = new [] { 5, 10, 25, 50, 120, 100 };
+            var scores = new List<int>() {100, 100, 50, 40, 40, 20, 10};
+            var alice = new List<int>() { 5, 10, 25, 50, 120, 100 };
             
             var result = algorithm.FindTheRank(scores, alice);
             result[0].Should().Be(6);
@@ -32,8 +40,8 @@ namespace HackerRankAlgorithm.Tests
         public void WhenThen2()
         {
             var algorithm = new ClimbingTheLeaderboard();
-            var scores = new[] { 100, 100, 50, 40, 40, 20, 10 };
-            var alice = new[] { 5, 25, 50, 120};
+            var scores = new List<int>() { 100, 100, 50, 40, 40, 20, 10 };
+            var alice = new List<int>() { 5, 25, 50, 120};
 
             var result = algorithm.FindTheRank(scores, alice);
             result[0].Should().Be(6);

@@ -2,6 +2,39 @@
 {
     public class ClimbingTheLeaderboard
     {
+        public List<int> FindTheRank(List<int> ranked, List<int> player)
+        {
+            var uniqueRanks = ranked.Select(x => x).ToHashSet();
+            var playerScores = player.Select(x => x).ToList();
+
+
+            var ranks = uniqueRanks.ToList();
+            ranks.Sort();
+
+            var ranksCount = ranks.Count;
+
+            var playerRanks = new List<int>();
+            foreach (var playerScore in playerScores)
+            {
+                var rank = ranks.BinarySearch(playerScore);
+                if (rank < 0)
+                {
+                    //rank += -1;
+                    rank = ranksCount + 2 + rank;
+
+                }
+                else
+                {
+                    rank = ranksCount - rank;
+                }
+
+                playerRanks.Add(rank);
+            }
+            
+            return playerRanks;
+        }
+
+
 
         //o(nlogn)
         public int[] FindTheRank11(int[] scores, int[] alice)
@@ -54,38 +87,7 @@
 
 
 
-        public int[] FindTheRank(int[] scores, int[] alice)
-        {
-            var scoresList = scores.OrderBy(x => x).ToList();
-
-            var rankings = new List<int>();
-            foreach (var aliceScore in alice)
-            {
-                var score = scoresList.BinarySearch(aliceScore);
-                if (score > 0)
-                {
-                    rankings.Add(score);
-                }
-                else
-                {
-                    var closestScore = ~score;
-                    if (closestScore == scoresList.Count)
-                    {
-                        rankings.Add(score);
-                    }
-                    else
-                    {
-                        rankings.Add(score);
-                    }
-                }
-
-            }
-
-            var scoresCount = scoresList.Count;
-
-            var result = rankings.Select(x => scoresCount - x + 1).ToArray();
-            return result;
-        }
+      
 
     }
 }

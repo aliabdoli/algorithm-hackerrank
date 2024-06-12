@@ -51,4 +51,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* OrganizingContainersOfBalls [Medium]
 		* QueenAttack2 [Medium] (cheating)
 		* NonDivisibleSubset [Medium]
+	* Week 12
+		* ClimbingTheLeaderboard [Medium]	
 			 
