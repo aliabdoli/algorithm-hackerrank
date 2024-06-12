@@ -9,122 +9,228 @@ namespace HackerRankAlgorithm.Sorting
 {
     public class CountLuck
     {
-        public string countLuck(string[] matrix, int k)
+        private const string Impressed = "Impressed";
+        private const string Oops = "Oops!";
+        public string countLuck(List<string> matrix, int k)
         {
-            var data = matrix.Select(x => x.Select(y => y).ToArray()).ToArray();
-            var points = data.Select((x, r) => x.Select((y, c) => new {r, c, val = y})).SelectMany(z => z);
-
-            var startPoint = points.Single(x => x.val == 'M');
-
+            var graph = new WonderGraph(matrix);
+            var finalNode = graph.PortkeyNode;
+            var startNode = graph.StartNode;
 
 
-            var result = DFS(data, startPoint.r, startPoint.c, new Help(), new List<string>());
 
-            return result.helpCount == k ? "Impressed" : "Oops!";
-        }
-
-
-        public static Help DFS(char[][] data, int rind, int cind, Help help, List<string> pathToRoot)
-        {
-            var block = 'X';
-            var path = '.';
-            var target = '*';
-            var start = 'M';
-            var pathKey = $"{rind}-{cind}";
-            //var visited = 'V';
-
-
-            if (rind < 0 || rind >= data.Length || cind < 0 || cind >= data[rind].Length
-                 || pathToRoot.Any(x => x == pathKey)
-                 || data[rind][cind] == block
-                )
-            {
-                return new Help()
-                {
-                    helpCount = help.helpCount,
-                    HasTarget = false
-                };
-            }
+            var visitedNodes = new HashSet<WonderGraphNode>();
+            var toVisitNodes = new Stack<WonderGraphNode>();
+            var parentPathMappings = new Dictionary<WonderGraphNode, WonderGraphNode>();
 
             
-            if (data[rind][cind] == target)
+            toVisitNodes.Push(startNode);
+            
+            while (toVisitNodes.Any())
             {
-                return new Help()
+                var currentNode = toVisitNodes.Pop();
+                visitedNodes.Add(currentNode);
+
+                if (currentNode.Equals(finalNode))
                 {
-                    helpCount = help.helpCount,
-                    HasTarget = true
-                };
+                    break;
+                }
+
+                var children = graph.GetChildren(currentNode);
+                
+                foreach (var child in children)
+                {
+                    if (!visitedNodes.Any(x => x.Equals(child)))
+                    {
+                        parentPathMappings.Add(child, currentNode);
+                        toVisitNodes.Push(child);
+                    }
+                }
             }
 
-            if (data[rind][cind] == path || data[rind][cind] == start)
-            {
-                pathToRoot.Add(pathKey);
-            }
+            // create path and if wand
+            var wandCheckCounter = CalculateNumberOfWands(finalNode, startNode, parentPathMappings, graph, visitedNodes);
 
-            var down = DFS(data, rind - 1, cind, help, pathToRoot);
-            var up = DFS(data, rind + 1, cind, help, pathToRoot);
-            var left = DFS(data, rind, cind - 1, help, pathToRoot);
-            var right = DFS(data, rind, cind + 1, help, pathToRoot);
 
-            var childs = new List<char>();
-            var indicators = new List<char>(){path,target};
-            if (rind - 1 >= 0 && indicators.Any(x =>x == data[rind - 1][cind]) && !pathToRoot.Contains($"{rind - 1}-{cind}") )
-            {
-                childs.Add(data[rind - 1][cind]);
-            }
+            return wandCheckCounter == k ? Impressed : Oops;
 
-            if (cind - 1 >= 0 && indicators.Any(x => x == data[rind][cind - 1]) && !pathToRoot.Contains($"{rind}-{cind -1}"))
-            {
-                childs.Add(data[rind][cind - 1]);
-            }
-
-            if (rind + 1 < data.Length && indicators.Any(x => x == data[rind + 1][cind]) && !pathToRoot.Contains($"{rind + 1}-{cind}"))
-            {
-                childs.Add(data[rind + 1][cind]);
-            }
-
-            if (cind + 1 < data[rind].Length && indicators.Any(x => x == data[rind][cind + 1]) && !pathToRoot.Contains($"{rind}-{cind + 1}"))
-            {
-                childs.Add(data[rind][cind + 1]);
-            }
-
-            var currentHelpCount = 0;
-            //if (data[rind][cind] == start)
-                currentHelpCount = childs.Count() >= 2 ? 1 : 0;
-            //else
-                //currentHelpCount = childs.Count() >= 3 ? 1 : 0;
-
-            var helps = new List<Help>()
-            {
-                down, up, left, right
-            };
-            var targetChild = helps.SingleOrDefault(x => x.HasTarget);
-
-            var resultHelp = new Help()
-            {
-                HasTarget = targetChild?.HasTarget ?? false,
-                helpCount = (targetChild?.helpCount ?? 0) + currentHelpCount
-            };
-            pathToRoot.Remove(pathKey);
-
-            //help = down + up + left + right + currentHelp;
-            return resultHelp;
         }
 
-        public class Help
+        private static int CalculateNumberOfWands(WonderGraphNode finalNode, WonderGraphNode startNode, Dictionary<WonderGraphNode, WonderGraphNode> parentPath,
+            WonderGraph graph, HashSet<WonderGraphNode> visitedNodes)
         {
-            public bool HasTarget { get; set; }
-            public int helpCount { get; set; }
+            var wandCheckCounter = 0;
 
-            public static Help operator +(Help a, Help b)
+            var cNode = finalNode;
+            while (!cNode.Equals(startNode))
             {
-
-                return new Help()
+                var parent = parentPath[cNode];
+                var parentChildren = graph.GetChildren(parent);
+                if (graph.CheckIfNeedsWand(parentChildren, cNode, parent, startNode))
                 {
-                    helpCount = a.helpCount + b.helpCount,
-                    HasTarget = a.HasTarget || b.HasTarget
-                };
-            } 
+                    wandCheckCounter++;
+                }
+
+              
+
+                cNode = parent;
+            }
+
+            //var startNodeChildren = graph.GetChildren(startNode);
+            //if (startNodeChildren.Count >= 2)
+            //{
+            //    wandCheckCounter++;
+            //}
+
+
+            return wandCheckCounter;
+        }
+    }
+
+
+    public class WonderGraph
+    {
+        private readonly List<string> _nodesString;
+        private const char PortkeyChar = '*';
+        private readonly char StartChar = 'M';
+        private readonly char TreeChar = 'X';
+        private readonly char FreeChar = '.';
+
+        public WonderGraph(List<string> nodesString)
+        {
+            _nodesString = nodesString;
+            PortkeyNode = FindNode(nodesString, PortkeyChar);
+            StartNode = FindNode(nodesString, StartChar);
+        }
+
+        
+
+        public WonderGraphNode PortkeyNode { get; }
+
+        public WonderGraphNode StartNode { get; }
+
+        public bool CheckIfNeedsWand(List<WonderGraphNode> children, 
+            WonderGraphNode child, 
+            WonderGraphNode parent, 
+            WonderGraphNode startNode)
+        {
+            if (startNode.Equals(parent))
+            {
+                if (children.Count > 1)
+                {
+                    return true;
+                }
+            }
+            var noneParentChilds = children.Where(c => !child.Equals(c)).ToList();
+            //todo: too much complexity
+            //var noneVisited = children.Where(x => !visited.Contains(x)).ToList();
+            return noneParentChilds.Count >= 2;
+        }
+
+        public List<WonderGraphNode> GetChildren(WonderGraphNode node)
+        {
+            var children = new List<WonderGraphNode>();
+            //right
+            var rightChild = new WonderGraphNode() { X = node.X + 1, Y = node.Y };
+            children = ValidateAndAdd(rightChild, children);
+
+            //left
+            var leftChild = new WonderGraphNode() { X = node.X - 1, Y = node.Y };
+            children = ValidateAndAdd(leftChild, children);
+
+            //up 
+            var upChild = new WonderGraphNode() { X = node.X, Y = node.Y + 1 };
+            children = ValidateAndAdd(upChild, children);
+
+            //down 
+            var downChild = new WonderGraphNode() { X = node.X, Y = node.Y - 1 };
+            children = ValidateAndAdd(downChild, children);
+
+            return children;
+
+
+        }
+
+        private List<WonderGraphNode> ValidateAndAdd(WonderGraphNode rightChild, List<WonderGraphNode> children)
+        {
+            if (ValidateNode(rightChild))
+            {
+                children.Add(rightChild);
+            }
+
+            return children;
+        }
+
+        private bool ValidateNode(WonderGraphNode node)
+        {
+            if (node.X >= _nodesString.Count | node.Y >= _nodesString[0].Length)
+            {
+                return false;
+            }
+
+            if (node.X < 0 | node.Y < 0)
+            {
+                return false;
+            }
+
+            if (_nodesString[node.X][node.Y] == TreeChar)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static WonderGraphNode FindNode(List<string> nodesString, char toFind)
+        {
+            WonderGraphNode result = null;
+
+            var yDimensionCount = nodesString[0].Count();
+            for (int i = 0; i < nodesString.Count; i++)
+            {
+                for (int j = 0; j < yDimensionCount; j++)
+                {
+                    if (nodesString[i][j] == toFind)
+                    {
+                        result = new WonderGraphNode()
+                        {
+                            X = i,
+                            Y = j,
+                        };
+
+                    }
+                }
+            }
+
+            return result;
+        }
+    }
+
+    public class WonderGraphNode : IEquatable<WonderGraphNode>
+    {
+        public int X  { get; set; }
+        public int Y { get; set; }
+        public bool Equals(WonderGraphNode? other)
+        {
+            if (other == null) return false;
+            return other.X == X && other.Y == Y;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var node = obj as WonderGraphNode;
+            if (node == null) return false;
+            return node.X == X && node.Y == Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() + Y.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"{X}-{Y}";
         }
     }
 }

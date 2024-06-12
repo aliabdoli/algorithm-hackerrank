@@ -53,4 +53,10 @@ Here is the list of algo, I redo, i.e. again solve them
 		* NonDivisibleSubset [Medium]
 	* Week 12
 		* ClimbingTheLeaderboard [Medium]	
+		* countluck [Medium]
+
+		
+		* breadth first search: shortest reach
+		* greedy florist
+		* fibonnacci modified
 			 
