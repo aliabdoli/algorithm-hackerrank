@@ -4,7 +4,13 @@
 * The Test project, basically copy and paste from the website for local
 
 
-# Comeback
+
+## Phase 2 
+after finishing comeback, more algos are solved here
+* [08-July-2024] construct the Array [Medium] [DynamicProgramming] [No Solve]
+* 
+ 
+## Comeback
 Here is the list of algo, I redo, i.e. again solve them
 * 2023-2024
 	* Week 1
@@ -54,9 +60,7 @@ Here is the list of algo, I redo, i.e. again solve them
 	* Week 12
 		* ClimbingTheLeaderboard [Medium]	
 		* countluck [Medium]
-
-		
-		* breadth first search: shortest reach
-		* greedy florist
-		* fibonnacci modified
+		* breadth first search: shortest reach [skipped]
+		* greedy florist [skipped]
+		* fibonnacci modified [skipped]
 			 
