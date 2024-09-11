@@ -2,8 +2,11 @@
 
 ## Basic Datastructure Csharp
 
+- HashSet complexity
+    - adding, removing and search O(1)
+    - union/intersect O(n+m)
 - **list Distinct() complexity is O(N)**
-  - Hashshet mostly O(1), use hashset instead
+  - Hashset mostly O(1), use hashset instead
     - even if you implement IComparer
         - `it does not worsen algo complexity`: see `AbsolutePermutation` 
     - `ALL THREE` for reference objects to be used in hash
@@ -79,6 +82,8 @@
         - todo: that does not work for dictionaries!!!!
     - `Queue`
     - `public T this[int index] get{} set {}` to have access to object like `X[i]`
+- dynamic programming
+    -    
 
 ## Terms 
 - clique in graph: 
@@ -111,7 +116,7 @@
 - Lexicographical order
 - how to make algo distributed, e.x. distributed shortest path ([link](https://stackoverflow.com/questions/2421605/finding-all-shortest-paths-from-every-pair-of-nodes-on-a-graph)
 - implement enumerator and enumerable (see TheMaximumSubarray (commented out))
-- how to make algos thread safe (multi threading)
+- how to make algos thread safe (multi threading) (specifically recursive and dynamic programming)
 - What s the differnece between char[] and String?
 - What s the difference between class types and types? e.x. Boolean vs bool, String vs string
 - readonly field vs properties with get only?

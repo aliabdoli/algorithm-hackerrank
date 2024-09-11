@@ -9,7 +9,6 @@ namespace HackerRankAlgorithm.DynamicProgramming.ConstructTheArray
 {
     ///////counters//////////////////////////////////////////
 
-    class 
     public class NoneDuplicateArrayCounter : INoneDuplicateArrayAggregate<long>
     {
         public long Aggregate { get; set; }

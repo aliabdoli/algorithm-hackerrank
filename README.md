@@ -63,4 +63,6 @@ Here is the list of algo, I redo, i.e. again solve them
 		* breadth first search: shortest reach [skipped]
 		* greedy florist [skipped]
 		* fibonnacci modified [skipped]
-			 
+
+## phase 2
+* Kingdom Division [Medium] [Failed]

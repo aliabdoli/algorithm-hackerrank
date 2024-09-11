@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HackerRankAlgorithm.DynamicProgramming;
+using HackerRankAlgorithm.DynamicProgramming.ConstructTheArray;
 
 namespace HackerRankAlgorithm.Tests.DynamicProgramming
 {
