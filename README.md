@@ -3,12 +3,6 @@
 * to see the solved one, tick "Solved"
 * The Test project, basically copy and paste from the website for local
 
-
-
-## Phase 2 
-after finishing comeback, more algos are solved here
-* [08-July-2024] construct the Array [Medium] [DynamicProgramming] [No Solve]
-* 
  
 ## Comeback
 Here is the list of algo, I redo, i.e. again solve them
@@ -64,5 +58,9 @@ Here is the list of algo, I redo, i.e. again solve them
 		* greedy florist [skipped]
 		* fibonnacci modified [skipped]
 
-## phase 2
+## Phase 2 (see click up)
 * Kingdom Division [Medium] [Failed]
+* Jan 2025 - 3 algo
+	* algo 1:
+	* algo 2:
+	* algo 3:
