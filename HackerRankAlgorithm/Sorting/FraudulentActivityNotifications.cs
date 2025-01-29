@@ -89,7 +89,7 @@ namespace HackerRankAlgorithm.Sorting
         //    for (int i = 0; i < bucketsList.Count; i++)
         //    {
         //        var item = bucketsList[i];
-        //        soFar += item.Value;
+        //        soFar += item.Frequency;
 
         //        if (soFar >= medIndex)
         //        {
@@ -103,7 +103,7 @@ namespace HackerRankAlgorithm.Sorting
 
         //            if (soFar == medIndex)
         //            {
-        //                if (item.Value > 1)
+        //                if (item.Frequency > 1)
         //                    return item.Key;
 
         //                var next = bucketsList[++i];

@@ -24,6 +24,11 @@
     - [.net datastructure complexity](http://c-sharp-snippets.blogspot.com/2010/03/runtime-complexity-of-net-generic.html)   
     - see Add beyond capacity and it changes the complexity (e.x. Stack!!!)
         - it can make algo times out!!!
+- **complexity of linq queries**
+    - groupby: O(n*log(n))
+    - orderby: O(n*log(n))
+    - join: O(n*log(n))
+    - count: O(n*log(n))
 - `DONT convert all problems to graph`
     - e.x. NonDivisibleSubset, sounds like maximal clique but it s actually way easier!!!
     - graphs normally times out cos they dont have that much assumptions about nodes/edges
@@ -102,7 +107,8 @@
 - algebra/math
     - combination and permutation formula
 - Sorting
-    - bubble sort  
+    - bubble sort 
+- Segment Tree (e.x. RMQ) AND Sparse matrix
 ## Must know .net
 - adding item to a specific index and shift the rest 
     - `mylist.Insert(ind, item)` or `mylist.InsertRange(ind,items)`

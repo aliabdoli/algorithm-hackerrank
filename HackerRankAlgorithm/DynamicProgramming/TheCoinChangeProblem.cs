@@ -111,7 +111,7 @@ namespace HackerRankAlgorithm.DynamicProgramming
             }
 
             //var oWays = ways[n].Ways.Select(x => x.GroupBy(y => y).OrderBy(y => y.Key).ToDictionary(z => z.Key, z => z.Count())).ToList();
-            //var oWays = ways[n].Ways.Select(y => y.OrderBy(z => z.Key).ToDictionary(x => x.Key, x => x.Value));
+            //var oWays = ways[n].Ways.Select(y => y.OrderBy(z => z.Key).ToDictionary(x => x.Key, x => x.Frequency));
             var oWays = ways[n].Ways.Select(x => x.Split('-').Select(y => long.Parse(y)).OrderBy(y => y).ToList());
 
             var waysN = new List<List<long>>();

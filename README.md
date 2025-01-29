@@ -5,7 +5,7 @@
 
  
 ## Comeback
-Here is the list of algo, I redo, i.e. again solve them
+Here is the list of algo, I redo, i.e. again solve them [37 success, 51 total till end of 2024]
 * 2023-2024
 	* Week 1
 		* CompareTheTriplets [Easy]
@@ -57,10 +57,12 @@ Here is the list of algo, I redo, i.e. again solve them
 		* breadth first search: shortest reach [skipped]
 		* greedy florist [skipped]
 		* fibonnacci modified [skipped]
+* 2025
+	* Jan 2025 - 3 algo
+		* Inverse RMQ: [HARD] : timeout
+		* algo 2:
+		* algo 3:
 
 ## Phase 2 (see click up)
 * Kingdom Division [Medium] [Failed]
-* Jan 2025 - 3 algo
-	* algo 1:
-	* algo 2:
-	* algo 3:
+
