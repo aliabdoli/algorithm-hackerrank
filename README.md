@@ -58,11 +58,10 @@ Here is the list of algo, I redo, i.e. again solve them [37 success, 51 total ti
 		* greedy florist [skipped]
 		* fibonnacci modified [skipped]
 * 2025
-	* Jan 2025 - 3 algo
+	* Jan 2025 
 		* Inverse RMQ: [HARD] : timeout
-		* algo 2:
-		* algo 3:
+	* Feb 2025 
+		* HackerRank City: [Medium] : failed
+		*  
 
-## Phase 2 (see click up)
-* Kingdom Division [Medium] [Failed]
 
