@@ -8,77 +8,84 @@ namespace HackerRankAlgorithm.GraphTheory
 {
     public class Clique
     {
-        public int FindMinSizeOfMaxClique(int vertices, int edges)
+        public int FindMinSizeOfLargestClique(int vertices, int edges)
         {
-            var maxClique = 0;
 
+            Validate(vertices, edges);
 
-            for (int clique = 2; clique <= vertices; clique++)
+            var rightClique = vertices;
+            var leftClique = 1;
+
+            //todo: not sure till when
+            while (leftClique >= 1 || rightClique <= vertices)
             {
-                var possible = CheckIfCliquePossible(vertices, clique, edges);
-                if (possible)
+
+                var leftEdgeForClique = CalculateTurinUpperBound(vertices, leftClique);
+                var rightEdgeForClique = CalculateTurinUpperBound(vertices, rightClique);
+
+                //todo: bad
+                if (leftClique + 1 == rightClique)
                 {
-                    maxClique = clique;
+                    if (rightEdgeForClique >= edges)
+                    {
+                        return leftClique;
+                    }
+                    else
+                    {
+                        return rightClique;
+                    }
+                }
+
+
+                if (leftEdgeForClique >= edges)
+                {
+                    return leftClique;
+                }
+
+                if (rightEdgeForClique < edges)
+                {
+                    return rightClique;
+                }
+
+                var middleClique = (leftClique + rightClique) / 2;
+                var middleEdgeForClique = CalculateTurinUpperBound(vertices, middleClique);
+
+                //todo: edge cases
+                if (edges > middleEdgeForClique)
+                {
+                    leftClique = middleClique;
+                }
+                else
+                {
+                    rightClique = middleClique;
                 }
             }
 
-            var completeVertices = GetCompleteGraphVerticesByEdges(vertices, edges);
-
-            for (int v = vertices; v <= completeVertices; v++)
-            {
-                var possible = CheckIfCliquePossible(v, v, edges);
-                if (possible)
-                {
-                    maxClique = v;
-                }
-            }
-
-            return maxClique;
+            throw new Exception("could not find");
         }
 
-        public int GetCompleteGraphVerticesByEdges(int vertices, int edges)
+        private void Validate(int vertices, int edges)
         {
-            var kEdges = GetCompleteGraphEdges(vertices);
-            var kVertices = vertices;
-
-            while (kEdges < edges)
+            if (edges > (vertices * (vertices - 1)) / 2)
             {
-                kVertices++;
-                kEdges = GetCompleteGraphEdges(kVertices);
+                throw new ArgumentException("too many edges");
             }
-
-            return kVertices;
         }
 
-        private static int GetCompleteGraphEdges(int vertices)
-        {
-            return (vertices * (vertices - 1)) / 2;
-        }
 
-        public int GetMaxEdgeToNotHaveClique(int vertices, int rClique)
+        // https://mathworld.wolfram.com/TuransTheorem.html 
+        public int CalculateTurinUpperBound(int vertices, int cliqueSize)
         {
-            if (rClique < 2)
+            var turinCliqueSize = cliqueSize - 1;
+            if (turinCliqueSize <= 0)
             {
-                throw new ArgumentException($"clique: {rClique} needs to be >= 2");
+                return 1;
             }
+            var resultUp = Math.Pow(vertices, 2) * (turinCliqueSize - 1);
 
-            if (rClique > vertices)
-            {
-                throw new ArgumentException($"rClique: {rClique}, vertices: {vertices}, rClique needs to be smaller or equals than vertices");
-            }
+            var resultDown = 2 * turinCliqueSize;
 
-            //https://www.maa.org/sites/default/files/Staton-AMM-1999.pdf
-            var edges = ((rClique - 2) * vertices * vertices) / (2 * (rClique - 1));
-
-            return edges;
-        }
-
-        public bool CheckIfCliquePossible(int vertices, int rClique, int edges)
-        {
-            var maxEdge = GetMaxEdgeToNotHaveClique(vertices, rClique);
-            return edges > maxEdge;
+            return (int)Math.Floor(resultUp / resultDown);
         }
     }
-
-
 }
