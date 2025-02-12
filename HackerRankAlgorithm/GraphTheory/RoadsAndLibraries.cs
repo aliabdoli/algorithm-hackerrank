@@ -94,7 +94,7 @@ namespace HackerRankAlgorithm.GraphTheory
 
                 var notSeenChildren = children.Where(x => !seenLib.Contains(x)).ToList();
                 roadCount += notSeenChildren.Count;
-                seenLib.Add(notSeenChildren);
+                //seenLib.Add(notSeenChildren);
 
 
                 for (int i = 0; i < children.Count; i++)

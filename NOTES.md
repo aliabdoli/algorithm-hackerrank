@@ -96,6 +96,7 @@
   - DONT MIX IT WITH "CONNECTED COMPONENT"
 - `connected component` of graph:
   - subgraph that there is at least on path between each node   
+- `vertex-disjoint subgraphs`, a subgraph that does not share any vertex
 ## Must know Algos
 - Graphs/trees
     - Shortest paths (Dijkstra, Bellman-Ford, Floyd-Warshall)

@@ -49,11 +49,11 @@ namespace HackerRankAlgorithm.Tests.GraphTheory
 
                 int m = Convert.ToInt32(ntm[2]);
 
-                int[][] graph = new int[m][];
+                var graph = new List<List<int>>();
 
                 for (int graphRowItr = 0; graphRowItr < m; graphRowItr++)
                 {
-                    graph[graphRowItr] = Array.ConvertAll(input.ReadLine().Split(' '), graphTemp => Convert.ToInt32(graphTemp));
+                    graph[graphRowItr] = Array.ConvertAll(input.ReadLine().Split(' '), graphTemp => Convert.ToInt32(graphTemp)).ToList();
                 }
 
                 int result = CrabGraphs.crabGraphs(n, t, graph);
