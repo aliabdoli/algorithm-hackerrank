@@ -9,100 +9,100 @@ namespace HackerRankAlgorithm
     public class BiggerIsGreater
     {
         public const string NoAnswer = "no answer";
+
         public string Do(string w)
         {
-            var closestBiggestChars = new List<char>();
-            var closestBiggestString = NoAnswer;
+            var characters = w.Split("").SelectMany(x => x).ToList();
+            var sortedCharManagement = new SortedCharManagement();
 
-            var sortedChars = new SortedWithDuplicateList();
-            var inputChars = w.ToCharArray().ToList();
-            inputChars.Reverse();
+            var reverseCharacter = characters
+                .Select(x => x)
+                .Reverse()
+                .ToList();
 
-            sortedChars.Add(inputChars[0]);
-
-            for (int i = 1; i < inputChars.Count; i++)
+            sortedCharManagement.Add(reverseCharacter[0]);
+            //wrong, what if continue
+            for (int i = 1; i < reverseCharacter.Count; i++)
             {
-                var currentChar = inputChars[i];
-                //todo: works for chars?
-                if (currentChar >= sortedChars.Max)
+                var currentChar = reverseCharacter[i];
+
+                //todo: char comparison safer
+                if (currentChar >= sortedCharManagement.MaxChar)
                 {
-                    sortedChars.Add(currentChar);
-                    continue;
+                    sortedCharManagement.Add(currentChar);
                 }
                 else
                 {
-                    // change active part of string
-                    var closestBiggestChar = sortedChars.PopClosestBiggest(currentChar);
-                    closestBiggestChars.Add(closestBiggestChar);
-                    sortedChars.Add(currentChar);
-                    closestBiggestChars.AddRange(sortedChars.GetSorted());
-
-                    //remaining unchanged
-                    var remaining = inputChars.Skip(i + 1).ToList();
-                    remaining.Reverse();
-                    remaining.AddRange(closestBiggestChars);
-                    closestBiggestChars = remaining;
-
-                    //convert to string
-                    closestBiggestString = string.Join("", closestBiggestChars);
-                    return closestBiggestString;
+                    sortedCharManagement.AddAndMark(currentChar);
+                    var markedSubstringChars = CalculateSubstringUpToMarked(sortedCharManagement);
+                    var intactSubstringChars = reverseCharacter.Skip(i + 1).Reverse().ToList();
+                    var resultList = new List<char>();
+                    resultList.AddRange(intactSubstringChars);
+                    resultList.AddRange(markedSubstringChars);
+                    return string.Join("", resultList);
                 }
             }
-            
-            return closestBiggestString;
+
+            return NoAnswer;
+        }
+
+        private static List<char> CalculateSubstringUpToMarked(SortedCharManagement sortedCharManagement)
+        {
+            var nextSmaller = sortedCharManagement.GetNextSmallerAndRemove(
+                sortedCharManagement.MarkedChar.Value);
+
+            var sortedList = sortedCharManagement.GetSortedList();
+            //sortedList.Reverse();
+            //maybe string builder
+            var resultList = new List<char>(){nextSmaller};
+            resultList.AddRange(sortedList);
+            return resultList;
         }
     }
 
-    public class SortedWithDuplicateList
+    public class SortedCharManagement
     {
-        public char Max => _sortedChars.Last();
-        private List<char> _sortedChars = new List<char>();
+        public char MaxChar => _sortedChars.Keys.Last();
+        public char? MarkedChar { get; private set; }
 
-        public void Add(char inputChar)
+        private SortedList<char, int> _sortedChars = new SortedList<char, int>();
+
+        public void Add(char character)
         {
-            var ind = FindClosestBiggest(inputChar);
-
-            //todo: O(N)
-            _sortedChars.Insert(ind, inputChar);
+            if (!_sortedChars.TryAdd(character, 1))
+            {
+                _sortedChars[character]++;
+            }
         }
 
-
-        public char PopClosestBiggest(char inputChar)
+        public char GetNextSmallerAndRemove(char currentChar)
         {
-            var ind = _sortedChars.BinarySearch(inputChar);
-            if (ind < 0)
-            {
-                ind = ~ind;
-            }
-            else
-            {
-                //handle duplicates
-                var existingChar = _sortedChars[ind];
-                var current = existingChar;
+            var ind = _sortedChars.IndexOfKey(currentChar);
+            var nextSmaller = _sortedChars.Keys[++ind];
+                _sortedChars[nextSmaller]--;
 
-                while (current == existingChar)
-                {
-                    ind++;
-                    current = _sortedChars[ind];
-                }
+            return nextSmaller;
+
+        }
+
+        public List<char> GetSortedList()
+        {
+            var result = new List<char>();
+
+            foreach (var item in _sortedChars)
+            {
+                var chars = Enumerable.Range(0, item.Value).Select(x => item.Key).ToList();
+                //not great perf
+                result.AddRange(chars);
             }
-            var result = _sortedChars[ind];
-            _sortedChars.RemoveAt(ind);
+
             return result;
         }
 
-        public List<char> GetSorted() => _sortedChars;
-
-
-        private int FindClosestBiggest(char inputChar)
+        public void AddAndMark(char currentChar)
         {
-            var ind = _sortedChars.BinarySearch(inputChar);
-            if (ind < 0)
-            {
-                ind = ~ind;
-            }
-
-            return ind;
+            this.Add(currentChar);
+            MarkedChar = currentChar;
         }
     }
 

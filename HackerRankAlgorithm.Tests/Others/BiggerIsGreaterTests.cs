@@ -9,12 +9,12 @@ namespace HackerRankAlgorithm.Tests.Others
         [InlineData("ab", "ba")]
         [InlineData("bb", "no answer")]
         [InlineData("hefg", "hegf")]
+
         [InlineData("dhck", "dhkc")]
         [InlineData("dkhc", "hcdk")]
         [InlineData("fjzeye", "fjzyee")]
         public void WhenThen(string input, string expected)
         {
-           
             var algorithm = new BiggerIsGreater();
             var result = algorithm.Do(input);
             result.Should().Be(expected);
