@@ -1,101 +1,24 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 
 namespace HackerRankAlgorithm.Others
 {
     /// <summary>
     /// 
-    /// Not solved, left as is, could not find the link in HackerRank!!!
+    /// https://www.hackerrank.com/challenges/extra-long-factorials/problem?isFullScreen=true
     /// </summary>
     public static class ExtraLongFactorials
     {
-        public static List<int> Run(int n)
+        public static string Run(int n)
         {
-            var result = CalculateExtraLongFactorials(n);
-            return result;
-        }
-
-        static List<int> CalculateExtraLongFactorials(int n)
-        {
-            var resultList = new List<int>();
-            var result = 1;
-
-            checked
+            var factorial = new BigInteger(1);
+            for (int i = 1; i <= n; i++)
             {
-                try
-                {
-                    for (int i = 1; i <= n; i++)
-                    {
-                        result = result * i;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-
+                factorial = BigInteger.Multiply(factorial, new BigInteger(i));
             }
 
-            resultList.Add(result);
-            resultList.Reverse();
-            return resultList;
+
+            return factorial.ToString();
         }
-
-        public static string MultiplyByAdd(int a, int b)
-        {
-            //var result = new StringBuilder();
-            var aBinary = Convert.ToString(a, 2);
-            var result = string.Join("", Enumerable.Range(0, aBinary.Length).Select(x => "0"));
-
-            for (int i = 0; i < b; i++)
-            {
-                result = Add(aBinary, result);
-            }
-
-            return result;
-        }
-
-        public static string Add(string a, string b)
-        {
-            var sum = new StringBuilder();
-            var carrier = '0';
-            for (int i = a.Length - 1; i >=0 ; i--)
-            {
-                var lst = new List<char>(){a[i], b[i], carrier};
-                var numberOfOnes = lst.Count(x => x == '1');
-                switch (numberOfOnes)
-                {
-                    case 0:
-                        sum.Append('0');
-                        carrier = '0';
-                        break;
-                    case 1:
-                        sum.Append('1');
-                        carrier = '0';
-                        break;
-                    case 2:
-                        sum.Append('0');
-                        carrier = '1';
-                        break;
-                    case 3:
-                        sum.Append('1');
-                        carrier = '1';
-                        break;
-                }
-            }
-
-            sum.Append(carrier);
-
-            return sum.ToString().Reverse().ToString();
-
-        }
-
-
-    }
-    public class BinarySumResult
-    {
-        public int Result { get; set; }
-        public int Carry { get; set; }
-
     }
 }
