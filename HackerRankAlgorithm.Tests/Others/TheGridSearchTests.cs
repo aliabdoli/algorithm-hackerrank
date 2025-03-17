@@ -11,54 +11,92 @@ using Xunit;
 
 namespace HackerRankAlgorithm.Tests
 {
-    
+
     public class TheGridSearchTests
     {
-        [Fact]
-        public void WhenThen()
+        [Theory]
+        [InlineData(@"1234567890  
+                        0987654321  
+                        1111111111  
+                        1111111111  
+                        2222222222",
+            @"876543  
+111111  
+111111",
+            "YES")]
+        [InlineData(@"7283455864
+                        6731158619
+                        8988242643
+                        3830589324
+                        2229505813
+                        5633845374
+                        6473530293
+                        7053106601
+                        0834282956
+                        4607924137",
+                    @"9505
+                        3845
+                        3530",
+            "YES")]
+        [InlineData(@"400453592126560
+                        114213133098692
+                        474386082879648
+                        522356951189169
+                        887109450487496
+                        252802633388782
+                        502771484966748
+                        075975207693780
+                        511799789562806
+                        404007454272504
+                        549043809916080
+                        962410809534811
+                        445893523733475
+                        768705303214174
+                        650629270887160",
+            @"99
+                99",
+            "NO")]
+
+        [InlineData(@"123412
+                        561212
+                        123634
+                        781288",
+                    @"12
+                        34",
+            "YES")]
+
+        [InlineData(@"999999
+                        121211",
+                @"99
+                    11",
+            "YES")]
+
+        [InlineData(@"123456
+                    567890
+                    234567
+                    194729",
+                @"2345
+                    6789
+                    3456
+                    9472",
+            "YES")]
+
+
+        public void WhenThen(string g, string p, string expected)
         {
+            //arrange
             var input = "";
-            var reader = new StreamReader(input, true);
             var algorithm = new TheGridSearch();
+            var grid = g.Split("\n").Select(x => x.Trim()).ToList();
+            var pattern = p.Split("\n").Select(x => x.Trim()).ToList();
 
+            //act
+            var result = algorithm.Do(grid, pattern);
 
-            int t = Convert.ToInt32(reader.ReadLine());
-
-            for (int tItr = 0; tItr < t; tItr++)
-            {
-                string[] RC = reader.ReadLine().Split(' ');
-
-                int R = Convert.ToInt32(RC[0]);
-
-                int C = Convert.ToInt32(RC[1]);
-
-                string[] G = new string[R];
-
-                for (int i = 0; i < R; i++)
-                {
-                    string GItem = reader.ReadLine();
-                    G[i] = GItem;
-                }
-
-                string[] rc = reader.ReadLine().Split(' ');
-
-                int r = Convert.ToInt32(rc[0]);
-
-                int c = Convert.ToInt32(rc[1]);
-
-                string[] P = new string[r];
-
-                for (int i = 0; i < r; i++)
-                {
-                    string PItem = reader.ReadLine();
-                    P[i] = PItem;
-                }
-
-                string result = algorithm.Do(G, P);
-
-                "".Should().Be(result);
-            }
+            //assert
+            result.Should().Be(expected);
 
         }
     }
 }
+

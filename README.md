@@ -68,8 +68,9 @@ Here is the list of algo, I redo, i.e. again solve them [37 success, 51 total ti
 	* Mar 2025
 		* BiggerIsGreater [Medium] [Success]
 		* Extra long factorials [Medium] [Success]
+		* the Grid Search [Medium] [Success]
 * Remaining	
-	* the Grid Search
+	
 	* k factorization
 	* simplified chess engines
 	* maximizingMissionpionts 

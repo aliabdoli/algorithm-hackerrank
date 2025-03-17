@@ -1,71 +1,124 @@
 ﻿namespace HackerRankAlgorithm.Others
 {
+    /// <summary>
+    /// the complexity is so bad, didnt implement RMQ for pattern matching
+    /// </summary>
     public class TheGridSearch
     {
-        /// <summary>
-        /// Not solved
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public string Do(string[] g, string[] p)
-        {
-            //var grid = g;
-            //var pattern = p;
-
-            //var tGrid = Trans(grid);
-            //var tPattern = Trans(pattern);
-
-            //var match = false;
-
-            //for (int gr = 0; gr < grid.Length; gr++)
-            //{
-            //    match = false;
-            //    int gc = 0;
-            //    while ((gc = grid[gr].IndexOf(pattern[0], gc, StringComparison.Ordinal)) != -1
-            //           &&
-            //           gc + pattern[0].Length < grid[gr].Length
-            //           )
-            //    {
-            //        match = true;
-            //        for (int k = 0; k < pattern[0].Length ; k++)
-            //        {
-            //            if (gc + k <  
-            //            tGrid[gc + k].IndexOf(tPattern[k], gr, StringComparison.Ordinal) == -1
-            //                )
-            //            {
-            //                match = false;
-            //                break;
-            //            }
-            //        }
-
-            //        if (match)
-            //        {
-            //            break;
-            //        }
-            //        gc++;
-            //    }
-
-                //if (match )
-                //{
-                //    break;
-                //}
-
-
-            //}
-            return null;
-
-        }
 
         private const string Yes = "YES";
         private const string No = "NO";
 
-        private static string[] Trans(string[] grid)
+        /// <summary>
+        /// https://www.hackerrank.com/challenges/the-grid-search/problem?isFullScreen=true
+        /// </summary>
+
+        public string Do(List<string> g, List<string> p)
         {
-            var gridCrv = grid.Select((rv, r) => new {crv = rv.ToCharArray().Select((v, c) => new {r, c, v})})
-                .SelectMany(x => x.crv);
-            var tGrid = gridCrv.GroupBy(x => x.c).Select(y => string.Concat(y.Select(z => z.v))).ToArray();
-            return tGrid;
+            var pattern = p;
+            
+            var patternRowCount = p.Count;
+            var patternColumnCount = p.First().Length;
+
+            var grid = g;
+            var patternMatcher = new OneDimensionPatternMatcher();
+            for (int gRowInd = 0; gRowInd <= g.Count - patternRowCount; gRowInd++)
+            {
+                var currentPatternRow = pattern[0];
+                var currentGridRow = grid[gRowInd];
+
+                var allMatches = patternMatcher.FindAllMatches(currentPatternRow, currentGridRow);
+                foreach (var match in allMatches)
+                {
+                    var startRow = gRowInd;
+                    var startColumn = match.StartInd;
+
+                    var ifMatchBlock = CheckMatchBlock(
+                        pattern,
+                        grid,
+                        startRow,
+                        startColumn
+                    );
+
+                    if (ifMatchBlock)
+                    {
+                        return Yes;
+                    }
+                }
+            }
+
+            return No;
+        }
+
+        private static bool CheckMatchBlock(List<string> pattern, 
+            List<string> grid, 
+            int startRow, 
+            int startColumn 
+            )
+        {
+            var patternRowCount = pattern.Count;
+            var patternColumnCount = pattern.First().Length;
+
+            for (int i = startRow; i < startRow + patternRowCount; i++)
+            {
+                for (int j = startColumn; j < startColumn + patternColumnCount; j++)
+                {
+                    var gridCurrent = grid[i][j];
+                    var patternCurrent = pattern[i - startRow][j-startColumn];
+                    if (patternCurrent != gridCurrent)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
+
+    public class OneDimensionPatternMatcher
+    {
+
+        public class IsMatchResult
+        {
+            //public bool IsMatch { get; set; }
+            public int StartInd { get; set; }
+            public int EndInd { get; set; }
+        }
+        /// <summary>
+        ///  DIDNT implement RMQ implementation
+        /// </summary>
+        
+        //todo: improve it
+        public List<IsMatchResult> FindAllMatches(string pattern, string inputString)
+        {
+            var matches = new List<IsMatchResult>();
+
+            for (int inputInd = 0; inputInd <= inputString.Length - pattern.Length; inputInd++)
+            {
+                var resultInputStartInd = inputInd;
+
+                int patternInd = 0;
+                while (patternInd < pattern.Length 
+                       && pattern[patternInd] == inputString[inputInd + patternInd])
+                {
+                    patternInd++;
+                }
+
+                if (patternInd == pattern.Length)
+                {
+                    var match = new IsMatchResult()
+                    {
+                        StartInd = inputInd,
+                        EndInd = inputInd + patternInd - 1
+                    };
+                    matches.Add(match);
+                }
+                
+            }
+
+            return matches;
+        }
+    }
+
+
 }

@@ -104,7 +104,7 @@
 - strings
     - Longest common substring
     - Longest common sub SEQUENCE
-    - pattern searching (KMP)
+    - pattern searching/matching (KMP: knuth-Morris-Pratt), pattern matching
 - algebra/math
     - combination and permutation formula
 - Sorting
