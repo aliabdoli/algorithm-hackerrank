@@ -4,199 +4,219 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace HackerRankAlgorithm.Recursion
 {
+    /// <summary>
+    /// https://www.hackerrank.com/challenges/k-factorization/problem?isFullScreen=true
+    /// - original worked, this one times out
+    /// </summary>
     public static class kFactorization
     {
-        public static int[] Do(int n, int[] A)
+        public static List<int> Do(int n, List<int> A)
         {
-            var queue = new Queue<Node>();
-            queue.Enqueue(new Node()
-            {
-                Value = 1,
-                Path = "1",
-                Depth = 1
-            });
 
-            var noResult = new int[] {-1};
-            var dividables = A.Where(x => n % x == 0).OrderBy(x => x).ToList();
-           
-            Node answer = null;
-            var foundOnLevel = false;
-            while (queue.Count > 0 && !foundOnLevel)
+            var multipliers = new SortedSet<int>(A);
+
+            var target = n;
+
+
+            var fromTargetToOnePathInit = new MultiplierInfo()
             {
-                var current = queue.Dequeue();
-                for (int i = 0; i < dividables.Count; i++)
+                Target = target,
+                Multipliers = new List<int>()
                 {
-                    var newValue = current.Value * dividables[i];
-                    if (newValue > n)
-                    {
-                        continue;
-                    }
-                    var newNode = new Node()
-                    {
-                        Value = newValue,
-                        Path = $"{current.Path}-{newValue}",
-                        Depth = current.Depth + 1
-                    };
-                    queue.Enqueue(newNode);
-
-                    if (newValue == n)
-                    {
-                        foundOnLevel = true;
-                        answer = newNode;
-                    }
+                    target
                 }
-            }
+            };
 
-            if (answer == null)
+
+            var descendingMultipliers = multipliers.Reverse().ToList();
+            var shortestMultiplierLenInfo = FindSmallestByLength(descendingMultipliers,
+                1,
+                fromTargetToOnePathInit
+                );
+
+
+            if (shortestMultiplierLenInfo.Target == -1)
             {
-                return noResult;
+                return PrepareResult(shortestMultiplierLenInfo);
             }
 
-            var result = answer.Path.Split('-').Select(x => int.Parse(x)).ToArray();
+
+            //shortestMultiplierLenInfo = shortestMultiplierLenInfo.
+
+            var maxMultiplierLen = shortestMultiplierLenInfo.MultipliersCount - 1;
+            var fromOneToTargetPathInit = new MultiplierInfo()
+            {
+                Target = 1,
+                Multipliers = new List<int>()
+                {
+                    1
+                }
+            };
+            var shortestMultiplierInfo = FindSmallestByLexicographical(multipliers.ToList(), 
+                target, 
+                fromOneToTargetPathInit,
+                maxMultiplierLen);
+
+            
+            var result = PrepareResult(shortestMultiplierInfo);
+
             return result;
+        }
+
+        private static MultiplierInfo FindSmallestByLength(List<int> multipliers, 
+            int target, 
+            MultiplierInfo startingMultiplier)
+        {
+            // check results
+            if (startingMultiplier.Target == target)
+            {
+                return startingMultiplier;
+            }
+
+
+
+            if (startingMultiplier.Target < target)
+            {
+                return MultiplierInfo.CreateNoAnswer();
+            }
+
+            // process nodes
+            foreach (var multiplier in multipliers)
+            {
+                //tochange
+                if (startingMultiplier.Target % multiplier != 0)
+                {
+                    continue;
+                }
+
+                
+
+                //todo: not sure needed
+                if (startingMultiplier.Multipliers.Any() && startingMultiplier.Multipliers.Min() < multiplier)
+                {
+                    continue;
+                }
+
+                var toAddMultiplier = new List<int>(startingMultiplier.Multipliers);
+                toAddMultiplier.Add(multiplier);
+
+                
+                //tochange
+                var nextMultipliers = new MultiplierInfo()
+                {
+                    Target = startingMultiplier.Target / multiplier,
+                    Multipliers = toAddMultiplier
+                };
+
+                if (nextMultipliers.Target == target)
+                {
+                    return nextMultipliers;
+                }
+
+                var addedMultplier = FindSmallestByLength(multipliers, target, nextMultipliers);
+
+                if (addedMultplier.Target == target)
+                {
+                    return addedMultplier;
+                }
+                
+            }
+
+            return MultiplierInfo.CreateNoAnswer();
 
         }
 
-        public class Node
+        private static List<int> PrepareResult(MultiplierInfo multiplierInfo)
         {
-            public int Value { get; set; }
-            public string Path { get; set; }
-            public int Depth { get; set; }
-
-    }
-
-        //public static int[] Do(int n, int[] A)
-        //{
-        //    var dividable = new List<int>();
-        //    var result = new List<int>();
-        //    var temp = 1;
-        //    var falseResult = new int[] { -1 };
-
-        //    for (int i = 0; i < A.Count(); i++)
-        //    {
-        //        if (n % A[i] == 0)
-        //        {
-        //            dividable.Add(A[i]);
-        //        }
-        //    }
-
-        //    if (dividable.Count == 0)
-        //    {
-        //        return falseResult;
-        //    }
-        //    dividable = dividable.OrderBy(x => x).ToList();
-
-        //    var remain = n;
-        //    for (int i = 0; i < dividable.Count; i++)
-        //    {
-        //        var item = dividable[i];
-        //        if (n % item == 0)
-        //        {
-        //            while (remain % item == 0)
-        //            {
-        //                result.Add(item);
-        //                temp = temp * item;
-        //                remain = remain / item;
-        //            }
-        //        }
-        //    }
-
-        //    if (result.Last() != temp)
-        //    {
-        //        return falseResult;
-        //    }
-
-        //    return result.ToArray();
-
-        //}
-
-        //o(n)
-        private static bool Compare(List<int> first, List<int> second)
-        {
-            var smaller = (first.Count >= second.Count) ? second : first;
-            var bigger = (first.Count < second.Count) ? second : first;
-            var ifSmallerIsFirst = first.Count < second.Count;
-
-            var smallerCount = smaller.Count;
-            int ind = 0;
-            while (ind < smallerCount)
+            var result = new List<int>();
+            foreach (var shortestMultiplier in multiplierInfo.Multipliers)
             {
-                if (smaller[ind] == bigger[ind])
-                {
-                    ind++;
-                }
-                else
-                {
-                    break;
-                }
+                var last = result.LastOrDefault() == 0 ? 1 : result.Last();  
+                result.Add(last * shortestMultiplier);
             }
 
-            if (ind == smallerCount - 1)
-            {
-                return ifSmallerIsFirst;
-            }
-
-            if (ind < smallerCount - 1)
-            {
-                if (smaller[ind] < bigger[ind])
-                {
-                    return ifSmallerIsFirst;
-                }
-                else
-                {
-                    return !ifSmallerIsFirst;
-                }
-            }
-
-            return ifSmallerIsFirst;
+            return result;
         }
 
-        private static List<int> TheBestAnswer;
-
-        public static void FindMultiple(int n, int[] A, List<int> path)
+        private static MultiplierInfo FindSmallestByLexicographical(
+            List<int> multipliers,
+            int target,
+            MultiplierInfo previousMultiplierInfo,
+            int maxLen
+        )
         {
-            if (!path.Any())
+
+            var current = previousMultiplierInfo;
+
+            //process
+
+
+            if (current.Multipliers.Count > maxLen)
             {
-                path.Add(1);
+                return MultiplierInfo.CreateNoAnswer();
             }
 
-            if (TheBestAnswer != null && path.Count > TheBestAnswer.Count)
+            if (current.Target == target)
             {
-                return;
+                return current;
             }
 
-            if (n == 1)
+            if (current.Target > target)
             {
-                if (TheBestAnswer == null)
-                {
-                    TheBestAnswer = new List<int>();
-                }
-
-                if (!TheBestAnswer.Any())
-                {
-                    TheBestAnswer = path;
-                }
-                else if (Compare(path, TheBestAnswer))
-                {
-                    TheBestAnswer = path;
-                }
-
-                return;
+                return MultiplierInfo.CreateNoAnswer();
             }
-           
 
-            for (int i = 0; i < A.Length; i++)
+
+            //queue children
+            foreach (var multiplier in multipliers)
             {
-                if (n % A[i] == 0)
+                //bad performance copying things
+                var childMultiplier = current.Multipliers.Select(x => x).ToList();
+
+
+                childMultiplier.Add(multiplier);
+                var child = new MultiplierInfo()
                 {
-                    var newPath = new List<int>(path);
-                    newPath.Add(newPath.Last() * A[i]);
-                    var newN = n / A[i];
-                    FindMultiple(newN, A, newPath);
+                    Target = current.Target * multiplier,
+                    Multipliers = childMultiplier
+                };
+
+                if (child.Target == target)
+                {
+                    return child;
                 }
+
+                var addedMultplier = FindSmallestByLexicographical(multipliers, target, child, maxLen);
+
+                if (addedMultplier.Target == target)
+                {
+                    return addedMultplier;
+                }
+            }
+
+
+            return MultiplierInfo.CreateNoAnswer();
+        }
+
+
+        class MultiplierInfo
+        {
+            public int Target { get; set; }
+            public List<int> Multipliers { get; set; }
+
+            public int MultipliersCount => Multipliers.Count;
+
+            public static MultiplierInfo CreateNoAnswer()
+            {
+                return new MultiplierInfo()
+                {
+                    Target = -1,
+                    Multipliers = new List<int>() {-1}
+                };
             }
         }
     }
