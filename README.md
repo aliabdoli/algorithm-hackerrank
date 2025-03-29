@@ -69,9 +69,9 @@ Here is the list of algo, I redo, i.e. again solve them [37 success, 51 total ti
 		* BiggerIsGreater [Medium] [Success]
 		* Extra long factorials [Medium] [Success]
 		* the Grid Search [Medium] [Success]
-		* k factorization
+		* k factorization [Hard] [Failed]
+		* simplified chess engines [Medium] [Failed]
 * Remaining	
-	
 	
 	* simplified chess engines
 	* maximizingMissionpionts 

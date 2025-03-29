@@ -1,279 +1,500 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿
+
+
+using System.ComponentModel.Design;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HackerRankAlgorithm.Recursion
 {
+    /// <summary>
+    /// https://www.hackerrank.com/challenges/simplified-chess-engine/problem?isFullScreen=true
+    /// </summary>
     public static class SimplifiedChessEngineSolver
     {
-        public static Dictionary<char,int> CharToIntIndex = new Dictionary<char, int>()
-        {
-            {'A', 0},
-            {'B', 1},
-            {'C', 2},
-            {'D', 3}
-        };
+        
 
         public static string simplifiedChessEngine(char[][] whites, char[][] blacks, int moves)
         {
-            var whiteState = CreateState(whites);
-            var blackState = CreateState(blacks);
-            var ifWhite = true;
-            var result = FindThePath(whiteState, blackState, 1, ref ifWhite);
+            var whiteList = ConvertArraysToLists<char>(whites);
+            var blackList = ConvertArraysToLists<char>(blacks);
+            var maxMoveCount = moves;
 
-            return result ? "YES" : "NO";
+            var chessManager = new ChessManager ();
 
-        }
+            var visitedRepository = new ChessStateRepository();
 
-        private static char _emptyChar = '\0';
 
-        public static class Pieces
-        {
-            public const char Q = 'Q';
-            public const char N = 'N';
-            public const char B = 'B';
-            public const char R = 'R';
-        }
-
-        public static bool FindThePath(char[,] turn, char[,] noTurn, int moves, ref bool ifWhite)
-        {
-            var result = false;
-            if (moves < 0)
-                return false;
-            if (moves == 0)
+            var initialState = new ChessState()
             {
-                var wqi = -1;
-                var wqj = -1;
-                FindQueen(turn, out wqi, out wqj);
+                CurrentTurn = 'W',
+                BlackPositions = new ChessManager.TwoWayPositionDictionary(blackList),
+                WhitePositions = new ChessManager.TwoWayPositionDictionary(whiteList),
+                MoveCount = 0,
+            };
+            
+            var queue = new Queue<ChessState>();
+            queue.Enqueue(initialState);
 
-                var bqi = -1;
-                var bqj = -1;
-                FindQueen(noTurn, out bqi, out bqj);
-
-                if (wqi == bqi || wqj == bqj)
+            while (queue.Any())
+            {
+                
+                var current = queue.Dequeue();
+                
+                if (current.MoveCount > maxMoveCount + 1)
                 {
-                    if (ifWhite)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    continue;
+                }
+
+                if (visitedRepository.CheckIfExist(current))
+                {
+                    continue;
+                }
+
+
+                //todo: check no queeen for white too
+                if (chessManager.CheckNoQueenForBlack(current))
+                {
+                    return YesAnswer;
+                }
+
+                if (!visitedRepository.TryAdd(current))
+                {
+                    continue;
+                }
+
+
+                var allPossibleMoves = chessManager.GetAllNextMoves(current);
+                //var ss = allPossibleMoves[0].WhitePositions.ToString();
+                foreach (var possibleMove in allPossibleMoves)
+                {
+                    queue.Enqueue(possibleMove);
                 }
             }
 
-            //var turn = ifWhiteTurn ? whites : blacks;
-            //var notTurn = ifWhiteTurn ? blacks : whites;
-
-            return Process(turn, noTurn, moves, ref ifWhite);
-            
+            return NoAnswer;
         }
 
-        private static bool Process(char[,] turn, char[,] noTurn, int moves, ref bool ifWhite)
+
+        private const string YesAnswer = "YES";
+        private const string NoAnswer = "NO";
+        private static List<List<T>> ConvertArraysToLists<T>(T[][] inputArray)
         {
-            var result = false;
-            for (int i = 0; i < turn.GetLength(0); i++)
+            var result = inputArray.Select(x => x.Select(y => y).ToList()).ToList();
+            return result;
+        }
+    }
+
+    public class ChessStateRepository
+    {
+        private List<ChessState> _states = new List<ChessState>();
+        private bool CheckIfEqual(ChessState stateA, ChessState stateB)
+        {
+            //todo: should I check turn too?
+            if (!stateA.WhitePositions.IfEqual(stateB.WhitePositions))
             {
-                for (int j = 0; j < turn.GetLength(0); j++)
+                return false;
+            }
+            if (!stateA.BlackPositions.IfEqual(stateB.BlackPositions))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        //todo: what the fuck, expensive
+        public bool TryAdd(ChessState current)
+        {
+            if (CheckIfExist(current))
+                return false;
+            _states.Add(current);
+            return true;
+        }
+
+        public bool CheckIfExist(ChessState current)
+        {
+            foreach (var state in _states)
+            {
+                if (CheckIfEqual(current, state))
                 {
-                    var current = turn[i, j];
-                    if (current == _emptyChar)
+                    return true;
+                }
+            }
+
+
+            return false;
+        }
+    }
+
+    public class ChessState 
+    {
+        public int MoveCount { get; set; }
+        public char CurrentTurn { get; set; } // White (W) or Black (B)
+
+        public ChessManager.TwoWayPositionDictionary WhitePositions { get; set; } =
+            new ChessManager.TwoWayPositionDictionary();
+
+        public ChessManager.TwoWayPositionDictionary BlackPositions { get; set; } = new ChessManager.TwoWayPositionDictionary();
+
+        public ChessManager.TwoWayPositionDictionary GetPositionsByTurn()
+        {
+            return CurrentTurn == 'W' ? WhitePositions : BlackPositions;
+        }
+
+        //todo: fucking expensive
+        //todo: how about clone!!!
+        public ChessState Copy()
+        {
+            var chessState = new ChessState();
+
+            chessState.MoveCount = MoveCount;
+            chessState.CurrentTurn = CurrentTurn;
+            chessState.WhitePositions = WhitePositions.Copy();
+            chessState.BlackPositions = BlackPositions.Copy();
+
+            return chessState;
+
+        }
+
+        public void SwitchTurn()
+        {
+            if (CurrentTurn == 'W')
+            {
+                CurrentTurn = 'B';
+            }
+            else
+            {
+                CurrentTurn = 'W';
+            }
+
+            MoveCount++;
+        }
+
+    }
+    public class ChessManager
+    {
+
+        private readonly PieceMoverCalculator _moverCalculator = new PieceMoverCalculator();
+
+
+        public List<ChessState> GetAllNextMoves(ChessState current)
+        {
+            var allNextStates = new List<ChessState>();
+            var currentTurnPositions = current.GetPositionsByTurn();
+
+            foreach (var pieceToPosition in currentTurnPositions.GetPieceToPosition())
+            {
+                var piece = pieceToPosition.Key;
+                foreach (var currentPosition in pieceToPosition.Value)
+                {
+                    var nextMoveCandidates = _moverCalculator.CalculateAllMoves(piece, currentPosition);
+                    foreach (var nextMoveCandidate in nextMoveCandidates)
+                    {
+                        //todo: how about overlapping with other pieces with other person s turn!!!
+                        if (currentTurnPositions.CanMove(piece, nextMoveCandidate))
+                        {   
+                            //todo: copy is expensive
+                            var newState = current.Copy();
+                            //todo: what the fuck you are doing!!!
+                            var newStatePositions =  newState.GetPositionsByTurn();
+                            newStatePositions.TryMove(piece, currentPosition, nextMoveCandidate);
+                            newState.SwitchTurn();
+                            allNextStates.Add(newState);
+                        }
+                    }
+                }
+
+            }
+
+            return allNextStates;
+        }
+
+        public bool CheckNoQueenForBlack(ChessState current)
+        {
+            var positions = current.BlackPositions;
+            //var positions = current.GetPositionsByTurn();
+            return !positions.GetPositionsForPiece('Q').Any();
+
+        }
+
+        class PieceMoverCalculator
+        {
+            public List<PiecePosition> CalculateAllMoves(char pieceName, PiecePosition currentPosition)
+            {
+                var resultPositions = new List<PiecePosition>();
+
+                var row = currentPosition.Row;
+                var col = currentPosition.Column;
+
+
+                switch (pieceName)
+                {
+                    case 'Q':
+                        AddVerticalHorizontalMoves(row, col, resultPositions);
+                        AddDiagonalMoves(row, col, resultPositions);
+                        break;
+                    case 'N':
+                        AddLMoves(resultPositions, row, col);
+                        break;
+                    case 'B':
+                        AddDiagonalMoves(row, col, resultPositions);
+                        break;
+                    case 'R':
+                        AddDiagonalMoves(row, col, resultPositions);
+                        break;
+                    default:
+                        throw new Exception($"unknown piece: {pieceName}");
+
+                }
+
+                return resultPositions;
+
+            }
+
+            private static void AddLMoves(List<PiecePosition> resultPositions, int row, int col)
+            {
+                resultPositions.Add(new PiecePosition(row + 1, col + 2));
+                resultPositions.Add(new PiecePosition(row - 1, col - 2));
+                resultPositions.Add(new PiecePosition(row + 1, col - 2));
+                resultPositions.Add(new PiecePosition(row - 1, col + 2));
+
+                resultPositions.Add(new PiecePosition(row + 2, col + 1));
+                resultPositions.Add(new PiecePosition(row - 2, col - 1));
+                resultPositions.Add(new PiecePosition(row + 2, col - 1));
+                resultPositions.Add(new PiecePosition(row - 2, col + 1));
+            }
+
+            private static void AddDiagonalMoves(int row, int col, List<PiecePosition> resultPositions)
+            {
+                //diagonal moves
+                for (int i = -4; i <= +4; i++)
+                {
+                    if (i == 0)
                     {
                         continue;
                     }
-
-                    if (current == Pieces.Q)
-                    {
-                        for (int k = -1 * _boardSize; k < _boardSize; k++)
-                        {
-                            if (k == 0 || i + k > _boardSize || i + k < -1 * _boardSize) continue;
-                            result = MoveVertical(turn, noTurn, moves, i, k, j, current, ref ifWhite);
-                            if (result)
-                                return result;
-                            MoveDiagonal(turn, noTurn, moves, i, k, j, current, ref ifWhite);
-                            if (result)
-                                return result;
-                        }
-                    }
-
-                    if (current == Pieces.R)
-                    {
-                        for (int k = -1 * _boardSize; k < _boardSize; k++)
-                        {
-                            if (k == 0) continue;
-                            result = MoveVertical(turn, noTurn, moves, i, k, j, current, ref ifWhite);
-                            if (result)
-                                return result;
-                        }
-                    }
-
-                    if (current == Pieces.B)
-                    {
-                        for (int k = -1 * _boardSize; k < _boardSize; k++)
-                        {
-                            if (k == 0) continue;
-                            result = MoveDiagonal(turn, noTurn, moves, i, k, j, current, ref ifWhite);
-                            if (result)
-                                return result;
-                        }
-                    }
-
-                    if (current == Pieces.N)
-                    {
-                        result = MoveNight(turn, noTurn, moves, i, j, ref ifWhite);
-                        if (result)
-                            return result;
-                    }
+                    var nDiagOne = new PiecePosition(row + i, col + i);
+                    resultPositions.Add(nDiagOne);
                 }
             }
 
-            return false;
-        }
-
-        private static bool MoveNight(char[,] turni, char[,] noTurni, int moves, int i, int j, ref bool ifWhite)
-        {
-            ifWhite = !ifWhite;
-            bool result;
-            var piece = Pieces.N;
-
-            var turn = turni.Clone() as char[,];
-            var noTurn = noTurni.Clone() as char[,];
-
-            turn[i, j] = _emptyChar;
-
-
-            turn[i + 1, j + 2] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-
-            turn[i, j] = _emptyChar;
-            turn[i + 1, j - 2] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[i - 1, j - 2] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[i - 1, j + 2] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[j + 2, i + 1] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[j - 2, i + 1] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[j - 2, i - 1] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-
-            turn = turni.Clone() as char[,];
-            noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            turn[j + 2, i - 1] = piece;
-            result = FindThePath(turn, noTurn, moves - 1, ref ifWhite);
-            if (result)
-                return result;
-            return false;
-        }
-
-        private static bool MoveDiagonal(char[,] turni, char[,] noTurni, int moves, int i, int k, int j, char piece, ref bool ifWhite)
-        {
-            ifWhite = !ifWhite;
-            var turn = turni.Clone() as char[,];
-            var noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            bool result = false;
-            if (i + k < _boardSize && i + k > -1 * _boardSize && j + k < _boardSize && j + k > -1 * _boardSize)
+            private static void AddVerticalHorizontalMoves(int row, int col, List<PiecePosition> resultPositions)
             {
-                //diagonal
-                turn[i + k, j + k] = piece;
-                result = FindThePath(noTurn, turn, moves - 1, ref ifWhite);
-            }
-
-            return result;
-        }
-
-        private static bool MoveVertical(char[,] turni, char[,] noTurni, int moves, int i, int k, int j, char piece, ref bool ifWhite)
-        {
-            ifWhite = !ifWhite;
-            var turn = turni.Clone() as char[,];
-            var noTurn = noTurni.Clone() as char[,];
-            turn[i, j] = _emptyChar;
-            bool result = false;
-            if (i + k < _boardSize && i + k > -1 * _boardSize)
-            {
-                // vertical
-                turn[i + k, j] = piece;
-                result = FindThePath(noTurn, turn, moves - 1, ref ifWhite);
-            }
-
-            return result;
-        }
-
-        private static void FindQueen(char[,] board, out int qi, out int qj)
-        {
-            qi = -1;
-            qj = -1;
-            for (int i = 0; i < board.Length; i++)
-            {
-                for (int j = 0; j < board.Length; j++)
+                // left right moves
+                for (int i = -4; i <= +4; i++)
                 {
-                    if (board[i, j] == Pieces.Q)
+                    if (i == 0)
                     {
-                        qi = i;
-                        qj = j;
-                        break;
+                        continue;
                     }
+                    var nRowPosition = new PiecePosition(row + i, col);
+                    var nColPosition = new PiecePosition(row, col + i);
+                    resultPositions.Add(nRowPosition);
+                    resultPositions.Add(nColPosition);
                 }
             }
         }
-        private static int _boardSize = 4;
 
-        private static char[,] CreateState(char[][] whites)
+        public class TwoWayPositionDictionary
         {
-            var flatted = whites.Select(x => new {val = x[0], iind = CharToIntIndex[x[1]], jind = int.Parse(x[2].ToString()) -1});
-            var board = new char[_boardSize, _boardSize];
-            foreach (var item in flatted)
+            private readonly Dictionary<char, List<PiecePosition>> _pieceToPositionMapping = new Dictionary<char, List<PiecePosition>>();
+            private readonly Dictionary<PiecePosition, List<char>> _positionToPieceMapping = new Dictionary<PiecePosition, List<char>>();
+
+            public TwoWayPositionDictionary()
             {
-                board[item.iind, item.jind] = item.val;
+            }
+            public TwoWayPositionDictionary(Dictionary<char, List<PiecePosition>> pieceToPositionMapping,
+                Dictionary<PiecePosition, List<char>> positionToPieceMapping)
+            {
+                _pieceToPositionMapping = pieceToPositionMapping;
+                _positionToPieceMapping = positionToPieceMapping;
+            }
+            public TwoWayPositionDictionary(List<List<char>> poses)
+            {
+                var columnChartToIndMappting = new Dictionary<char, int>()
+                {
+                    {'A',0},
+                    {'B',1},
+                    {'C',2},
+                    {'D',3},
+                };
+
+                var positionList = poses.Select((r, rInd) =>
+                    new
+                    {
+                        RowInd = int.Parse($"{r[2]}") - 1,
+                        ColInd = columnChartToIndMappting[r[1]],
+                        Val = r[0],
+                    }
+                );
+
+                _pieceToPositionMapping = positionList.GroupBy(x => x.Val)
+                    .ToDictionary(x => x.Key, y => 
+                        y.Select(x => new PiecePosition(x.RowInd, x.ColInd)).ToList()
+                        );
+
+
+                _positionToPieceMapping = positionList.GroupBy(x => new PiecePosition(x.RowInd, x.ColInd))
+                    .ToDictionary(x => x.Key, y => 
+                        y.Select(x => x.Val).ToList()
+                        );
             }
 
-            return board;
+
+            public bool CanMove(char piece, PiecePosition position)
+            {
+                //off the board
+                if (position.Row > 3 || position.Column > 3 || position.Row < 0 || position.Column < 0)
+                    return false;
+                // overlap with other pieces
+                if (_positionToPieceMapping.TryGetValue(position, out var _))
+                    return false;
+
+                return true;
+
+            }
+
+            public bool TryMove(char piece, PiecePosition source, PiecePosition destination)
+            {
+                //todo: again can move!!!
+                if (CanMove(piece, destination))
+                {
+
+
+                    if (_positionToPieceMapping.TryGetValue(source, out var src))
+                        _positionToPieceMapping[source].Remove(piece);
+
+                    if (!_positionToPieceMapping.TryGetValue(destination, out var dest))
+                    {
+                        _positionToPieceMapping.Add(destination, new List<char>());
+                    } 
+                    _positionToPieceMapping[destination].Add(piece);
+
+
+
+                    if (_pieceToPositionMapping.TryGetValue(piece, out var srcPi))
+                        _pieceToPositionMapping[piece].Remove(source);
+
+                    if (!_pieceToPositionMapping.TryGetValue(piece, out var destPi))
+                    {
+                        _pieceToPositionMapping.Add(piece, new List<PiecePosition>());
+                    }
+                    _pieceToPositionMapping[piece].Add(destination);
+
+                    
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public Dictionary<char, List<PiecePosition>> GetPieceToPosition()
+            {
+                //todo: dangerous
+                return _pieceToPositionMapping;
+            }
+
+            public List<PiecePosition> GetPositionsForPiece(char piece)
+            {
+                return _pieceToPositionMapping[piece];
+            }
+
+            public TwoWayPositionDictionary Copy()
+            {
+                var piToPos = _pieceToPositionMapping.Select(x =>
+                    new KeyValuePair<char, List<PiecePosition>>(x.Key,
+                        x.Value.Select(v =>
+                            new PiecePosition(v.Row, v.Column)
+                        ).ToList()
+                    )).ToDictionary(x => x.Key, y => y.Value);
+
+                var posTopi = _positionToPieceMapping.Select(x =>
+                    new KeyValuePair<PiecePosition, List<char>>(x.Key,
+                        x.Value.ToList()
+                    )).ToDictionary(x => x.Key, y => y.Value);
+
+                var result = new TwoWayPositionDictionary(piToPos, posTopi);
+                return result;
+            }
+
+            public bool IfEqual(TwoWayPositionDictionary destPositions)
+            {
+
+                var sourcePiToPos = this.GetPieceToPosition();
+                var destPi2Pos = destPositions.GetPieceToPosition();
+
+                foreach (var sourcePiToPo in sourcePiToPos)
+                {
+                    if (!destPi2Pos.TryGetValue(sourcePiToPo.Key, out var destPos))
+                    {
+                        return false;
+                    }
+
+                    foreach (var srcPo in sourcePiToPo.Value)
+                    {
+                        if (!destPos.Any(x => x.Equals(srcPo)))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+
+            }
+
+            public override string ToString()
+            {
+                var result = new StringBuilder();
+                foreach (var piTpo in _pieceToPositionMapping)
+                {
+                    var row = $"{piTpo.Key}";
+                    //var pi = piTpo.Key;
+                    foreach (var po in piTpo.Value)
+                    {
+                        row =  $"{row}:{po.Row},{po.Column}";
+                    }
+
+                    result.AppendLine($"{piTpo.Key} -> {row} -- ");
+                }
+
+                return result.ToString();
+            }
         }
+
+        public class PiecePosition : IEquatable<PiecePosition>
+        {
+            public PiecePosition(int row, int column)
+            {
+                this.Row = row; 
+                this.Column = column;
+            }
+            public int Row { get; set; }
+            public int Column { get; set; }
+
+            public bool Equals(PiecePosition? other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return Row == other.Row && Column == other.Column;
+            }
+
+            public override bool Equals(object? obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((PiecePosition)obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Row, Column);
+            }
+        }
+
     }
 }
